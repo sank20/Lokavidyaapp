@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:background="@drawable/fresh_snow"
+    android:orientation="horizontal"
+    tools:context="com.iitb.mobileict.lokavidya.ui.Recording">
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"/>
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="8">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/record"
+        android:id="@+id/startPlaying"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textAppearance="?android:textAppearanceSmall"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/done"
+        android:id="@+id/stopPlaying"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/startPlaying"
+        android:layout_toEndOf="@+id/startPlaying"
+        android:textAppearance="?android:textAppearanceSmall" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/listen"
+        android:id="@+id/pausePlaying"
+        android:layout_alignTop="@+id/stopPlaying"
+        android:layout_toRightOf="@+id/stopPlaying"
+        android:layout_toEndOf="@+id/stopPlaying"
+        android:textAppearance="?android:textAppearanceSmall"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/retry"
+        android:id="@+id/retryRecording"
+        android:layout_alignTop="@+id/pausePlaying"
+        android:layout_toRightOf="@+id/pausePlaying"
+        android:layout_toEndOf="@+id/pausePlaying"
+        android:textAppearance="?android:textAppearanceSmall"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imagePlaying"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/retryRecording"
+        android:layout_alignEnd="@+id/retryRecording"
+        android:layout_above="@+id/seekBar" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_above="@+id/startPlaying"
+        android:layout_toRightOf="@+id/startPlaying"
+        android:layout_toLeftOf="@+id/retryRecording"
+        android:layout_toStartOf="@+id/retryRecording"
+        android:indeterminate="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/current"
+        android:id="@+id/current"
+        android:layout_below="@+id/imagePlaying"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/totallength"
+        android:id="@+id/total"
+        android:layout_below="@+id/imagePlaying"
+        android:layout_alignRight="@+id/imagePlaying"
+        android:layout_alignEnd="@+id/imagePlaying" />
+
+    </RelativeLayout>
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"/>
+</LinearLayout>

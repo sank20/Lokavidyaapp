@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">लोकविद्या</string>
+    <string name="action_settings">सेटिंग्स</string>
+    <string name="title_activity_edit_project">संपादित</string>
+    <string name="title_activity_recording">रिकॉर्डिंग</string>
+    <string name="title_activity_view_video">वीडियो देखें </string>
+    <string name="delete">मिटायें</string>
+    <string name="myprojects">मेरे परियोजनाओं </string>
+    <string name="addProject">एक परियोजना जोड़ें</string>
+    <string name="deleteProject">परियोजना हटाये</string>
+    <string name="ffmpeg_cmd_hint">Enter command here. To run \"ffmpeg -version\" enter \"-version\"</string>
+    <string name="device_not_supported">Device not supported</string>
+    <string name="device_not_supported_message">FFmpeg is not supported on your device</string>
+    <string name="run">Run</string>
+    <string name="empty_command_toast">You cannot execute empty command</string>
+    <string name="title_activity_db">DBActivity</string>
+    <string name="takePic">एक तस्वीर करेे</string>
+    <string name="gallery">गैलरी से चयन करेंे</string>
+    <string name="start">प्रारंभ</string>
+    <string name="pause">ठहराव</string>
+    <string name="stop">रुकें</string>
+    <string name="current">शुरू</string>
+    <string name="totallength">समाप्त</string>
+    <string name="retry">पुन:</string>
+    <string name="done">हो चुका</string>
+    <string name="record">रिकॉर्ड</string>
+    <string name="listen">सुने</string>
+    <string name="shot">शॉट्स</string>
+    <string name="preview">वीडियो पूर्वावलोकन</string>
+    <string name="edit">संपादन</string>
+    <string name="stitch">जोडे</string>
+    <string name="viewvideo">वीडियो देखें</string>
+    <string name="enterName">अपनी परियोजना के लिए नाम दें</string>
+
+</resources>

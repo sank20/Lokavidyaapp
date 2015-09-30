@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ViewVideo"
+        android:id="@+id/VideoButton"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/EditProjectBtn"
+        android:layout_toStartOf="@+id/EditProjectBtn" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EditProject"
+        android:id="@+id/EditProjectBtn"
+        android:clickable="true"
+        android:onClick="goToEdit"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="StitchVideo"
+        android:id="@+id/StitchVideoBtn"
+        android:clickable="true"
+        android:onClick="ffmpegClick2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ShotsList"
+        android:choiceMode="singleChoice"
+        android:clickable="false"
+        android:layout_below="@+id/VideoButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
