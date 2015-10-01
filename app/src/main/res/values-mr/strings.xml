@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">लोकविद्या</string>
+    <string name="action_settings">सेटींग्स   </string>
+    <!--check this-->
+    <string name="title_activity_edit_project">प्रोजेक्ट संपादन</string>
+    <string name="title_activity_recording">रेकॉर्डिंग</string>
+    <string name="title_activity_view_video">व्हिडिओ पहा</string>
+    <string name="delete">हटवा</string>
+    <string name="myprojects">माझे प्रोजेक्ट </string>
+    <string name="addProject">नवीन प्रोजेक्ट जोडा</string>
+    <string name="deleteProject">प्रोजेक्ट हटवा </string>
+    <string name="ffmpeg_cmd_hint">Enter command here. To run \"ffmpeg -version\" enter \"-version\"</string>
+    <string name="device_not_supported">डिव्हाइस समर्थित नाही</string>
+    <string name="device_not_supported_message">FFmpeg is not supported on your device</string>
+    <string name="run">चालवा </string>
+    <string name="empty_command_toast">आपण रिकामे कमांड चालवू शकत नाही</string>
+    <string name="title_activity_db">DBActivity</string>
+    <string name="takePic">फोटो काढा</string>
+    <string name="gallery">गॅलरीतून निवडा</string>
+    <string name="start">सुरुवात करा </string>
+    <string name="pause">विराम द्या</string>
+    <string name="stop">थांबवा </string>
+    <string name="current">सुरवात</string>
+    <string name="totallength">एकूण कालावधी</string>
+    <string name="retry">पुन्हा प्रयत्न करा</string>
+    <string name="done">तयार</string>
+    <string name="record">रेकॉर्ड</string>
+    <string name="listen">ऐका</string>
+    <string name="shot">चित्रे</string>
+    <string name="preview">व्हिडिओ पूर्वावलोकन</string>
+    <!--check this-->
+    <string name="edit">प्रोजेक्ट संपादन</string>
+    <string name="stitch">एकत्र जोडा </string>
+    <string name="viewvideo">व्हिडिओ पहा</string>
+    <string name="enterName">प्रोजेक्ट ला नाव द्या </string>
+</resources>
