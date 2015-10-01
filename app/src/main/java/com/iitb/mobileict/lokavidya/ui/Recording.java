@@ -130,46 +130,69 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             public void onClick(View v) {
                 if(m.isPlaying()){
                     m.stop();
-
+                    stop.setEnabled(false);
+                    play.setEnabled(true);
+                    retry.setEnabled(true);
+                    record.setEnabled(false);
                 }
                 else if (isRecording == true){
-                    myAudioRecorder.stop();
-                    myAudioRecorder.release();
-                    myAudioRecorder = null;
-                    isRecording = false;
+                    Handler delayHandler = new Handler();
+                    delayHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            myAudioRecorder.stop();
+                            myAudioRecorder.release();
+                            myAudioRecorder = null;
+                            isRecording = false;
 
-                    boolean flag=false;
+                            boolean flag=false;
 
 
-                    editor.putInt("savedView",0);
-                    editor.commit();
+                            editor.putInt("savedView",0);
+                            editor.commit();
 
-                    for(int i=0;i<sharedPref.getInt(projectName,0);i++)
-                    {
-                        if((imagefileName+".png").equals(sharedPref.getString(projectName + "image_name" + (i+1),"")))
-                        {
-                            flag=true;
-                            break;
+                            for(int i=0;i<sharedPref.getInt(projectName,0);i++)
+                            {
+                                if((imagefileName+".png").equals(sharedPref.getString(projectName + "image_name" + (i+1),"")))
+                                {
+                                    flag=true;
+                                    break;
+                                }
+
+                            }
+
+                            if(!flag) {
+                                count++;
+                                editor.putInt(projectName, count);
+                                editor.putString(projectName + "image_name" + count, imagefileName + ".png");
+                                editor.putString(projectName + "image_path" + count, image_file.getAbsolutePath());
+
+                                editor.commit();
+
+                            }
+
+                            stop.setEnabled(false);
+                            play.setEnabled(true);
+                            retry.setEnabled(true);
+                            record.setEnabled(false);
                         }
+                    }, 1000);
 
-                    }
-
-                    if(!flag) {
-                        count++;
-                        editor.putInt(projectName, count);
-                        editor.putString(projectName + "image_name" + count, imagefileName + ".png");
-                        editor.putString(projectName + "image_path" + count, image_file.getAbsolutePath());
-
-                        editor.commit();
-
-                    }
-
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            try{
+//                                Thread.sleep(5000);
+//                            }
+//                            catch (Exception e){
+//                                e.printStackTrace();
+//                            }
+//                            stop.setEnabled(false);
+//                            play.setEnabled(true);
+//                            retry.setEnabled(true);
+//                            record.setEnabled(false);
+//                        }
+//                    })
                 }
-
-                stop.setEnabled(false);
-                play.setEnabled(true);
-                retry.setEnabled(true);
-                record.setEnabled(false);
 
             }
         });

@@ -27,22 +27,24 @@
         android:id="@+id/button2"
         android:textAppearance="?android:textAppearanceSmall"
         android:onClick="deleteProjectCallBack"
-        android:layout_alignParentBottom="true"
         android:background="@android:color/holo_orange_light"
-        android:typeface="monospace" />
+        android:typeface="monospace"
+        android:layout_above="@+id/button"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/addProject"
         android:textStyle="bold"
-        android:id="@+id/button"
-        android:layout_marginTop="36dp"
+        android:id="@+id/button3"
         android:textAppearance="?android:textAppearanceSmall"
         android:onClick="addProjectCallBack"
-        android:layout_above="@id/button2"
         android:background="#e3f6ff87"
-        android:typeface="monospace" />
+        android:typeface="monospace"
+        android:layout_above="@+id/button2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <ListView
         android:layout_width="wrap_content"
@@ -53,6 +55,38 @@
         android:stackFromBottom="false"
         android:layout_marginRight="21dp"
         android:layout_below="@id/titleHome"
-        android:layout_above="@+id/button" />
+        android:layout_above="@+id/button3" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/importproject"
+        android:textStyle="bold"
+        android:id="@+id/button4"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:onClick="importProjectCallback"
+        android:background="#e3f6ff87"
+        android:typeface="monospace"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="158dp"
+        android:layout_marginStart="158dp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share"
+        android:textStyle="bold"
+        android:id="@+id/button"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:onClick="shareCallBack"
+        android:background="#e3f6ff87"
+        android:typeface="monospace"
+        android:layout_marginRight="179dp"
+        android:layout_marginEnd="179dp"
+        android:layout_alignTop="@+id/button4"
+        android:layout_alignRight="@+id/ProjectList"
+        android:layout_alignEnd="@+id/ProjectList" />
 
 </RelativeLayout>
