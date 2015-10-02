@@ -31,4 +31,5 @@
     <string name="stitch">Stitch</string>
     <string name="viewvideo">View Video</string>
     <string name="enterName">Enter Project name</string>
+    <string name="importproject">Import Project</string>
 </resources>
