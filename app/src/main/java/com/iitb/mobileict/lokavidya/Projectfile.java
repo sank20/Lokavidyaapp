@@ -365,6 +365,26 @@ public class Projectfile {
         return false;
     }
 
-
+/* By Sanket P. :
+(The following method is called in the finally block in Stitch.java) It deletes the temporary files generated during the
+stitching process and retains only the out.txt and final.mp4 .
+ */
+    public static void deleteTempFiles(String ProjectName){
+        int i;
+        String path= Environment.getExternalStorageDirectory().getAbsolutePath()+ "/lokavidya" + "/" + ProjectName + "/tmp/";
+        //Log.i("wtf", path);
+        File dir= new File(path);
+        File[] list=dir.listFiles();
+        if(list!=null) {
+            //Log.i("yay","found the files!");
+            for (i = 0; i < list.length; i++) {
+                String name = list[i].getName();
+              //  Log.i("wtf", list[i].getName());
+                String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
+                if (!name.equals("final.mp4") && extension.equals("mp4"))
+                    list[i].delete();
+            }
+        }
+    }
 
 }
