@@ -234,4 +234,10 @@ public class ViewVideo extends Activity implements SeekBar.OnSeekBarChangeListen
 
         updateProgressBar();
     }
+    @Override
+    public void onBackPressed()
+    {
+       m.stop();
+       finish();
+    }
 }

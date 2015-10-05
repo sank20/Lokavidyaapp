@@ -138,9 +138,10 @@ public class ImageAdapter extends BaseAdapter {
 
     public int removeSelection() {
         mSelectedItemsIds = new SparseBooleanArray();
-        Projectfile f = new Projectfile(mContext);
         notifyDataSetChanged();
+        Projectfile f = new Projectfile(mContext);
         return f.getImageNames(projectName).size();
+
     }
     public SparseBooleanArray getSelectedIds() {
         return mSelectedItemsIds;

@@ -42,6 +42,56 @@ public class Projectfile {
                 for (int i=0; i < file.length; i++)
                 {
 
+                    if (file[i].getName().length() >= 4){
+                        if (file[i].getName().substring(file[i].getName().length() - 4).equals(".zip")) {
+                            continue;
+                        }
+                    }
+                    myStringArray.add(file[i].getName());
+
+
+                }
+
+
+            }
+
+            else
+            {
+                Toast.makeText(mContext,"No project exists",Toast.LENGTH_LONG).show();
+
+
+            }
+
+
+
+        }
+
+        return myStringArray;
+    }
+
+    public List<String> DisplayProject_with_zips(){
+        List<String> myStringArray = new ArrayList<String>();
+
+
+        File sdCard = Environment.getExternalStorageDirectory();
+
+        File mainDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder);
+
+
+        if(mainDir.exists()&& mainDir.isDirectory())
+        {
+
+            File file[] = mainDir.listFiles();
+
+
+
+            if(file.length!=0)
+            {
+                boolean fileExists= false;
+
+                for (int i=0; i < file.length; i++)
+                {
+
 
                     myStringArray.add(file[i].getName());
 
@@ -66,30 +116,14 @@ public class Projectfile {
     }
 
     public void addImage(Bitmap bitmap, String projectname){
-
-
-
-
         String newImg;
-
         File sdCard = Environment.getExternalStorageDirectory();
-
         File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
-
 
         if(imgDir.exists()&& imgDir.isDirectory())
         {
-
-
             File file[] = imgDir.listFiles();
-
-
             newImg = projectname + "." + String.valueOf(file.length+1) + ".png";
-
-
-
-
-
 
             if(file.length!=0)
             {
@@ -99,19 +133,10 @@ public class Projectfile {
 
                 for (int i=0; i < file.length; i++)
                 {
-
-
                     String imgName = file[i].getName();
 
                     imgName = imgName.replace(".png","");
-
-
-
                     String splitImgName[] = imgName.split("\\.");
-
-
-
-
                     countImg[i]=Integer.parseInt(splitImgName[1]);
 
                     if(newImg.equals(file[i].getName()))
@@ -130,24 +155,8 @@ public class Projectfile {
                  int large=largestAndSmallest(countImg);
 
                     newImg = projectname + "." + String.valueOf(large+1) + ".png";
-
-
-
                 }
-
-
-
-
-
             }
-
-
-
-
-
-
-
-
             File writetofile = new File(imgDir, newImg);
             FileOutputStream outStream = null;
             try {
@@ -205,27 +214,13 @@ public class Projectfile {
 
 
         public List<String> getImageNames(String projectname){
-
-
-
-        List<String> ImageNames = new ArrayList<String>();
-
-
-
+            List<String> ImageNames = new ArrayList<String>();
             File sdCard = Environment.getExternalStorageDirectory();
-
-
-
             File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
-
-
 
             if(imgDir.exists()&& imgDir.isDirectory())
             {
-
-
                 File file[] = imgDir.listFiles();
-
 
                 if(file.length!=0)
                 {
@@ -233,23 +228,9 @@ public class Projectfile {
 
                     for (int i=0; i < file.length; i++)
                     {
-
-
                         ImageNames.add(file[i].getName());
-
-
                     }
-
                 }
-
-
-
-
-
-
-
-
-
             }
 
 

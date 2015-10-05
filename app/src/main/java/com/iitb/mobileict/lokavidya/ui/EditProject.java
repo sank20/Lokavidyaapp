@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.R;
+import com.iitb.mobileict.lokavidya.ui.shotview.ViewShots;
 
 import java.io.File;
 
@@ -179,8 +180,9 @@ public class EditProject extends Activity {
             @Override
             public void onDestroyActionMode(ActionMode mode) {
                 // TODO Auto-generated method stub
-                int size=imageadapter.removeSelection();
-                for(int i=0;i<size;i++){
+                int size = imageadapter.removeSelection();
+                for (int i = 0; i < size; i++) {
+                    gridview.getChildAt(i).toString();
                     gridview.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
                 }
             }
@@ -201,10 +203,9 @@ public class EditProject extends Activity {
                 mode.setTitle(checkedCount + " Selected");
 
                 boolean val = imageadapter.toggleSelection(position);
-                if(val){
+                if (val) {
                     gridview.getChildAt(position).setBackgroundColor(Color.BLUE);
-                }
-                else{
+                } else {
                     gridview.getChildAt(position).setBackgroundColor(Color.TRANSPARENT);
 
                 }
@@ -229,7 +230,7 @@ public class EditProject extends Activity {
                         SharedPreferences.Editor editor;
                         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                         editor = sharedPref.edit();
-                        editor.putInt("savedView",0);
+                        editor.putInt("savedView", 0);
                         editor.commit();
                         // Close CAB
                         mode.finish();
@@ -280,6 +281,19 @@ public class EditProject extends Activity {
             return true;
         }
         return false;
+    }
+
+    public void proceed(View view){
+        ImageAdapter ia = new ImageAdapter(getApplicationContext(),projectName);
+        int check = ia.getCount();
+        System.out.println("CCCOOOUUNNNTTT" + check+"");
+        if(check>0) {
+            Intent intent1 = new Intent(getApplicationContext(), ViewShots.class);
+            intent1.putExtra("projectname", projectName);
+            startActivity(intent1);
+        }else
+            Toast.makeText(EditProject.this,"Empty project!!!",Toast.LENGTH_LONG).show();
+
     }
 
 }
