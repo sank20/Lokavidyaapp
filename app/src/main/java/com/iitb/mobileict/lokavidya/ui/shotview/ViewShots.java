@@ -1,9 +1,12 @@
 package com.iitb.mobileict.lokavidya.ui.shotview;
 
+<<<<<<< HEAD
+=======
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+>>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -26,12 +29,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
 import com.iitb.mobileict.lokavidya.Stitch;
 import com.iitb.mobileict.lokavidya.ui.EditProject;
 import com.iitb.mobileict.lokavidya.ui.Projects;
 import com.iitb.mobileict.lokavidya.ui.ViewVideo;
+
+import java.io.File;
+import java.util.ArrayList;
 
 
 public class ViewShots extends Activity implements   OnClickListener,
@@ -508,8 +515,8 @@ public class ViewShots extends Activity implements   OnClickListener,
 				i.putExtra("projectname", project);
 				startActivityForResult(i, REQUEST_CODE_2);
 
-
-			} else {
+			}else
+			 {
 				Toast.makeText(this, "Pick at least one shot", Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -556,6 +563,7 @@ public class ViewShots extends Activity implements   OnClickListener,
 		String text = "Swipe RIGHT detected";
 
 	}
+
 
 	public void onSwipeUp() {
 		String text = "Swipe UP detected";
