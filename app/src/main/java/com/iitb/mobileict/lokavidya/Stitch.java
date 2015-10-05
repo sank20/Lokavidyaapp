@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.iitb.mobileict.lokavidya.ffmpegwrapper.FfmpegWrapper;
 
@@ -78,6 +77,7 @@ public class Stitch extends Activity {
                         makeVideo.stitch(imageUrls,audioUrls, projectName);
                         File sdCard = Environment.getExternalStorageDirectory();
                         File final_file = new File (sdCard.getAbsolutePath() + "/lokavidya/"+projectName+"/tmp/final.mp4");
+
                         while(!final_file.exists()){
                             Thread.sleep(1000);
                         }
@@ -89,6 +89,8 @@ public class Stitch extends Activity {
 
                 } catch (Exception e) {
 
+                }finally {
+                    Projectfile.deleteTempFiles(projectName);
                 }
 
 
