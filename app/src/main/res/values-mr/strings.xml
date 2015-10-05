@@ -34,4 +34,16 @@
     <string name="stitch">एकत्र जोडा </string>
     <string name="viewvideo">व्हिडिओ पहा</string>
     <string name="enterName">प्रोजेक्ट ला नाव द्या </string>
+    <string name="importproject">प्रोजेक्ट आयात करा (इम्पोर्ट )</string>
+    <string name="shareVideo">व्हिडिओ सामायिक(शेअर) करा</string>
+    <string name="shareProject">प्रोजेक्ट सामायिक(शेअर)  करा </string>
+    <string name="share">सामायिक करा (शेअर)</string>
+    <string name="shareDialog">शेअर करण्यासाठी एक प्रोजेक्ट निवडा</string>
+    <string name="whatShareDialog">आपण काय शेअर करू इच्छित आहात ?</string>
+    <string name="forward">प्रोजेक्ट बनवा </string>
+    <string name="save">आपण चित्रा मध्ये केलेले बदल जतन करू इच्छिता का? </string>
+    <string name="bad">ताणा </string>
+    <string name="fit">फिट</string>
+    <string name="crop">चित्र कापा (क्रॉप )</string>
+
 </resources>
