@@ -71,7 +71,7 @@ public class Projects extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
                 String item = (String) adapter.getItemAtPosition(position);
-                Intent intent = new Intent(getApplicationContext(), ViewShots.class);
+                Intent intent = new Intent(getApplicationContext(), EditProject.class);
                 intent.putExtra("projectname", item);
                 startActivity(intent);
             }
@@ -128,14 +128,33 @@ public class Projects extends Activity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                Pattern pattern = Pattern.compile("\\s");
-                Matcher matcher = pattern.matcher(input.getText().toString());
-                boolean found = matcher.find();
+                Pattern pattern1 = Pattern.compile("\\s");
+                Pattern pattern2 = Pattern.compile("\\.");
+               // Pattern pattern3 = Pattern.compile("");
 
-                if(found)
+                Matcher matcher1 = pattern1.matcher(input.getText().toString());
+                Matcher matcher2 = pattern2.matcher(input.getText().toString());
+               // Matcher matcher3 = pattern3.matcher(input.getText().toString());
+
+                boolean found1 = matcher1.find();
+                boolean found2 = matcher2.find();
+               // boolean found3 = matcher3.find();
+
+
+                if(found1)
                     Toast.makeText(Projects.this,"Project name should not contain space.",Toast.LENGTH_LONG).show();
-                else
-                addProject(input.getText().toString());
+                else if(found2)
+                    Toast.makeText(Projects.this,"Project name should not contain dot.",Toast.LENGTH_LONG).show();
+               /* else if(found3)
+                    Toast.makeText(Projects.this,"Project name cannot be empty.",Toast.LENGTH_LONG).show();
+*/
+                else {
+                    if(input.getText().toString().equals("")){
+                        Toast.makeText(Projects.this,"Project name cannot be empty.",Toast.LENGTH_LONG).show();
+                    }else {
+                        addProject(input.getText().toString());
+                    }
+                }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -206,6 +225,7 @@ public class Projects extends Activity {
 
         return null;
     }
+
     public static final int FILE_SELECT_CODE = 102;
     public void importProjectCallback(View v){
 
@@ -221,10 +241,12 @@ public class Projects extends Activity {
         }
     }
     public  void shareCallBack(View v){
+        final String sharevid = getString(R.string.shareVideo);
+        final String shareproj = getString(R.string.shareProject);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final List<String> projects = projectsList();
         final  CharSequence[] x = projects.toArray(new CharSequence[projects.size()]);
-        builder.setTitle("Pick a project to share")
+        builder.setTitle(R.string.shareDialog)
                 .setItems(x, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         //toast(Integer.toString(which));
@@ -235,12 +257,14 @@ public class Projects extends Activity {
                         AlertDialog.Builder builderShare = new AlertDialog.Builder(Projects.this);
                         //alert=builderShare.create();
                         List<String> features = new ArrayList<String>();
-                        features.add("Share video");
-                        features.add("Share project");
-                        features.add("Share via");
+                        //features.add(sharevid);
+                        features.add(sharevid);
+                        features.add(shareproj);
+                        //features.add("Share via");
+
                         final int whichUse = which;
                         final  CharSequence[] y = features.toArray(new CharSequence[features.size()]);
-                        builderShare.setTitle("Pick a project to delete")
+                        builderShare.setTitle(R.string.whatShareDialog)
                                 .setItems(y, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialogShare, int whichShare) {
                                         //toast(Integer.toString(whichShare));
@@ -261,4 +285,8 @@ public class Projects extends Activity {
         return this;
     }
 
-}
+
+
+
+
+        }

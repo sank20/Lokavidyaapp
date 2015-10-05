@@ -43,7 +43,7 @@ public class Share {
             Share.shareProject(activity, mContext);
             return;
         }
-        if(option == 2){
+        if(option == 0){
             Share.shareVia(activity, mContext);
             return;
         }

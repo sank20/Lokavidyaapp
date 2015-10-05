@@ -2,7 +2,11 @@ package com.iitb.mobileict.lokavidya.ui.shotview;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -23,8 +27,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.iitb.mobileict.lokavidya.R;
+import com.iitb.mobileict.lokavidya.Share;
 import com.iitb.mobileict.lokavidya.Stitch;
 import com.iitb.mobileict.lokavidya.ui.EditProject;
+import com.iitb.mobileict.lokavidya.ui.Projects;
 import com.iitb.mobileict.lokavidya.ui.ViewVideo;
 
 
@@ -64,14 +70,14 @@ public class ViewShots extends Activity implements   OnClickListener,
 		Intent intent = getIntent();
 		project = intent.getStringExtra("projectname");
 
-		editor.putString("projectname",project);
+		editor.putString("projectname", project);
 		editor.commit();
         
 
         
         RelativeLayout global_panel = new RelativeLayout (this);
 		global_panel.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		global_panel.setBackground( getResources().getDrawable(R.drawable.fresh_snow));
+		global_panel.setBackground(getResources().getDrawable(R.drawable.fresh_snow));
 
 		setContentView(global_panel);
 		
@@ -80,14 +86,14 @@ public class ViewShots extends Activity implements   OnClickListener,
      	ibMenu.setId(idTopLayout);
 		ibMenu.setBackgroundDrawable(getResources().getDrawable(R.drawable.line));
      	int ibMenuPadding = (int) 6;
-     	ibMenu.setPadding(ibMenuPadding,ibMenuPadding,ibMenuPadding,ibMenuPadding);
+     	ibMenu.setPadding(ibMenuPadding, ibMenuPadding, ibMenuPadding, ibMenuPadding);
      	RelativeLayout.LayoutParams topParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
      	topParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-     	global_panel.addView(ibMenu,topParams);
+     	global_panel.addView(ibMenu, topParams);
 
 		TextView cTV = new TextView(this);
 		cTV.setText(R.string.shot);
-		cTV.setTextColor(Color.rgb(255,255,255));
+		cTV.setTextColor(Color.rgb(255, 255, 255));
 		int nTextH =  18;
 		cTV.setTextSize(nTextH);
 		cTV.setTypeface(Typeface.create("arial", Typeface.BOLD));
@@ -108,43 +114,28 @@ public class ViewShots extends Activity implements   OnClickListener,
 		lpb.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		lpb.addRule(RelativeLayout.CENTER_VERTICAL);
 		ibMenu.addView(m_bCancel, lpb);
-		
-		mDeleteZone = new DeleteZone(this);
 
-		LevelListDrawable a  = new LevelListDrawable();
-		a.addLevel(0, 1, getResources().getDrawable(R.drawable.delete_icon));
-		a.addLevel(1, 2, getResources().getDrawable(R.drawable.delete_icon_red));
-		mDeleteZone.setImageDrawable(a);
-		
-		RelativeLayout.LayoutParams lpbDel = 
-				new RelativeLayout.LayoutParams(50,50);
-		lpbDel.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-		lpbDel.addRule(RelativeLayout.CENTER_VERTICAL);
-		ibMenu.addView(mDeleteZone, lpbDel);
-			
-
-
-		RelativeLayout ibMenuBot = new RelativeLayout(this);
-		ibMenuBot.setId(idBotLayout);
-		ibMenuBot.setBackgroundDrawable(getResources().getDrawable(R.drawable.line));
-		ibMenuBot.setPadding(ibMenuPadding,ibMenuPadding,ibMenuPadding,ibMenuPadding);
-		RelativeLayout.LayoutParams botParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-		botParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		global_panel.addView(ibMenuBot,botParams);
-
-		
 		Button m_bToggleScroll = new Button(this);
 		m_bToggleScroll.setId(idToggleScroll);
 		m_bToggleScroll.setOnClickListener((OnClickListener) this);
-		m_bToggleScroll.setText(R.string.edit);
+		m_bToggleScroll.setText(R.string.share);
 		nTextH =  12;
 		m_bToggleScroll.setTextSize(nTextH);
-        m_bToggleScroll.setTextColor(Color.WHITE);
+		m_bToggleScroll.setTextColor(Color.WHITE);
 		m_bToggleScroll.setTypeface(Typeface.create("arial", Typeface.BOLD));
 		lpb = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		lpb.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		lpb.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		lpb.addRule(RelativeLayout.CENTER_VERTICAL);
-		ibMenuBot.addView(m_bToggleScroll, lpb);
+		ibMenu.addView(m_bToggleScroll, lpb);
+		
+		RelativeLayout ibMenuBot = new RelativeLayout(this);
+		ibMenuBot.setId(idBotLayout);
+		ibMenuBot.setBackgroundDrawable(getResources().getDrawable(R.drawable.line));
+		ibMenuBot.setPadding(ibMenuPadding, ibMenuPadding, ibMenuPadding, ibMenuPadding);
+		RelativeLayout.LayoutParams botParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		botParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		global_panel.addView(ibMenuBot, botParams);
+
 		
 		Button m_bToggleFavs = new Button(this);
 		m_bToggleFavs.setId(idToggleFavs);
@@ -156,7 +147,7 @@ public class ViewShots extends Activity implements   OnClickListener,
 		m_bToggleFavs.setTypeface(Typeface.create("arial", Typeface.BOLD));
 		lpb = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		lpb.addRule(RelativeLayout.CENTER_VERTICAL);
-		lpb.addRule(RelativeLayout.CENTER_HORIZONTAL);
+		lpb.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		ibMenuBot.addView(m_bToggleFavs, lpb);
 
 		Button m_bToggleFavs2 = new Button(this);
@@ -171,7 +162,22 @@ public class ViewShots extends Activity implements   OnClickListener,
 		lpb.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		lpb.addRule(RelativeLayout.CENTER_VERTICAL);
 		ibMenuBot.addView(m_bToggleFavs2, lpb);
-		
+
+		mDeleteZone = new DeleteZone(this);
+
+		LevelListDrawable a  = new LevelListDrawable();
+		a.addLevel(0, 1, getResources().getDrawable(R.drawable.delete_icon));
+		a.addLevel(1, 2, getResources().getDrawable(R.drawable.delete_icon_red));
+		mDeleteZone.setImageDrawable(a);
+
+		RelativeLayout.LayoutParams lpbDel =
+				new RelativeLayout.LayoutParams(100,100);
+		lpbDel.addRule(RelativeLayout.CENTER_HORIZONTAL);
+		lpbDel.addRule(RelativeLayout.CENTER_VERTICAL);
+		ibMenuBot.addView(mDeleteZone, lpbDel);
+
+
+
 
 		LinearLayout midLayout = new LinearLayout (this);
 		midLayout.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
@@ -313,7 +319,7 @@ public class ViewShots extends Activity implements   OnClickListener,
 			for (int i=0;i<count;i++) {
 				ViewShotItemData item = new ViewShotItemData(
 						texts[i],
-						150, 150, 15,
+						200, 200, 20,
 						R.drawable.item2,
 						R.drawable.favon,
 						R.drawable.favoff,
@@ -355,7 +361,7 @@ public class ViewShots extends Activity implements   OnClickListener,
 			for (int i=0;i<count;i++) {
 				ViewShotItemData item = new ViewShotItemData(
 						texts[i],
-						150, 150, 15,
+						200, 200, 20,
 						R.drawable.item2,
 						R.drawable.favon,
 						R.drawable.favoff,
@@ -418,9 +424,26 @@ public class ViewShots extends Activity implements   OnClickListener,
 			File final_file = new File(sdCard.getAbsolutePath() + "/lokavidya/" + project + "/tmp/final.mp4");
 			if (final_file.exists()){
 				String newVideoPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + project + "/tmp/final.mp4";
-				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newVideoPath));
-				intent.setDataAndType(Uri.parse(newVideoPath), "video/*");
-				startActivity(intent);
+				System.out.println("PPPAAAATTTTHHHHHHH"+newVideoPath+"");
+
+				//play using video view
+				/*Intent intent = new Intent(getApplicationContext(), PlayVideo.class);
+				intent.putExtra("path", newVideoPath);
+				startActivity(intent);*/
+
+				//Earlier code
+				/*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newVideoPath));
+				intent.setDataAndType(Uri.parse(newVideoPath), "video");
+				startActivity(intent);*/
+
+				//recent changes meant to handle view video crash
+				Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW);
+				File file = new File(newVideoPath);
+				String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
+				String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+				myIntent.setDataAndType(Uri.fromFile(file),mimetype);
+				startActivity(myIntent);
+
 			}
 			else{
 				if(check>0){
@@ -446,13 +469,33 @@ public class ViewShots extends Activity implements   OnClickListener,
 		}
 
 		if (id == idToggleScroll) {
-			String project;
-			Intent intent = getIntent();
-			project = intent.getStringExtra("projectname");
-			Intent i = new Intent(getApplicationContext(), EditProject.class);
-			i.putExtra("projectname", project);
-			startActivity(i);
+			if (check > 0) {
+				final String sharevid = getString(R.string.shareVideo);
+				final String shareproj = getString(R.string.shareProject);
 
+				AlertDialog.Builder builderShare = new AlertDialog.Builder(ViewShots.this);
+				List<String> features = new ArrayList<String>();
+				//features.add(sharevid);
+				features.add(sharevid);
+				features.add(shareproj);
+				final CharSequence[] y = features.toArray(new CharSequence[features.size()]);
+				builderShare.setTitle(R.string.whatShareDialog)
+						.setItems(y, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialogShare, int whichShare) {
+								//toast(Integer.toString(whichShare));
+								//deleteProject(y[whichShare]);
+								//share(mContext,x[which],y[whichShare]);
+                        /*toast(y[whichShare]+" "+x[whichUse]);*/
+								//String projectname = x[whichUse].toString();
+								System.out.println(project + whichShare);
+								Share.SendOptions(whichShare, getThisActivity(), getApplicationContext(), project);
+							}
+						});
+				builderShare.create().show();
+			}
+			else{
+				Toast.makeText(this, "Empty Project", Toast.LENGTH_SHORT).show();
+			}
 		}
 		if (id == idToggleFavs) {
 
@@ -532,13 +575,32 @@ public class ViewShots extends Activity implements   OnClickListener,
 		if(requestCode==REQUEST_CODE_1)
 		{
 			String newVideoPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + project + "/tmp/final.mp4";
-			Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse(newVideoPath));
-			intent2.setDataAndType(Uri.parse(newVideoPath), "video/*");
-			startActivity(intent2);
+			System.out.println("PPPAAAATTTTHHHHHHH"+newVideoPath+"");
+
+			//play using video view
+				/*Intent intent = new Intent(getApplicationContext(), PlayVideo.class);
+				intent.putExtra("path", newVideoPath);
+				startActivity(intent);*/
+
+			//Earlier code
+				/*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(newVideoPath));
+				intent.setDataAndType(Uri.parse(newVideoPath), "video");
+				startActivity(intent);*/
+
+			//recent changes meant to handle view video crash
+			Intent myIntent = new Intent(android.content.Intent.ACTION_VIEW);
+			File file = new File(newVideoPath);
+			String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
+			String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+			myIntent.setDataAndType(Uri.fromFile(file),mimetype);
+			startActivity(myIntent);
+
 		}
 
 
 	}
-
+	public Activity getThisActivity(){
+		return this;
+	}
 
 	}
