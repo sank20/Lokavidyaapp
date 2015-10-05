@@ -99,8 +99,13 @@
     <orderEntry type="library" exported="" name="appcompat-v7-23.0.0" level="project" />
     <orderEntry type="library" exported="" name="dagger-compiler-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.0.0" level="project" />
+<<<<<<< HEAD
     <orderEntry type="library" exported="" name="support-annotations-23.0.0" level="project" />
     <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
+=======
+    <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-23.0.0" level="project" />
+>>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
     <orderEntry type="library" exported="" name="butterknife-5.1.2" level="project" />
     <orderEntry type="module" module-name="FFmpegAndroid" exported="" />
   </component>
