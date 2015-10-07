@@ -9,10 +9,10 @@
     <string name="addProject">एक परियोजना जोड़ें</string>
     <string name="deleteProject">परियोजना हटाये</string>
     <string name="ffmpeg_cmd_hint">Enter command here. To run \"ffmpeg -version\" enter \"-version\"</string>
-    <string name="device_not_supported">Device not supported</string>
+    <string name="device_not_supported">उपकरण समर्थित नही</string>
     <string name="device_not_supported_message">FFmpeg is not supported on your device</string>
-    <string name="run">Run</string>
-    <string name="empty_command_toast">You cannot execute empty command</string>
+    <string name="run">चलाएँ।</string>
+    <string name="empty_command_toast">आप खाली आदेश पर अमल नहीं कर सकते</string>
     <string name="title_activity_db">DBActivity</string>
     <string name="takePic">एक तस्वीर करेे</string>
     <string name="gallery">गैलरी से चयन करेंे</string>
@@ -31,5 +31,16 @@
     <string name="stitch">जोडे</string>
     <string name="viewvideo">वीडियो देखें</string>
     <string name="enterName">अपनी परियोजना के लिए नाम दें</string>
+    <string name="importproject">परियोजना आयात करें।</string>
+    <string name="shareVideo">वीडियो शेयर करें</string>
+    <string name="shareProject">परियोजना शेयर करें</string>
+    <string name="share">शेयर</string>
+    <string name="shareDialog">शेयर करने के लिए एक परियोजना उठाओ</string>
+    <string name="whatShareDialog">आप क्या शेयर करना चाहते हैं?</string>
+    <string name="forward">परियोजना बनाओ</string>
+    <string name="save">आप छवि में किए गए परिवर्तनों को बचाना  चाहते हैं?</string>
+    <string name="bad">खींचें</string>
+    <string name="fit">फ़िट</string>
+    <string name="crop">कांटे </string>
 
 </resources>
