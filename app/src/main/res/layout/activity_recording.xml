@@ -17,7 +17,37 @@
         android:layout_height="match_parent"
         android:layout_weight="8">
 
-    <Button
+        <LinearLayout
+            android:id="@+id/button_panel_scaling"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true">
+
+            <Button
+                android:id="@+id/button_scaling_bad"
+                android:layout_weight="1"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:onClick="badButtonPressed"
+                android:text="@string/bad" />
+            <Button
+                android:id="@+id/button_scaling_fit"
+                android:layout_weight="1"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="@string/fit"
+                android:onClick="fitButtonPressed"/>
+            <Button
+                android:id="@+id/button_scaling_crop"
+                android:layout_weight="1"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="@string/crop"
+                android:onClick="cropButtonPressed"/>
+        </LinearLayout>
+
+        <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/record"
@@ -57,26 +87,36 @@
         android:layout_toEndOf="@+id/pausePlaying"
         android:textAppearance="?android:textAppearanceSmall"/>
 
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekBar"
+            android:progress="0"
+            android:layout_above="@+id/startPlaying"
+            android:layout_toRightOf="@+id/startPlaying"
+            android:layout_toLeftOf="@+id/retryRecording"
+            android:layout_toStartOf="@+id/retryRecording"
+            android:indeterminate="false" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imagePlaying"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/retryRecording"
-        android:layout_alignEnd="@+id/retryRecording"
+        android:layout_below="@id/button_panel_scaling"
         android:layout_above="@+id/seekBar" />
 
-    <SeekBar
+
+
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
+        android:id="@+id/progBar"
         android:layout_above="@+id/startPlaying"
         android:layout_toRightOf="@+id/startPlaying"
         android:layout_toLeftOf="@+id/retryRecording"
         android:layout_toStartOf="@+id/retryRecording"
-        android:indeterminate="false" />
+        android:visibility="gone"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -93,8 +133,7 @@
         android:text="@string/totallength"
         android:id="@+id/total"
         android:layout_below="@+id/imagePlaying"
-        android:layout_alignRight="@+id/imagePlaying"
-        android:layout_alignEnd="@+id/imagePlaying" />
+        android:layout_toRightOf="@id/seekBar" />
 
     </RelativeLayout>
     <Space

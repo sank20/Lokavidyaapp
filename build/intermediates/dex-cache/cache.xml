@@ -2,88 +2,167 @@
 <items version="2" >
 
     <item
-        jar="/home/saikiran/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/15.0/ed727a8d9f247e2050281cb083f1c77b09dcb5cd/guava-15.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="ed727a8d9f247e2050281cb083f1c77b09dcb5cd">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/guava-15.0-c522c9f924b3ec3842da219bd3602b59637e086c.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
+<<<<<<< HEAD
+        jar="C:\Users\Dell-Insp-3542\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
         jumboMode="false"
         revision="23.0.0"
         sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.0-c482d80a0640f4dc7efee62a771dbf250f7b6ea0.jar" />
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.0-7901fd98c920b2606d91afd483e020a9485f38aa.jar" />
     </item>
     <item
-        jar="/home/saikiran/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger-compiler/1.2.2/fa9b2f9ae597cedf2a66ef3e60662ff36bb60e57/dagger-compiler-1.2.2.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="fa9b2f9ae597cedf2a66ef3e60662ff36bb60e57">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/dagger-compiler-1.2.2-88e759b6f15bc2ab7be83c786a22a5838ed7b274.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/5.1.2/daf5472b0df6dabaceb6ad755b3812535863965a/butterknife-5.1.2.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="daf5472b0df6dabaceb6ad755b3812535863965a">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/butterknife-5.1.2-2905b35b1cda31a3e32053a2e8eceb838568e6b2.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/.gradle/caches/modules-2/files-2.1/com.michaelpardo/activeandroid/3.1.0-SNAPSHOT/4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08/activeandroid-3.1.0-SNAPSHOT.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/activeandroid-3.1.0-SNAPSHOT-90c2e3e85dd8ecf088d40ddb90fa86358d5f271d.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="6975da39a7040257bd51d21a231b76c915872d38">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/javax.inject-1-e9d57deb2cafb585f50f38ee70d22c23b8080168.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger/1.2.2/e8f912ee19ad84958510883ea191135276b091f8/dagger-1.2.2.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="e8f912ee19ad84958510883ea191135276b091f8">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/dagger-1.2.2-f1db56bbdee566ba5af45c4bafb8bcd761258241.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/bitbucket_DST/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/libs/internal_impl-23.0.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.0-f95a9f91e5e8c8072873f9caf8105ba40ae67676.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/bitbucket_DST/app/build/intermediates/exploded-aar/bitbucket_DST/FFmpegAndroid/unspecified/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="63c7582ea414e89a82773f4a1c2a0bf6e17007b1">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/classes-30e548a7d7a43eca4af7061d59a79c1ea0558c52.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/bitbucket_DST/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/classes-93684fbd08ae2c51193c198f920cbf4822a30d6a.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/bitbucket_DST/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/classes-8364dc861ff99e1431f32aa0093edbe9aecaebc6.jar" />
-    </item>
-    <item
-        jar="/home/saikiran/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/81241ff7078ef14f42ea2a8995fa09c096256e6b/javawriter-2.5.0.jar"
+        jar="C:\Users\Dell-Insp-3542\.gradle\caches\modules-2\files-2.1\com.squareup\javawriter\2.5.0\81241ff7078ef14f42ea2a8995fa09c096256e6b\javawriter-2.5.0.jar"
         jumboMode="false"
         revision="23.0.0"
         sha1="81241ff7078ef14f42ea2a8995fa09c096256e6b">
-        <dex dex="/home/saikiran/bitbucket_DST/app/build/intermediates/pre-dexed/debug/javawriter-2.5.0-62c3afd66362599d51494a488b7f2be6b1fa1a81.jar" />
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\javawriter-2.5.0-57b007894b46adaf02a5c3e50aeb20670c0541d0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\.gradle\caches\modules-2\files-2.1\com.squareup.dagger\dagger-compiler\1.2.2\fa9b2f9ae597cedf2a66ef3e60662ff36bb60e57\dagger-compiler-1.2.2.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="fa9b2f9ae597cedf2a66ef3e60662ff36bb60e57">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\dagger-compiler-1.2.2-7e7a8412eb458d0d075d2cb6ba565e798b98a588.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\classes-d213ab1d0a8c7665f96a8b494bf7d44a0eb4f34b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\exploded-aar\lokavidyaapp\FFmpegAndroid\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="14cb36124505bd9f61e9aa82c79800d85d42c991">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\classes-f15f53878832fa7a4d09a63210b3692c0901a7f0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\5.1.2\daf5472b0df6dabaceb6ad755b3812535863965a\butterknife-5.1.2.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="daf5472b0df6dabaceb6ad755b3812535863965a">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\butterknife-5.1.2-5d7f997980935656e0c48988388e37a17925c395.jar" />
+=======
+        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/15.0/ed727a8d9f247e2050281cb083f1c77b09dcb5cd/guava-15.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="ed727a8d9f247e2050281cb083f1c77b09dcb5cd">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/guava-15.0-3673cc8ef261a01ec91db5f3e163a4422167b187.jar" />
+    </item>
+    <item
+        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-ece480477d4aff15c8ad57a8fa5860fd08e43610.jar" />
+    </item>
+    <item
+        jar="/home/saifur/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.0-6ab3340f0c35ced46ca9b73ddca0e3d0f18bbfe0.jar" />
+    </item>
+    <item
+        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/libs/internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.0-4eec9779945958257d150eaee02bf5eba9c5c9ba.jar" />
+    </item>
+    <item
+        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger/1.2.2/e8f912ee19ad84958510883ea191135276b091f8/dagger-1.2.2.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="e8f912ee19ad84958510883ea191135276b091f8">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/dagger-1.2.2-9b67072c1dc1e95d8fcf968d2c8207f086a470e4.jar" />
+    </item>
+    <item
+        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/lokavidyaapp/FFmpegAndroid/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="dca501f569f2b0e6319945ce8bea0ec91cde1504">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-4d3040da5afc13657f7dafe94bc645edf1ff418e.jar" />
+>>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\.gradle\caches\modules-2\files-2.1\com.squareup.dagger\dagger\1.2.2\e8f912ee19ad84958510883ea191135276b091f8\dagger-1.2.2.jar"
+        jumboMode="false"
+        revision="23.0.0"
+<<<<<<< HEAD
+        sha1="e8f912ee19ad84958510883ea191135276b091f8">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\dagger-1.2.2-383d5b2a41faa5a206740d71a95fcd10ea31ca68.jar" />
+=======
+        sha1="fa9b2f9ae597cedf2a66ef3e60662ff36bb60e57">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/dagger-compiler-1.2.2-e151e6f8043cab37ca2582e091ab5f3e445fafab.jar" />
+>>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\.gradle\caches\modules-2\files-2.1\com.michaelpardo\activeandroid\3.1.0-SNAPSHOT\4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08\activeandroid-3.1.0-SNAPSHOT.jar"
+        jumboMode="false"
+        revision="23.0.0"
+<<<<<<< HEAD
+        sha1="4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\activeandroid-3.1.0-SNAPSHOT-4a363f738d0add7154b1268d8d2e0eddbd20058c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\classes-39ce1f1dce5dcaeb1341abfc2b6ba8a47d404284.jar" />
+=======
+        sha1="daf5472b0df6dabaceb6ad755b3812535863965a">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/butterknife-5.1.2-122b347349ec4bebcb074fb53e9b14f2e2e5e665.jar" />
+    </item>
+    <item
+        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.michaelpardo/activeandroid/3.1.0-SNAPSHOT/4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08/activeandroid-3.1.0-SNAPSHOT.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4ab7b0182975bc57c49efc5e0b3baa4a10e4ec08">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/activeandroid-3.1.0-SNAPSHOT-6e75e490d491a4e751f4239e599ae8c1be0ffbc2.jar" />
+>>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\.gradle\caches\modules-2\files-2.1\com.google.guava\guava\15.0\ed727a8d9f247e2050281cb083f1c77b09dcb5cd\guava-15.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+<<<<<<< HEAD
+        sha1="ed727a8d9f247e2050281cb083f1c77b09dcb5cd">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\guava-15.0-6fc93f505388bc4c9e395809fa8edfeedf1f7cea.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\libs\internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.0-8dc7fdeff9817adecd8f23254a5327f1c99fd6e4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Dell-Insp-3542\.gradle\caches\modules-2\files-2.1\javax.inject\javax.inject\1\6975da39a7040257bd51d21a231b76c915872d38\javax.inject-1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="C:\Users\Dell-Insp-3542\lokavidyaapp\app\build\intermediates\pre-dexed\debug\javax.inject-1-cff7c072b9646d2cd72079ef47ae7e0f85b3a148.jar" />
+=======
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/javax.inject-1-53fd89a801099ee79143bf68fdb3e0e521491bdd.jar" />
+    </item>
+    <item
+        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-ca2e75ab98be79e535104316b343a51a88fcdf25.jar" />
+    </item>
+    <item
+        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/81241ff7078ef14f42ea2a8995fa09c096256e6b/javawriter-2.5.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="81241ff7078ef14f42ea2a8995fa09c096256e6b">
+        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/javawriter-2.5.0-75967d0ad3ff61f5007227171cba928ebeb8de94.jar" />
+>>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
     </item>
 
 </items>

@@ -116,30 +116,14 @@ public class Projectfile {
     }
 
     public void addImage(Bitmap bitmap, String projectname){
-
-
-
-
         String newImg;
-
         File sdCard = Environment.getExternalStorageDirectory();
-
         File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
-
 
         if(imgDir.exists()&& imgDir.isDirectory())
         {
-
-
             File file[] = imgDir.listFiles();
-
-
             newImg = projectname + "." + String.valueOf(file.length+1) + ".png";
-
-
-
-
-
 
             if(file.length!=0)
             {
@@ -149,19 +133,10 @@ public class Projectfile {
 
                 for (int i=0; i < file.length; i++)
                 {
-
-
                     String imgName = file[i].getName();
 
                     imgName = imgName.replace(".png","");
-
-
-
                     String splitImgName[] = imgName.split("\\.");
-
-
-
-
                     countImg[i]=Integer.parseInt(splitImgName[1]);
 
                     if(newImg.equals(file[i].getName()))
@@ -180,24 +155,8 @@ public class Projectfile {
                  int large=largestAndSmallest(countImg);
 
                     newImg = projectname + "." + String.valueOf(large+1) + ".png";
-
-
-
                 }
-
-
-
-
-
             }
-
-
-
-
-
-
-
-
             File writetofile = new File(imgDir, newImg);
             FileOutputStream outStream = null;
             try {
@@ -255,27 +214,13 @@ public class Projectfile {
 
 
         public List<String> getImageNames(String projectname){
-
-
-
-        List<String> ImageNames = new ArrayList<String>();
-
-
-
+            List<String> ImageNames = new ArrayList<String>();
             File sdCard = Environment.getExternalStorageDirectory();
-
-
-
             File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
-
-
 
             if(imgDir.exists()&& imgDir.isDirectory())
             {
-
-
                 File file[] = imgDir.listFiles();
-
 
                 if(file.length!=0)
                 {
@@ -283,23 +228,9 @@ public class Projectfile {
 
                     for (int i=0; i < file.length; i++)
                     {
-
-
                         ImageNames.add(file[i].getName());
-
-
                     }
-
                 }
-
-
-
-
-
-
-
-
-
             }
 
 
@@ -434,6 +365,26 @@ public class Projectfile {
         return false;
     }
 
-
+/* By Sanket P. :
+(The following method is called in the finally block in Stitch.java) It deletes the temporary files generated during the
+stitching process and retains only the out.txt and final.mp4 .
+ */
+    public static void deleteTempFiles(String ProjectName){
+        int i;
+        String path= Environment.getExternalStorageDirectory().getAbsolutePath()+ "/lokavidya" + "/" + ProjectName + "/tmp/";
+        //Log.i("wtf", path);
+        File dir= new File(path);
+        File[] list=dir.listFiles();
+        if(list!=null) {
+            //Log.i("yay","found the files!");
+            for (i = 0; i < list.length; i++) {
+                String name = list[i].getName();
+              //  Log.i("wtf", list[i].getName());
+                String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
+                if (!name.equals("final.mp4") && extension.equals("mp4"))
+                    list[i].delete();
+            }
+        }
+    }
 
 }
