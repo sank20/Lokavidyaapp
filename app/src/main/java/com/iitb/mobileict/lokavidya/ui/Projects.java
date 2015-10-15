@@ -36,9 +36,11 @@ import java.util.regex.Pattern;
 
 
 public class Projects extends Activity {
+    private String importProjectName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        importProjectName="";
         Context context = getApplicationContext();
         Projectfile f = new Projectfile(context);
         List<String> projectsList = f.DisplayProject_with_zips();
@@ -108,7 +110,7 @@ public class Projects extends Activity {
     }
 
     public void addProject(String newproject){
-        if(newproject == "" || newproject == " ")return ;
+        if(newproject == "" || newproject == " ")   return;
         Projectfile f = new Projectfile(getApplicationContext());
         List<String> projects = f.AddNewProject(newproject);
         ProjectsListView(projects);
@@ -193,16 +195,27 @@ public class Projects extends Activity {
         }
         if(requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK){
             Uri uri = data.getData();
-            //System.out.println("File Uri : "+ uri.toString());
-            try {
-                String path = getPath(this, uri);
-                //System.out.println("FIle path ---------projects.java> " + path);
-                Share.importproject(path);
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+            System.out.println("File Uri : "+ uri.toString());
+//            try {
+            String path = uri.getPath();
+            System.out.println("FIle path ---------import> " + path);
+            Share.importproject(uri,this,importProjectName);
+//            }
+//            catch (URISyntaxException e) {
+//                e.printStackTrace();
+//            }
         }
     }
+    boolean foundInProjectList(String project){
+        List<String> projectList = projectsList();
+        for(String str: projectList) {
+            if(str.trim().contains(project))
+                return true;
+        }
+        return false;
+    }
+
+
 
     public static String getPath(Context context, Uri uri) throws URISyntaxException {
         if ("content".equalsIgnoreCase(uri.getScheme())) {
@@ -228,18 +241,63 @@ public class Projects extends Activity {
 
     public static final int FILE_SELECT_CODE = 102;
     public void importProjectCallback(View v){
-
-        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-        i.setType("*/*");
-        i.addCategory(Intent.CATEGORY_OPENABLE);
+        importProjectName="";
         try{
-            startActivityForResult(
-                    Intent.createChooser(i, "Select project file to import") , FILE_SELECT_CODE
-            );
+            //************************************************************************************************
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.enterName);
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Pattern pattern1 = Pattern.compile("\\s");
+                    Pattern pattern2 = Pattern.compile("\\.");
+                    // Pattern pattern3 = Pattern.compile("");
+                    Matcher matcher1 = pattern1.matcher(input.getText().toString());
+                    Matcher matcher2 = pattern2.matcher(input.getText().toString());
+                    // Matcher matcher3 = pattern3.matcher(input.getText().toString());
+                    boolean found1 = matcher1.find();
+                    boolean found2 = matcher2.find();
+                    // boolean found3 = matcher3.find();
+                    if (found1)
+                        Toast.makeText(Projects.this, "Project name should not contain space.", Toast.LENGTH_LONG).show();
+                    else if (found2)
+                        Toast.makeText(Projects.this, "Project name should not contain dot.", Toast.LENGTH_LONG).show();
+                    else {
+                        if (input.getText().toString().equals("")) {
+                            Toast.makeText(Projects.this, "Project name cannot be empty.", Toast.LENGTH_LONG).show();
+                        } else {
+                            if(foundInProjectList(input.getText().toString())){
+                                Toast.makeText(Projects.this, "Another project exists with same name.", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                importProjectName = input.getText().toString();
+                                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                                i.setType("*/*");
+                                i.addCategory(Intent.CATEGORY_OPENABLE);
+                                startActivityForResult(
+                                        Intent.createChooser(i, "Select project file to import"), FILE_SELECT_CODE
+                                );
+                            }
+                        }
+                    }
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
+            //************************************************************************************************
         }catch(android.content.ActivityNotFoundException ex) {
             Toast.makeText(this, "Please install a File Manager to import", Toast.LENGTH_SHORT).show();
         }
     }
+
     public  void shareCallBack(View v){
         final String sharevid = getString(R.string.shareVideo);
         final String shareproj = getString(R.string.shareProject);

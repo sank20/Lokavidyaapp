@@ -76,7 +76,7 @@ public class Share {
         //   sai kiran and ravi
             Intent intent = new Intent();
             intent.setAction(Intent.ACTION_SEND);
-            intent.setType("text/plain");
+            intent.setType("video/*");
             String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + Share.projectname + "/tmp/" +  "final.mp4";
             File f = new File(outputFile);
             intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
@@ -119,7 +119,7 @@ public class Share {
         delete_file = new File(outputFile + "/audio.zip");
         delete_file.delete();
         Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("*/*");
+        i.setType("application/zip");
         File f = new File(outputFile + ".zip");
         i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
         activity.startActivity(Intent.createChooser(i, "Share Project Via"));
@@ -168,16 +168,18 @@ public class Share {
         return path.substring(j+1,path.length() - 4);
     }
 
-    public static void importproject(String path){
+    public static void importproject(Uri uri,Context context,String importProjectName){
+        System.out.println("-*----------> Import function called success");
         String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya";
 //        System.out.println("----------------Share.java: import project: >" + outputFile);
 //        System.out.println(Share.unpackZip(path, outputFile));
         //path=Environment.getExternalStorageDirectory().getAbsolutePath()+"/empty.zip";
-        String proj = pathToProjectname(path);
+        //System.out.println(path);
+        String proj = importProjectName;
         _dirChecker(outputFile + "/", proj);
         String path1= outputFile +"/" + proj + "/";
-        System.out.println("----------------import project >: "+ proj + ":" + path + ":" +path1);
-        Share.unzip(path, path1); // check for / at the end of path1
+        //System.out.println("----------------import project >: "+ proj + ":" + path + ":" +path1);
+        Share.unzipuri(uri, path1,context); // check for / at the end of path1
         _dirChecker(path1, "images");
         _dirChecker(path1, "audio");
         Share.unzip(path1 + "images.zip", path1 + "images/");
@@ -229,33 +231,63 @@ public class Share {
 //
 //        return true;
 //    }
-public static void unzip(String _zipFile, String _location) {
-    try  {
-        FileInputStream fin = new FileInputStream(_zipFile);
-        ZipInputStream zin = new ZipInputStream(fin);
-        ZipEntry ze = null;
-        while ((ze = zin.getNextEntry()) != null) {
-            Log.v("Decompress", "Unzipping " + ze.getName());
+    public static void unzipuri(Uri uri, String _location,Context context) {
+        try  {
+            InputStream fin=context.getContentResolver().openInputStream(uri);
+            //FileInputStream fin = new
+            ZipInputStream zin = new ZipInputStream(fin);
+            ZipEntry ze = null;
+            while ((ze = zin.getNextEntry()) != null) {
+                Log.v("Decompress", "Unzipping " + ze.getName());
 
-            if(ze.isDirectory()) {
-                Share._dirChecker(_location, ze.getName());
-            } else {
-                FileOutputStream fout = new FileOutputStream(_location + ze.getName());
-                for (int c = zin.read(); c != -1; c = zin.read()) {
-                    fout.write(c);
+                if(ze.isDirectory()) {
+                    Share._dirChecker(_location, ze.getName());
+                } else {
+                    FileOutputStream fout = new FileOutputStream(_location + ze.getName());
+                    System.out.println("-*---------->EXTRACT TO THIS DIR :" + _location + " " + ze.getName());
+                    for (int c = zin.read(); c != -1; c = zin.read()) {
+                        fout.write(c);
+                    }
+
+                    zin.closeEntry();
+                    fout.close();
                 }
 
-                zin.closeEntry();
-                fout.close();
             }
-
+            zin.close();
+        } catch(Exception e) {
+            Log.e("Decompress", "unzip", e);
         }
-        zin.close();
-    } catch(Exception e) {
-        Log.e("Decompress", "unzip", e);
     }
 
-}
+    public static void unzip(String _zipfile, String _location) {
+        try  {
+            FileInputStream fin = new FileInputStream(_zipfile);
+            ZipInputStream zin = new ZipInputStream(fin);
+            ZipEntry ze = null;
+            while ((ze = zin.getNextEntry()) != null) {
+                Log.v("Decompress", "Unzipping " + ze.getName());
+
+                if(ze.isDirectory()) {
+                    Share._dirChecker(_location, ze.getName());
+                } else {
+                    FileOutputStream fout = new FileOutputStream(_location + ze.getName());
+                    System.out.println("-*---------->EXTRACT TO THIS DIR :" + _location + " " + ze.getName());
+                    for (int c = zin.read(); c != -1; c = zin.read()) {
+                        fout.write(c);
+                    }
+
+                    zin.closeEntry();
+                    fout.close();
+                }
+
+            }
+            zin.close();
+        } catch(Exception e) {
+            Log.e("Decompress", "unzip", e);
+        }
+
+    }
 
     public static void _dirChecker(String _location, String dir) {
         File f = new File(_location + dir);
