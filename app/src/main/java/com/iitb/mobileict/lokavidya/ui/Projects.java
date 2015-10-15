@@ -189,7 +189,7 @@ public class Projects extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == Share.DISCOVER_DURATION ) {
-            if(requestCode == Share.REQUEST_BLU_VIDEO)Share.sendVideo(this, getApplicationContext());
+            if(requestCode == Share.REQUEST_BLU_VIDEO) Share.sendVideo(this, getApplicationContext());
         }
         if(requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK){
             Uri uri = data.getData();

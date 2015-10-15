@@ -1,12 +1,12 @@
 package com.iitb.mobileict.lokavidya.ui.shotview;
 
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
->>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
+//>>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -41,7 +41,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-public class ViewShots extends Activity implements   OnClickListener,
+public class 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							ViewShots extends Activity implements   OnClickListener,
 	ViewShot.DynGridViewListener{
 	
 	final static int		idTopLayout = Menu.FIRST + 100,

@@ -11,9 +11,7 @@ public class ImageElement {
 
     private String Path;
 
-    public String getId() {
-        return Id;
-    }
+    public String getId() {return Id;    }
 
     public void setId(String id) {
         Id = id;
