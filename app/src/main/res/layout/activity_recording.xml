@@ -135,6 +135,13 @@
         android:layout_below="@+id/imagePlaying"
         android:layout_toRightOf="@id/seekBar" />
 
+    <Chronometer
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chronometer"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/retryRecording"
+        android:layout_toEndOf="@+id/retryRecording" />
     </RelativeLayout>
     <Space
         android:layout_width="0dp"

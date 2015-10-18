@@ -29,7 +29,7 @@ dependencies {
     compile 'com.squareup.dagger:dagger:1.2.2'
     compile 'com.jakewharton:butterknife:5.1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
-    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+    //compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile project(':FFmpegAndroid')
 }
 android {

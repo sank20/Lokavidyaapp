@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -91,7 +92,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         Intent intent = getIntent();
         imagefileName = intent.getStringExtra("filename");
         projectName = intent.getStringExtra("projectname");
-
+        final Chronometer myChronometer = (Chronometer)findViewById(R.id.chronometer);
         badButton=(Button)findViewById(R.id.button_scaling_bad);
         fitButton=(Button)findViewById(R.id.button_scaling_fit);
         cropButton=(Button)findViewById(R.id.button_scaling_crop);
@@ -153,9 +154,11 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
                     isRecording = true;
-                  /*  audioProgressBar.setProgress(0);
-                    audioProgressBar.setMax(180000);
-                    updateProgressBar();*/
+
+                    myChronometer.setBase(SystemClock.elapsedRealtime());
+                    myChronometer.start();
+                  //  audioProgressBar.setProgress(0);
+
                 } catch (IllegalStateException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -200,7 +203,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                             audioProgressBar.setProgress(0);
                             myAudioRecorder = null;
                             isRecording = false;
-
+                            myChronometer.stop();
                             boolean flag=false;
 
 
@@ -262,6 +265,8 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                 try {
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
+                    myChronometer.setBase(SystemClock.elapsedRealtime());
+                    myChronometer.start();
                     isRecording = true;
                 } catch (IllegalStateException e) {
                     // TODO Auto-generated catch block
