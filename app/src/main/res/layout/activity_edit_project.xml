@@ -39,23 +39,23 @@
 
     <Button
         android:id="@+id/proceed"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:text="@string/forward"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:background="#98e58a"
         android:onClick="proceed"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"/>
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:columnWidth="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:numColumns="auto_fit"
         android:verticalSpacing="5dp"
         android:horizontalSpacing="5dp"
@@ -65,6 +65,13 @@
         android:layout_above="@id/proceed"
         android:paddingTop="10dp"
          />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnDeleteImg"
+        android:text="Delete"
+        android:layout_below="@id/gridview"
+        android:onClick="deletePressed"/>
 
 
 </RelativeLayout>

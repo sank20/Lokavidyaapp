@@ -13,7 +13,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +23,6 @@ import android.widget.Toast;
 import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
-import com.iitb.mobileict.lokavidya.ui.shotview.ViewShots;
 
 
 import java.io.File;
@@ -166,10 +164,30 @@ public class Projects extends Activity {
         builder.show();
     }
 
-    public void deleteProject(CharSequence name){
-        Projectfile f = new Projectfile(getApplicationContext());
-        List<String> projects = f.DeleteProject(name);
-        ProjectsListView(projects);
+    public void deleteProject(final CharSequence name){
+        System.out.println("Outside dialog box");
+
+//    final CharSequence name1 = name;
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(Projects.this);
+        builder1.setTitle("Are you sure you want to delete the file?");
+        builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Projectfile f = new Projectfile(getApplicationContext());
+                System.out.println("Inside fialog box");
+                List<String> projects = f.DeleteProject(name);
+                ProjectsListView(projects);
+            }
+        })
+                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        builder1.create().show();
+
+
     }
     public void deleteProjectCallBack(View v){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -178,7 +196,7 @@ public class Projects extends Activity {
         builder.setTitle("Pick a project to delete")
                 .setItems(x, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        toast(Integer.toString(which));
+                        //toast(Integer.toString(which));
                         deleteProject(x[which]);
 
                     }

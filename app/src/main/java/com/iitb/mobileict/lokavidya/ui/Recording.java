@@ -153,9 +153,9 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
                     isRecording = true;
-                    audioProgressBar.setProgress(0);
+                  /*  audioProgressBar.setProgress(0);
                     audioProgressBar.setMax(180000);
-                    updateProgressBar();
+                    updateProgressBar();*/
                 } catch (IllegalStateException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -236,21 +236,6 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                         }
                     }, 1000);
 
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            try{
-//                                Thread.sleep(5000);
-//                            }
-//                            catch (Exception e){
-//                                e.printStackTrace();
-//                            }
-//                            stop.setEnabled(false);
-//                            play.setEnabled(true);
-//                            retry.setEnabled(true);
-//                            record.setEnabled(false);
-//                        }
-//                    })
                 }
                 else{
                     stop.setEnabled(false);
