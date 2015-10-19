@@ -5,12 +5,15 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +31,7 @@ import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.ui.shotview.GalleryItem;
 import com.iitb.mobileict.lokavidya.ui.shotview.ViewShots;
-
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,8 +46,8 @@ public class EditProject extends Activity {
     String projectName;
     ImageAdapter1 imageadapter;
     Button btnDelete;
-
     public static int RESIZE_FACTOR = 400;
+    private static final int REQUEST_IMAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,21 +81,27 @@ public class EditProject extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        switch (requestCode) {
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    Uri imageUri = imageReturnedIntent.getData();
-                    System.out.println("IIIMMMAAAGGGEEEE UUURRRIIII...." + imageUri.toString());
+        switch(requestCode) {
+            case REQUEST_IMAGE:
+                if(resultCode == RESULT_OK){
+                    //Uri imageUri = imageReturnedIntent.getData();
+
+                    List<String> path = imageReturnedIntent.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                    Log.i("wth inside gallery case", path.get(0));
 
 
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                        bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
-                        Projectfile f = new Projectfile(getApplicationContext());
-                        f.addImage(bitmap, projectName);
+                    try{
+                        int i;
+                        for(i=0;i<path.size();i++) {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), getImageContentUri(getApplicationContext(), path.get(i))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
+                            bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
+                            Projectfile f = new Projectfile(getApplicationContext());
+                            f.addImage(bitmap, projectName);
+                        }
                         loadImages();
-                    } catch (IOException fe) {
-                        toast("Image file not found in the library");
+                    }
+                    catch(IOException fe){
+                        toast("Image file not found in the library " + Uri.parse(path.get(0)));
                     }
                 }
                 break;
@@ -100,6 +109,7 @@ public class EditProject extends Activity {
 
                 if (resultCode == Activity.RESULT_OK) {
                     Uri takenPhotoUri = getPhotoFileUri("temp.png");
+                    Log.i("inside onActvtyRslt cam",takenPhotoUri.toString());
 
                     Bitmap photo = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                     photo = getResizedBitmap(photo, RESIZE_FACTOR);
@@ -123,9 +133,25 @@ public class EditProject extends Activity {
         toast.show();
     }
 
-    public void gallery(View v) {
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto, 1);
+    public void gallery(View v){
+        /*Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto, 1);*/
+        Log.i("inside gallery method", "wth");
+
+        Intent intent = new Intent(getApplicationContext(), MultiImageSelectorActivity.class);
+
+// whether show camera
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, false);
+
+// max select image amount
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 9);
+
+// select mode (MultiImageSelectorActivity.MODE_SINGLE OR MultiImageSelectorActivity.MODE_MULTI)
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
+
+        startActivityForResult(intent, REQUEST_IMAGE);
+
+
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
@@ -433,6 +459,30 @@ public class EditProject extends Activity {
 
     }
 
-
+    /* The following method is used to convert an absolute path to Content Uri.
+    The content Uri is needed for the MediaStore.Images.Media.getBitmap() method used above, to pass as the second parameter
+     */
+    public static Uri getImageContentUri(Context context, String filePath) {
+       // String filePath = imageFile.getAbsolutePath();
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Images.Media._ID},
+                MediaStore.Images.Media.DATA + "=? ",
+                new String[]{filePath}, null);
+        if (cursor != null && cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
+            return Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + id);
+        } else {
+            if (new File(filePath).exists()) {
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DATA, filePath);
+                return context.getContentResolver().insert(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+            } else {
+                return null;
+            }
+        }
+    }
 
 }
+

@@ -4,6 +4,7 @@ package com.iitb.mobileict.lokavidya;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -115,6 +116,9 @@ public class Projectfile {
         return myStringArray;
     }
 
+    /* addImage: used in EditProject.java. to take an image from the gallery and put it in the images folder.
+    the picking image from gallery is done in EditProject.java.
+     */
     public void addImage(Bitmap bitmap, String projectname){
         String newImg;
         File sdCard = Environment.getExternalStorageDirectory();
@@ -134,11 +138,12 @@ public class Projectfile {
                 for (int i=0; i < file.length; i++)
                 {
                     String imgName = file[i].getName();
-
-                    imgName = imgName.replace(".png","");
+                    Log.i("addimage imgname", imgName);
+                    imgName = imgName.replace(".png", "");
+                    Log.i("addimage imgname 2", imgName);
                     String splitImgName[] = imgName.split("\\.");
                     countImg[i]=Integer.parseInt(splitImgName[1]);
-
+                    Log.i("addimage splitimgname", splitImgName[1]);
                     if(newImg.equals(file[i].getName()))
                     {
                         //Toast.makeText(mContext,"Image already exists",Toast.LENGTH_LONG).show();
@@ -361,21 +366,22 @@ public class Projectfile {
         return false;
     }
 
-/* By Sanket P. :
-(The following method is called in the finally block in Stitch.java) It deletes the temporary files generated during the
-stitching process and retains only the out.txt and final.mp4 .
+/** By Sanket Pimple. :
+*(The  method is called in the finally block in Stitch.java) It deletes the temporary files generated during the
+*stitching process and retains only the out.txt and final.mp4 .
+ * @param ProjectName : The name of the project saved in a caller method's string.
  */
     public static void deleteTempFiles(String ProjectName){
         int i;
         String path= Environment.getExternalStorageDirectory().getAbsolutePath()+ "/lokavidya" + "/" + ProjectName + "/tmp/";
-        //Log.i("wtf", path);
+        //Log.i("path", path);
         File dir= new File(path);
         File[] list=dir.listFiles();
         if(list!=null) {
             //Log.i("yay","found the files!");
             for (i = 0; i < list.length; i++) {
                 String name = list[i].getName();
-              //  Log.i("wtf", list[i].getName());
+              //  Log.i("name", list[i].getName());
                 String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
                 if (!name.equals("final.mp4") && extension.equals("mp4"))
                     list[i].delete();
