@@ -108,7 +108,7 @@ public class Projects extends Activity {
     }
 
     public void addProject(String newproject){
-        if(newproject == "" || newproject == " ")   return;
+        if(newproject.equals("") || newproject.equals(" "))   return; //(Sanket P) changed newproject == "" to newproject.equals("").
         Projectfile f = new Projectfile(getApplicationContext());
         List<String> projects = f.AddNewProject(newproject);
         ProjectsListView(projects);
@@ -124,7 +124,7 @@ public class Projects extends Activity {
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -142,22 +142,22 @@ public class Projects extends Activity {
 
 
                 if(found1)
-                    Toast.makeText(Projects.this,"Project name should not contain space.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(Projects.this,getString(R.string.projectNameSpace),Toast.LENGTH_LONG).show();
                 else if(found2)
-                    Toast.makeText(Projects.this,"Project name should not contain dot.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(Projects.this,getString(R.string.projectNameDot),Toast.LENGTH_LONG).show();
                /* else if(found3)
                     Toast.makeText(Projects.this,"Project name cannot be empty.",Toast.LENGTH_LONG).show();
 */
                 else {
                     if(input.getText().toString().equals("")){
-                        Toast.makeText(Projects.this,"Project name cannot be empty.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(Projects.this,getString(R.string.projectNameEmpty),Toast.LENGTH_LONG).show();
                     }else {
                         addProject(input.getText().toString());
                     }
                 }
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.CancelButton), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -171,7 +171,7 @@ public class Projects extends Activity {
 
 //    final CharSequence name1 = name;
         AlertDialog.Builder builder1 = new AlertDialog.Builder(Projects.this);
-        builder1.setTitle("Are you sure you want to delete the file?");
+        builder1.setTitle(getString(R.string.deleteConfirmation));
         builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -195,7 +195,7 @@ public class Projects extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         List<String> projects = projectsList();
         final  CharSequence[] x = projects.toArray(new CharSequence[projects.size()]);
-        builder.setTitle("Pick a project to delete")
+        builder.setTitle(getString(R.string.deleteProjectPickerDialog))
                 .setItems(x, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         //toast(Integer.toString(which));
@@ -227,7 +227,7 @@ public class Projects extends Activity {
     boolean foundInProjectList(String project){
         List<String> projectList = projectsList();
         for(String str: projectList) {
-            if(str.trim().contains(project))
+            if(str.equalsIgnoreCase(project))
                 return true;
         }
         return false;
@@ -267,7 +267,7 @@ public class Projects extends Activity {
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_CLASS_TEXT);
             builder.setView(input);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Pattern pattern1 = Pattern.compile("\\s");
@@ -280,15 +280,15 @@ public class Projects extends Activity {
                     boolean found2 = matcher2.find();
                     // boolean found3 = matcher3.find();
                     if (found1)
-                        Toast.makeText(Projects.this, "Project name should not contain space.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
                     else if (found2)
-                        Toast.makeText(Projects.this, "Project name should not contain dot.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Projects.this, getString(R.string.projectNameDot), Toast.LENGTH_LONG).show();
                     else {
                         if (input.getText().toString().equals("")) {
-                            Toast.makeText(Projects.this, "Project name cannot be empty.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
                         } else {
                             if(foundInProjectList(input.getText().toString())){
-                                Toast.makeText(Projects.this, "Another project exists with same name.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(Projects.this, getString(R.string.projectExists), Toast.LENGTH_LONG).show();
                             }
                             else{
                                 importProjectName = input.getText().toString();
@@ -296,14 +296,14 @@ public class Projects extends Activity {
                                 i.setType("*/*");
                                 i.addCategory(Intent.CATEGORY_OPENABLE);
                                 startActivityForResult(
-                                        Intent.createChooser(i, "Select project file to import"), FILE_SELECT_CODE
+                                        Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
                                 );
                             }
                         }
                     }
                 }
             });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getString(R.string.CancelButton), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
@@ -312,7 +312,7 @@ public class Projects extends Activity {
             builder.show();
             //************************************************************************************************
         }catch(android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "Please install a File Manager to import", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.NoFileManager), Toast.LENGTH_SHORT).show();
         }
     }
 

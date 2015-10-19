@@ -42,5 +42,19 @@
     <string name="bad">खींचें</string>
     <string name="fit">फ़िट</string>
     <string name="crop">कांटे </string>
+    <string name="deleteItembutton">हटाएं</string>
+    <string name="deleteProjectPickerDialog">नष्ट करने के लिए एक परियोजना उठाओ</string>
+    <string name="deleteConfirmation">आप सच में इस परियोजना को नष्ट करना चाहते हैं?</string>
+    <string name="projectNameSpace">इस परियोजना के नाम मे स्पेस शामिल नहीं होना चाहिए</string>
+    <string name="projectNameDot">इस परियोजना के नाम मे बिंदु (डॉट) को शामिल नहीं करना चाहिए।</string>
+    <string name="projectNameEmpty">इस परियोजना का नाम खाली नहीं हो सकता</string>
+    <string name="projectExists">एक अन्य परियोजना समान नाम के साथ मौजूद है।</string>
+    <string name="stitchingProcessTitle">कृपया प्रतीक्षा करें ...</string>
+    <string name="stitchingProcessMessage">वीडियो संयुक्त किया जा रहा है...</string>
+    <string name="selectProjectToImport">परियोजना फ़ाइल आयात करने के लिए चुनें</string>
+    <string name="OkButton">ठीक</string>
+    <string name="CancelButton">नहीं</string>
+    <string name="NoFileManager">आयात करने के लिए एक फ़ाइल प्रबंधक एप्लिकेशन स्थापित करें</string>
+
 
 </resources>

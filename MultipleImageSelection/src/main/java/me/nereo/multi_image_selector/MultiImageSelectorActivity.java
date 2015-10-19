@@ -71,10 +71,10 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
         // Finish button
         mSubmitButton = (Button) findViewById(R.id.commit);
         if(resultList == null || resultList.size()<=0){
-            mSubmitButton.setText("Finish");
+            mSubmitButton.setText(R.string.DoneSelectionButton);
             mSubmitButton.setEnabled(false);
         }else{
-            mSubmitButton.setText("finish("+resultList.size()+"/"+mDefaultCount+")");
+            mSubmitButton.setText(R.string.DoneSelectionButton+"("+resultList.size()+"/"+mDefaultCount+")");
             mSubmitButton.setEnabled(true);
         }
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +107,7 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
         }
         // After a picture, change button states
         if(resultList.size() > 0){
-            mSubmitButton.setText("finish("+resultList.size()+"/"+mDefaultCount+")");
+            mSubmitButton.setText(R.string.DoneSelectionButton+"("+resultList.size()+"/"+mDefaultCount+")");
             if(!mSubmitButton.isEnabled()){
                 mSubmitButton.setEnabled(true);
             }
@@ -118,13 +118,13 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
     public void onImageUnselected(String path) {
         if(resultList.contains(path)){
             resultList.remove(path);
-            mSubmitButton.setText("finish("+resultList.size()+"/"+mDefaultCount+")");
+            mSubmitButton.setText(R.string.DoneSelectionButton+"("+resultList.size()+"/"+mDefaultCount+")");
         }else{
-            mSubmitButton.setText("finish("+resultList.size()+"/"+mDefaultCount+")");
+            mSubmitButton.setText(R.string.DoneSelectionButton+"("+resultList.size()+"/"+mDefaultCount+")");
         }
         // When the state is to select the picture
         if(resultList.size() == 0){
-            mSubmitButton.setText("finish");
+            mSubmitButton.setText(R.string.DoneSelectionButton);
             mSubmitButton.setEnabled(false);
         }
     }

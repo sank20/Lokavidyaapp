@@ -55,7 +55,7 @@ public class Stitch extends Activity {
         }
 
 
-        final ProgressDialog ringProgressDialog = ProgressDialog.show(this, "Please wait ...", "Stitching video ...", true);
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(this, getString(R.string.stitchingProcessTitle), getString(R.string.stitchingProcessMessage), true);
 
         ringProgressDialog.setCancelable(false);
         ringProgressDialog.setCanceledOnTouchOutside(false);
@@ -90,7 +90,7 @@ public class Stitch extends Activity {
                 } catch (Exception e) {
 
                 }finally {
-                    Projectfile.deleteTempFiles(projectName);
+                   // Projectfile.deleteTempFiles(projectName);
                 }
 
 
