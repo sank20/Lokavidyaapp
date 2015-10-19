@@ -30,7 +30,8 @@
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:onClick="badButtonPressed"
-                android:text="@string/bad" />
+                android:text="@string/bad"
+                android:visibility="gone"/>
             <Button
                 android:id="@+id/button_scaling_fit"
                 android:layout_weight="1"
@@ -139,9 +140,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/chronometer"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/retryRecording"
-        android:layout_toEndOf="@+id/retryRecording" />
+        android:layout_below="@+id/imagePlaying"
+        android:layout_alignStart="@+id/retryRecording"
+        android:layout_alignLeft="@+id/retryRecording"
+        android:layout_toRightOf="@+id/progBar"
+        android:visibility="gone"
+        />
     </RelativeLayout>
     <Space
         android:layout_width="0dp"

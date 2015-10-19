@@ -150,6 +150,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                 recordProgressBar.setVisibility(View.VISIBLE);
                 songCurrentDurationLabel.setVisibility(View.GONE);
                 songTotalDurationLabel.setVisibility(View.GONE);
+                myChronometer.setVisibility(View.VISIBLE);
                 try {
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
@@ -197,6 +198,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                             myAudioRecorder.stop();
                             myAudioRecorder.release();
                             recordProgressBar.setVisibility(View.GONE);
+                            myChronometer.setVisibility(View.GONE);
                             audioProgressBar.setVisibility(View.VISIBLE);
                             songCurrentDurationLabel.setVisibility(View.VISIBLE);
                             songTotalDurationLabel.setVisibility(View.VISIBLE);
@@ -254,6 +256,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             @Override
             public void onClick(View v) {
                 recordProgressBar.setVisibility(View.VISIBLE);
+                myChronometer.setVisibility(View.VISIBLE);
                 audioProgressBar.setVisibility(View.GONE);
                 songCurrentDurationLabel.setVisibility(View.GONE);
                 songTotalDurationLabel.setVisibility(View.GONE);
@@ -290,6 +293,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             @Override
             public void onClick(View v) throws IllegalArgumentException, SecurityException, IllegalStateException {
                 recordProgressBar.setVisibility(View.GONE);
+                myChronometer.setVisibility(View.GONE);
                 audioProgressBar.setVisibility(View.VISIBLE);
                 songCurrentDurationLabel.setVisibility(View.VISIBLE);
                 songTotalDurationLabel.setVisibility(View.VISIBLE);
