@@ -18,7 +18,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.LevelListDrawable;
@@ -40,24 +39,19 @@ import android.widget.Toast;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
 import com.iitb.mobileict.lokavidya.Stitch;
-import com.iitb.mobileict.lokavidya.ui.EditProject;
-import com.iitb.mobileict.lokavidya.ui.Projects;
 import com.iitb.mobileict.lokavidya.ui.ViewVideo;
-
-import java.io.File;
-import java.util.ArrayList;
 
 
 public class 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							ViewShots extends Activity implements   OnClickListener,
 	ViewShot.DynGridViewListener{
-	
+
 	final static int		idTopLayout = Menu.FIRST + 100,
 							idBack 		= Menu.FIRST + 101,
 							idBotLayout	= Menu.FIRST + 102,
 							idToggleScroll=Menu.FIRST+ 103,
 							idToggleFavs = Menu.FIRST+ 104,
 			                idToggleFavs2= Menu.FIRST+105;
-	
+
 	ViewShotAdapter m_gridviewAdapter		= null;
 	DeleteZone 				mDeleteZone				= null;
 	ArrayList<ViewShotItemData> itemList			= null;
@@ -71,7 +65,7 @@ public class 																																																																			
 	int savedstate;
 	int check;
 	final int REQUEST_CODE_1=1,REQUEST_CODE_2=2;
-	
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,15 +80,15 @@ public class 																																																																			
 
 		editor.putString("projectname", project);
 		editor.commit();
-        
 
-        
+
+
         RelativeLayout global_panel = new RelativeLayout (this);
 		global_panel.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		global_panel.setBackground(getResources().getDrawable(R.drawable.fresh_snow));
 
 		setContentView(global_panel);
-		
+
 
 		RelativeLayout ibMenu = new RelativeLayout(this);
      	ibMenu.setId(idTopLayout);
@@ -123,7 +117,7 @@ public class 																																																																			
         m_bCancel.setTextColor(Color.WHITE);
 		m_bCancel.setTextSize(nTextH);
 		m_bCancel.setTypeface(Typeface.create("arial", Typeface.BOLD));
-		RelativeLayout.LayoutParams lpb = 
+		RelativeLayout.LayoutParams lpb =
 			new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		lpb.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		lpb.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -141,7 +135,7 @@ public class 																																																																			
 		lpb.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		lpb.addRule(RelativeLayout.CENTER_VERTICAL);
 		ibMenu.addView(m_bToggleScroll, lpb);
-		
+
 		RelativeLayout ibMenuBot = new RelativeLayout(this);
 		ibMenuBot.setId(idBotLayout);
 		ibMenuBot.setBackgroundDrawable(getResources().getDrawable(R.drawable.line));
@@ -150,7 +144,7 @@ public class 																																																																			
 		botParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		global_panel.addView(ibMenuBot, botParams);
 
-		
+
 		Button m_bToggleFavs = new Button(this);
 		m_bToggleFavs.setId(idToggleFavs);
 		m_bToggleFavs.setOnClickListener((OnClickListener) this);
@@ -218,7 +212,7 @@ public class 																																																																			
 		}
 
 
-		
+
 
 		itemList = new ArrayList<ViewShotItemData>();
 		for (int i=0;i<count;i++) {
@@ -226,8 +220,8 @@ public class 																																																																			
 					texts[i],
 					150, 150, 15,
 					R.drawable.item2,
-					R.drawable.favon, 
-					R.drawable.favoff, 
+					R.drawable.favon,
+					R.drawable.favoff,
 					true,
 					mToggleFavs,
 					images[i],
@@ -237,27 +231,27 @@ public class 																																																																			
 
 			itemList.add(item);
 		}
-		
+
 
 		m_gridviewAdapter = new ViewShotAdapter(this, itemList);
-		
 
-		gv.setAdapter(m_gridviewAdapter);   
+
+		gv.setAdapter(m_gridviewAdapter);
 
 		gv.setNumColumns(4);
 		gv.setSelection(2);
 		gv.setDynGridViewListener((ViewShot.DynGridViewListener) this);
 
-        
+
 
         gv.setDeleteView(mDeleteZone);
         DragController dragController = new DragController(this);
-        
+
         gv.setDragController(dragController);
-        
+
 
         gv.setSwipeEnabled(mToggleScroll);
-       
+
     }
 
 
@@ -538,7 +532,7 @@ public class 																																																																			
 		itemList.get(position).setFavoriteState(!itemList.get(position).getFavoriteState());
 		m_gridviewAdapter.notifyDataSetChanged();
 		gv.invalidateViews();
-		
+
 		String text = "Item:"+position+ " fav state:" +
 				((ViewShotItemData)m_gridviewAdapter.getItem(position)).getFavoriteState();
 

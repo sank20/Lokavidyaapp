@@ -43,7 +43,7 @@
 
         <activity
             android:screenOrientation="portrait"
-            android:name="com.iitb.mobileict.lokavidya.ui.EditProject"
+            android:name=".ui.EditProject"
             android:label="@string/title_activity_edit_project" >
         </activity>
         <activity

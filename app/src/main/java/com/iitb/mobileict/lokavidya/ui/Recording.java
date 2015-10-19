@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -91,7 +92,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         Intent intent = getIntent();
         imagefileName = intent.getStringExtra("filename");
         projectName = intent.getStringExtra("projectname");
-
+        final Chronometer myChronometer = (Chronometer)findViewById(R.id.chronometer);
         badButton=(Button)findViewById(R.id.button_scaling_bad);
         fitButton=(Button)findViewById(R.id.button_scaling_fit);
         cropButton=(Button)findViewById(R.id.button_scaling_crop);
@@ -149,13 +150,16 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                 recordProgressBar.setVisibility(View.VISIBLE);
                 songCurrentDurationLabel.setVisibility(View.GONE);
                 songTotalDurationLabel.setVisibility(View.GONE);
+                myChronometer.setVisibility(View.VISIBLE);
                 try {
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
                     isRecording = true;
-                    audioProgressBar.setProgress(0);
-                    audioProgressBar.setMax(180000);
-                    updateProgressBar();
+
+                    myChronometer.setBase(SystemClock.elapsedRealtime());
+                    myChronometer.start();
+                  //  audioProgressBar.setProgress(0);
+
                 } catch (IllegalStateException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -194,13 +198,14 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                             myAudioRecorder.stop();
                             myAudioRecorder.release();
                             recordProgressBar.setVisibility(View.GONE);
+                            myChronometer.setVisibility(View.GONE);
                             audioProgressBar.setVisibility(View.VISIBLE);
                             songCurrentDurationLabel.setVisibility(View.VISIBLE);
                             songTotalDurationLabel.setVisibility(View.VISIBLE);
                             audioProgressBar.setProgress(0);
                             myAudioRecorder = null;
                             isRecording = false;
-
+                            myChronometer.stop();
                             boolean flag=false;
 
 
@@ -236,21 +241,6 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                         }
                     }, 1000);
 
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            try{
-//                                Thread.sleep(5000);
-//                            }
-//                            catch (Exception e){
-//                                e.printStackTrace();
-//                            }
-//                            stop.setEnabled(false);
-//                            play.setEnabled(true);
-//                            retry.setEnabled(true);
-//                            record.setEnabled(false);
-//                        }
-//                    })
                 }
                 else{
                     stop.setEnabled(false);
@@ -266,6 +256,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             @Override
             public void onClick(View v) {
                 recordProgressBar.setVisibility(View.VISIBLE);
+                myChronometer.setVisibility(View.VISIBLE);
                 audioProgressBar.setVisibility(View.GONE);
                 songCurrentDurationLabel.setVisibility(View.GONE);
                 songTotalDurationLabel.setVisibility(View.GONE);
@@ -277,6 +268,8 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                 try {
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
+                    myChronometer.setBase(SystemClock.elapsedRealtime());
+                    myChronometer.start();
                     isRecording = true;
                 } catch (IllegalStateException e) {
                     // TODO Auto-generated catch block
@@ -300,6 +293,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             @Override
             public void onClick(View v) throws IllegalArgumentException, SecurityException, IllegalStateException {
                 recordProgressBar.setVisibility(View.GONE);
+                myChronometer.setVisibility(View.GONE);
                 audioProgressBar.setVisibility(View.VISIBLE);
                 songCurrentDurationLabel.setVisibility(View.VISIBLE);
                 songTotalDurationLabel.setVisibility(View.VISIBLE);

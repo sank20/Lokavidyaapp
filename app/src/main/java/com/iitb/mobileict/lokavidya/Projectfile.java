@@ -146,10 +146,8 @@ public class Projectfile {
                     Log.i("addimage splitimgname", splitImgName[1]);
                     if(newImg.equals(file[i].getName()))
                     {
-
-                        Toast.makeText(mContext,"Image already exists",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(mContext,"Image already exists",Toast.LENGTH_LONG).show();
                         fileExists=true;
-
                     }
 
                 }
@@ -194,10 +192,6 @@ public class Projectfile {
             imgDir.mkdirs();
 
         }
-
-
-
-
     }
 
 
@@ -341,8 +335,6 @@ public class Projectfile {
         List<String> myStringArray = new ArrayList<String>();
         File sdCard = Environment.getExternalStorageDirectory();
 
-
-
         File prjDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectName);
 
         deleteFile(prjDir);
@@ -365,7 +357,11 @@ public class Projectfile {
                     }
                 }
             }
-            return file.delete();
+            boolean i= file.delete();
+
+            System.out.println("File deleted!!!!!!!!!!!!!!!!!,............"+i);
+
+            return i;
         }
         return false;
     }
