@@ -1,1 +1,1 @@
-include ':app', ':FFmpegAndroid'
+include ':app', ':FFmpegAndroid', ':MultipleImageSelection'

@@ -42,6 +42,7 @@ public class ViewVideo extends Activity implements SeekBar.OnSeekBarChangeListen
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
     private boolean paused = false;
+    boolean check =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +76,11 @@ public class ViewVideo extends Activity implements SeekBar.OnSeekBarChangeListen
             @Override
             public void onClick(View v) {
 
+
                 m.stop();
                 sequence = 0;
                 paused = false;
+                check=false;
                 start.setEnabled(true);
                 pause.setEnabled(false);
                 stop.setEnabled(false);
@@ -106,6 +109,7 @@ public class ViewVideo extends Activity implements SeekBar.OnSeekBarChangeListen
 
             @Override
             public void onClick(View v) throws IllegalArgumentException, SecurityException, IllegalStateException {
+                check=true;
                 if(paused == true){
                     m.seekTo(m.getCurrentPosition());
                     m.start();
@@ -132,11 +136,7 @@ public class ViewVideo extends Activity implements SeekBar.OnSeekBarChangeListen
                     }
                 });
                 try {
-
-
-
                     imageFilePath=sharedPref.getString(projectName+"image_path"+(sequence+1),"");
-
                     imageName = sharedPref.getString(projectName+"image_name"+(sequence+1),"");
                     imageName=imageName.replace(".png","");
 
@@ -217,7 +217,6 @@ public class ViewVideo extends Activity implements SeekBar.OnSeekBarChangeListen
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        // remove message Handler from updating progress bar
         mHandler.removeCallbacks(mUpdateTimeTask);
     }
 
@@ -237,7 +236,13 @@ public class ViewVideo extends Activity implements SeekBar.OnSeekBarChangeListen
     @Override
     public void onBackPressed()
     {
-       m.stop();
-       finish();
+        if(check) {
+            m.stop();
+//            m.release();
+        }else{//do nothing
+         }
+
+
+        finish();
     }
 }

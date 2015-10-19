@@ -31,6 +31,7 @@ dependencies {
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile project(':FFmpegAndroid')
+    compile project(':MultipleImageSelection')
 }
 android {
     packagingOptions {

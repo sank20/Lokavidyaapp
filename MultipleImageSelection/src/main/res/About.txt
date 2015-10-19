@@ -1,0 +1,1 @@
+ported from https://github.com/lovetuzitong/MultiImageSelector. Please check for details and license.

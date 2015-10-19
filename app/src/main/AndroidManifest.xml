@@ -62,6 +62,13 @@
             android:name="com.iitb.mobileict.lokavidya.Stitch"
             android:label="Stitch" >
         </activity>
+       <!-- <activity
+            android:configChanges="orientation|screenSize"
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity">
+
+        </activity> -->
+
+
     </application>
 
 </manifest>

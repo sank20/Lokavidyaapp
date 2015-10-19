@@ -1,12 +1,19 @@
 package com.iitb.mobileict.lokavidya.ui.shotview;
 
-//<<<<<<< HEAD
-//=======
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 //>>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
+//=======
+import android.content.SharedPreferences;
+
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+//>>>>>>> ef2a05a3746ae3de8c8c5ab687be17fe59263157
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">multi-image-selector</string>
+    <string name="folder_all">सर्व चित्रे</string>
+    <string name="preview">पूर्वावलोकन</string>
+    <string name="msg_no_camera"> प्रणाली कॅमेरा आढळला
+नाही</string>
+    <string name="msg_amount_limit">कमाल मर्यादा गाठली</string>
+</resources>
