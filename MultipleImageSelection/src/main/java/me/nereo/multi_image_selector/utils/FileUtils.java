@@ -17,13 +17,13 @@ public class FileUtils {
         if(state.equals(Environment.MEDIA_MOUNTED)){
             // Mounted
             File pic = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            String timeStamp = new SimpleDateFormat("MMddyyyy_HHmmss").format(new Date());
+            String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
             String fileName = "multi_image_"+timeStamp+"";
             File tmpFile = new File(pic, fileName+".jpg");
             return tmpFile;
         }else{
             File cacheDir = context.getCacheDir();
-            String timeStamp = new SimpleDateFormat("MMddyyyy_HHmmss").format(new Date());
+            String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
             String fileName = "multi_image_"+timeStamp+"";
             File tmpFile = new File(cacheDir, fileName+".jpg");
             return tmpFile;

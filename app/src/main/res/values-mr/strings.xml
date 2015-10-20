@@ -29,7 +29,7 @@
     <string name="listen">ऐका</string>
     <string name="shot">चित्रे</string>
     <string name="preview">व्हिडिओ पूर्वावलोकन</string>
-    <!--check this-->
+    <!--verify this-->
     <string name="edit">प्रोजेक्ट संपादन</string>
     <string name="stitch">एकत्र जोडा </string>
     <string name="viewvideo">व्हिडिओ पहा</string>
@@ -45,5 +45,19 @@
     <string name="bad">ताणा </string>
     <string name="fit">फिट</string>
     <string name="crop">चित्र कापा (क्रॉप )</string>
+    <string name="deleteItembutton">हटवा</string>
+    <string name="deleteProjectPickerDialog">काढून टाकण्यासाठी प्रकल्प निवडा</string>
+    <string name="deleteConfirmation">आपण खरोखर प्रकल्प हटवू इच्छिता?</string>
+    <string name="projectNameSpace">प्रकल्प च्या नावात स्पेस समाविष्टीत असू नये</string>
+    <string name="projectNameDot">प्रकल्पा च्या नावात टिंब(डॉट) असू नये.</string>
+    <string name="projectNameEmpty">प्रकल्पाचे नाव रिक्त असू शकत नाही</string>
+    <string name="projectExists">आणखी प्रकल्प त्याच नावाने अस्तित्वात आहे .</string>
+    <string name="stitchingProcessTitle">कृपया थांबा ...</string>
+    <string name="stitchingProcessMessage">व्हिडिओ एकत्र जोडले जात आहे ...</string>
+    <string name="selectProjectToImport">आयात करण्यासाठी प्रकल्प फाइल निवडा.</string>
+    <string name="OkButton">ठीक आहे</string>
+    <string name="CancelButton">रद्द करा</string>
+    <string name="NoFileManager">आयात करण्यासाठी एक फाइल व्यवस्थापक स्थापित करा</string>
+    <string name="galleryImageProcessMessage">चित्रे लोड होत आहेत.</string>
 
 </resources>

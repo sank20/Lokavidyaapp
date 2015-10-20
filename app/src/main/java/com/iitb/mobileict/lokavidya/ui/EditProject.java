@@ -2,6 +2,8 @@ package com.iitb.mobileict.lokavidya.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -56,7 +58,7 @@ public class EditProject extends Activity {
         Intent intent = getIntent();
         projectName = intent.getStringExtra("projectname");
         setContentView(R.layout.activity_edit_project);
-        btnDelete=(Button)findViewById(R.id.btnDeleteImg);
+        btnDelete = (Button) findViewById(R.id.btnDeleteImg);
         loadImages();
     }
 
@@ -82,35 +84,61 @@ public class EditProject extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        switch(requestCode) {
+        switch (requestCode) {
             case REQUEST_IMAGE:
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     //Uri imageUri = imageReturnedIntent.getData();
 
-                    List<String> path = imageReturnedIntent.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+
+
+                    final List<String> path = imageReturnedIntent.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                     Log.i("wth inside gallery case", path.get(0));
+                    final ProgressDialog imageLoadingProgress = ProgressDialog.show(this, getString(R.string.stitchingProcessTitle), getString(R.string.galleryImageProcessMessage), true);
+
+                    imageLoadingProgress.setCancelable(false);
+                    imageLoadingProgress.setCanceledOnTouchOutside(false);
+                    final ContentResolver cr = this.getContentResolver();
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
 
 
-                    try{
-                        int i;
-                        for(i=0;i<path.size();i++) {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), getImageContentUri(getApplicationContext(), path.get(i))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
-                            bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
-                            Projectfile f = new Projectfile(getApplicationContext());
-                            f.addImage(bitmap, projectName);
+                            try {
+
+                                int i;
+
+                                for (i = 0; i < path.size(); i++) {
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, getImageContentUri(getApplicationContext(), path.get(i))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
+                                    bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
+                                    Projectfile f = new Projectfile(getApplicationContext());
+                                    f.addImage(bitmap, projectName);
+                                }
+
+                            } catch (IOException fe) {
+                                toast("Image file not found in the library " + Uri.parse(path.get(0)));
+                            }
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    loadImages();
+                                    imageLoadingProgress.dismiss();
+                                }
+                            });
                         }
-                        loadImages();
-                    }
-                    catch(IOException fe){
-                        toast("Image file not found in the library " + Uri.parse(path.get(0)));
-                    }
+                    }).start();
+                    //AddMultipleImagesCallBack(cr, path, this);
+
+
+
                 }
                 break;
             case 2:
 
                 if (resultCode == Activity.RESULT_OK) {
                     Uri takenPhotoUri = getPhotoFileUri("temp.png");
-                    Log.i("inside onActvtyRslt cam",takenPhotoUri.toString());
+                    Log.i("inside onActvtyRslt cam", takenPhotoUri.toString());
 
                     Bitmap photo = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                     photo = getResizedBitmap(photo, RESIZE_FACTOR);
@@ -134,7 +162,7 @@ public class EditProject extends Activity {
         toast.show();
     }
 
-    public void gallery(View v){
+    public void gallery(View v) {
         /*Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(pickPhoto, 1);*/
         Log.i("inside gallery method", "wth");
@@ -145,7 +173,7 @@ public class EditProject extends Activity {
         intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, false);
 
 // max select image amount
-        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 9);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 10);
 
 // select mode (MultiImageSelectorActivity.MODE_SINGLE OR MultiImageSelectorActivity.MODE_MULTI)
         intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
@@ -182,7 +210,6 @@ public class EditProject extends Activity {
         intent.putExtra("filename", imagefilename);
         startActivity(intent);
     }
-
 
 
     public void takePic(View v) {
@@ -249,23 +276,22 @@ public class EditProject extends Activity {
 
         Bitmap myBitmap;
 
-        File imgDir = new File (sdCard.getAbsolutePath() + "/lokavidya"+"/"+projectName+"/images");
+        File imgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/images");
         File image_file;
-        for(int i=0;i<ImageNames.size();i++)
-        {
+        for (int i = 0; i < ImageNames.size(); i++) {
             imagefilename = ImageNames.get(i);
             // image_file=  new File(imgDir, imagefilename);
             //myBitmap = BitmapFactory.decodeFile(image_file.getAbsolutePath());
             //galleryItemsList.add(new GalleryItem(myBitmap,i,false));
-            galleryItemsList.add(new GalleryItem(imagefilename,i,false));
+            galleryItemsList.add(new GalleryItem(imagefilename, i, false));
 
         }
 
-        for(int i=0;i<galleryItemsList.size();i++)
-            System.out.println("loading image pos------->"+galleryItemsList.get(i).position+"---------"+galleryItemsList.get(i).imgFileName);
+        for (int i = 0; i < galleryItemsList.size(); i++)
+            System.out.println("loading image pos------->" + galleryItemsList.get(i).position + "---------" + galleryItemsList.get(i).imgFileName);
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        imageadapter = new ImageAdapter1(this,R.layout.galleryitem,galleryItemsList);
+        imageadapter = new ImageAdapter1(this, R.layout.galleryitem, galleryItemsList);
         gridview.setAdapter(imageadapter);
 
     }
@@ -284,6 +310,7 @@ public class EditProject extends Activity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
+
                     //  for(int i=imageadapter.getBox().size();i>=0;i--)
                     for (GalleryItem p : imageadapter.getBox()) {
                         // GalleryItem p = imageadapter.getBox().get(i);
@@ -294,9 +321,8 @@ public class EditProject extends Activity {
                             //  Projectfile f = new Projectfile(getApplicationContext());
                             //List<String> ImageNames = f.getImageNames(projectName);
 
-
                         }
-                        //loadImages();
+
                     }
                     // imageadapter.removeTask();
                     imageadapter.notifyDataSetChanged();
@@ -335,7 +361,7 @@ public class EditProject extends Activity {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }*/
 
-        public ImageAdapter1(Context context, int resourceId,ArrayList<GalleryItem> galleryItemList) {
+        public ImageAdapter1(Context context, int resourceId, ArrayList<GalleryItem> galleryItemList) {
             super(context, resourceId, galleryItemList);
             // mSelectedItemsIds = new SparseBooleanArray();
             ctx = context;
@@ -360,7 +386,7 @@ public class EditProject extends Activity {
 
         @Override
         public void remove(GalleryItem object) {
-            System.out.println("removing image pos----------->"+object.position);
+            System.out.println("removing image pos----------->" + object.position);
             // int pos=object.position;
 //            objects.remove(object);
             String imagefilename = object.imgFileName;
@@ -384,21 +410,22 @@ public class EditProject extends Activity {
             }
             objects.remove(object);
             notifyDataSetChanged();
-            for(int i=0;i<objects.size();i++)
-                System.out.println("object postion retain------------------>"+objects.get(i).position+"---------"+objects.get(i).imgFileName);
+            count=0;
+            for (int i = 0; i < objects.size(); i++)
+                System.out.println("object postion retain------------------>" + objects.get(i).position + "---------" + objects.get(i).imgFileName);
         }
+
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             View view = convertView;
             if (view == null) {
                 view = lInflater.inflate(R.layout.galleryitem, parent, false);
                 viewHolder = new ViewHolder();
-                viewHolder.imageview=((ImageView) view.findViewById(R.id.thumbImage));
-                viewHolder.checkbox=(CheckBox) view.findViewById(R.id.itemCheckBox);
+                viewHolder.imageview = ((ImageView) view.findViewById(R.id.thumbImage));
+                viewHolder.checkbox = (CheckBox) view.findViewById(R.id.itemCheckBox);
                 view.setTag(viewHolder);
-            }else
-            {
-                viewHolder = (ViewHolder)view.getTag();
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
             }
 
             GalleryItem p = getProduct(position);
@@ -406,9 +433,8 @@ public class EditProject extends Activity {
             File sdCard = Environment.getExternalStorageDirectory();
 
 
-
-            File imgDir = new File (sdCard.getAbsolutePath() + "/lokavidya"+"/"+projectName+"/images");
-            File image_file=  new File(imgDir, p.imgFileName);
+            File imgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/images");
+            File image_file = new File(imgDir, p.imgFileName);
             Bitmap myBitmap = BitmapFactory.decodeFile(image_file.getAbsolutePath());
             //      ((TextView) view.findViewById(R.id.subgrpname)).setText(p.name);
             viewHolder.imageview.setImageBitmap(myBitmap);
@@ -434,8 +460,8 @@ public class EditProject extends Activity {
         ArrayList<GalleryItem> getBox() {
             ArrayList<GalleryItem> box = new ArrayList<GalleryItem>();
             for (GalleryItem p : objects) {
-
                 System.out.println("details------>"+p.position+"  "+p.box);
+
                 box.add(p);
             }
             return box;
@@ -451,9 +477,9 @@ public class EditProject extends Activity {
                     count--;
                 }
                 getProduct((Integer) buttonView.getTag()).position=(Integer) buttonView.getTag();
+
             }
         };
-
 
 
     }
@@ -462,7 +488,7 @@ public class EditProject extends Activity {
     The content Uri is needed for the MediaStore.Images.Media.getBitmap() method used above, to pass as the second parameter
      */
     public static Uri getImageContentUri(Context context, String filePath) {
-       // String filePath = imageFile.getAbsolutePath();
+        // String filePath = imageFile.getAbsolutePath();
         Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Images.Media._ID},
@@ -482,6 +508,4 @@ public class EditProject extends Activity {
             }
         }
     }
-
 }
-

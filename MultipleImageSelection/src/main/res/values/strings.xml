@@ -4,4 +4,8 @@
     <string name="preview">Preview</string>
     <string name="msg_no_camera">No system camera found</string>
     <string name="msg_amount_limit">Image selection limit reached</string>
+    <string name="DoneSelectionButton">Done</string>
+    <string name="Pictures">Picture</string>
+    <string name="images">Images</string>
+
 </resources>
