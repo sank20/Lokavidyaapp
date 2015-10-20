@@ -37,9 +37,24 @@
     <string name="share">Share</string>
     <string name="shareDialog">Pick a project to share</string>
     <string name="whatShareDialog">What would you like to share?</string>
-    <string name="forward">Lets make the project!</string>
+    <string name="forward">Let's make the project!</string>
     <string name="save">Do you want to save the changes made in the image?</string>
     <string name="bad">Stretch</string>
     <string name="fit">Fit</string>
     <string name="crop">Crop</string>
+    <string name="deleteItembutton">Delete</string>
+    <string name="deleteProjectPickerDialog">Pick a project to delete</string>
+    <string name="deleteConfirmation">Are you sure you want to delete the file?</string>
+    <string name="projectNameSpace">Project name should not contain space</string>
+    <string name="projectNameDot">Project name should not contain dot.</string>
+    <string name="projectNameEmpty">Project name cannot be empty</string>
+    <string name="projectExists">Another project exists with same name.</string>
+    <string name="stitchingProcessTitle">Please wait ...</string>
+    <string name="stitchingProcessMessage">Stitching video ...</string>
+    <string name="selectProjectToImport">Select project file to import</string>
+    <string name="OkButton">Ok</string>
+    <string name="CancelButton">Cancel</string>
+    <string name="NoFileManager">Please install a File Manager to import</string>
+    <string name="galleryImageProcessMessage">Loading Images</string>
+
 </resources>

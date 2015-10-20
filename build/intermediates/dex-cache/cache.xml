@@ -2,18 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.4.0/f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2/picasso-2.4.0.jar"
+        jar="/home/sanket/lokavidyaapp/app/build/intermediates/exploded-aar/lokavidyaapp/MultipleImageSelection/unspecified/jars/classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/picasso-2.4.0-898bd11f0bf97eacd8a771dd77176e6a04357895.jar" />
-    </item>
-    <item
-        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/lokavidyaapp/MultipleImageSelection/unspecified/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="84499e61533ad01c3b6bdb3569688760753fae26">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-3e9c9f8de9871c01ffa85024fc0089282086db56.jar" />
+        sha1="075c8655cdd3c69049704f00b31d8ce9a7d35ada">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-3e3f061d8e3b328eb2bc8ba78f255a7e21c5d841.jar" />
     </item>
 
 </items>
