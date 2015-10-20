@@ -49,8 +49,10 @@
         android:gravity="center"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
+        android:nestedScrollingEnabled="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/gridview"
+        android:layout_alignEnd="@+id/gridview" />
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
@@ -71,7 +73,10 @@
         android:id="@+id/btnDeleteImg"
         android:text="@string/deleteItembutton"
         android:layout_below="@id/gridview"
-        android:onClick="deletePressed"/>
+        android:onClick="deletePressed"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
 
 </RelativeLayout>
