@@ -315,54 +315,7 @@ public class Projects extends Activity {
             Toast.makeText(this, "Please install a File Manager to import", Toast.LENGTH_SHORT).show();
         }
     }
-
-    public  void shareCallBack(View v){
-        final String sharevid = getString(R.string.shareVideo);
-        final String shareproj = getString(R.string.shareProject);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final List<String> projects = projectsList();
-        final  CharSequence[] x = projects.toArray(new CharSequence[projects.size()]);
-        builder.setTitle(R.string.shareDialog)
-                .setItems(x, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        //toast(Integer.toString(which));
-                        //******************************************
-                        //deleteProject(x[which]);
-                        //dialog.dismiss();
-                        //final AlertDialog alert;
-                        AlertDialog.Builder builderShare = new AlertDialog.Builder(Projects.this);
-                        //alert=builderShare.create();
-                        List<String> features = new ArrayList<String>();
-                        //features.add(sharevid);
-                        features.add(sharevid);
-                        features.add(shareproj);
-                        //features.add("Share via");
-
-                        final int whichUse = which;
-                        final  CharSequence[] y = features.toArray(new CharSequence[features.size()]);
-                        builderShare.setTitle(R.string.whatShareDialog)
-                                .setItems(y, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialogShare, int whichShare) {
-                                        //toast(Integer.toString(whichShare));
-                                        //deleteProject(y[whichShare]);
-                                        //share(mContext,x[which],y[whichShare]);
-                                        toast(y[whichShare]+" "+x[whichUse]);
-                                        String projectname = x[whichUse].toString();
-                                        System.out.println(projectname + whichShare);
-                                        Share.SendOptions(whichShare, getThisActivity(), getApplicationContext(),projectname);
-                                    }
-                                });
-                        builderShare.create().show();
-                    }
-                });
-        builder.create().show();
-    }
     public Activity getThisActivity(){
         return this;
     }
-
-
-
-
-
         }
