@@ -37,7 +37,7 @@
     <string name="share">Share</string>
     <string name="shareDialog">Pick a project to share</string>
     <string name="whatShareDialog">What would you like to share?</string>
-    <string name="forward">Let's make the project!</string>
+    <string name="forward">Let\'s make the project!</string>
     <string name="save">Do you want to save the changes made in the image?</string>
     <string name="bad">Stretch</string>
     <string name="fit">Fit</string>
