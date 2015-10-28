@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -382,6 +383,22 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     }
 
 
+   /* public void rotateButtonPressed(View view){
+        // Part 1: Decode image
+        Bitmap unscaledBitmap = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, image_file.getAbsolutePath());
+        Bitmap scaledBitmap1 = ScalingUtilities.createScaledBitmap(unscaledBitmap, mDstWidth,
+                mDstHeight, ScalingUtilities.ScalingLogic.FIT);
+        //unscaledBitmap.recycle();
+        Matrix matrix = new Matrix();
+        imageView.setScaleType(ImageView.ScaleType.MATRIX);   //required
+        matrix.postRotate((float) 90);
+
+        imageView.setImageMatrix(matrix);
+        scaledBitmap=Bitmap.createBitmap(scaledBitmap1,0,0,scaledBitmap1.getWidth(),scaledBitmap1.getHeight(),matrix,true);
+        //imageView.setImageBitmap(scaledBitmap);
+        changed=true;
+
+    }*/
 
 
     private Handler mHandler = new Handler();

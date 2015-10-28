@@ -34,14 +34,14 @@
                 android:visibility="gone"/>
             <Button
                 android:id="@+id/button_scaling_fit"
-                android:layout_weight="1"
+                android:layout_weight="2.10"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:text="@string/fit"
                 android:onClick="fitButtonPressed"/>
             <Button
                 android:id="@+id/button_scaling_crop"
-                android:layout_weight="1"
+                android:layout_weight="1.71"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:text="@string/crop"
@@ -151,4 +151,5 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.5"/>
+
 </LinearLayout>

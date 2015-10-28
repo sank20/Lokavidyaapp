@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,23 +27,60 @@ import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
 
 
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 
 public class Projects extends Activity {
+
     private String importProjectName;
+    private String seedpath=Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//----------------------------------------------------------------------------------------------------------------------------
+        /*1.Copy the zipped sample project from assets to a temp folder called loktemp.
+          2.Extract the zip to the lokavidya folder.
+          3.Delete loktemp.
+         */
+        if(!new File(seedpath + "test_seed_project/").exists()) {
+            copyAssets();
+            String seed = Environment.getExternalStorageDirectory().getAbsolutePath() + "/loktemp/" + "test_seed_project.zip";
+            try {
+                ZipFile seedzip = new ZipFile(seed);
+                if (!new File(seedpath).isDirectory()) {
+                    File f1 = new File(seedpath);
+                    f1.mkdir();
+                }
+                seedzip.extractAll(seedpath);
+            } catch (ZipException e) {
+                e.printStackTrace();
+            }
+
+            File delTemp= new File(seed);
+            delTemp.delete();
+            delTemp.getParentFile().delete();
+        }
+//-------------------------------------------------------------------------------------------------------------------------
         importProjectName="";
         Context context = getApplicationContext();
         Projectfile f = new Projectfile(context);
         List<String> projectsList = f.DisplayProject_with_zips();
+
         for (int i = 0; i < projectsList.size(); i++) {
             System.out.println("--------------projects : " + projectsList.get(i));
             if (projectsList.get(i).length() < 4) continue;
@@ -78,7 +117,11 @@ public class Projects extends Activity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+    }
 
     public void toast(String text){
         int duration = Toast.LENGTH_SHORT;
@@ -166,6 +209,21 @@ public class Projects extends Activity {
         builder.show();
     }
 
+    /**
+     * This method is called on click of tutorialButton . It contains just an intent to open an activity containing the VideoView
+     * to show the tutorial Video (TutorialVideo.java).
+     * @see TutorialVideo
+     * @param v view
+     */
+    public void appTutorialCallBack(View v){
+
+        Intent OpenVideo = new Intent(getThisActivity(),TutorialVideo.class);
+        Projects.this.startActivity(OpenVideo);
+
+
+
+    }
+
     public void deleteProject(final CharSequence name){
         System.out.println("Outside dialog box");
 
@@ -181,7 +239,7 @@ public class Projects extends Activity {
                 ProjectsListView(projects);
             }
         })
-                .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -362,7 +420,61 @@ public class Projects extends Activity {
     }
 
 
+    /**
+     * This method is used for transferring the sample project to be displayed after the installation, from assets to a temporary file called
+     * loktemp.
+     */
+    private void copyAssets() {
+        AssetManager assetManager = getAssets();
+        String[] files = null;
+        /*try {
+            files = assetManager.list("");
+        } catch (IOException e) {
+            Log.e("tag", "Failed to get asset file list.", e);
+        }*/
+       // for(String filename : files) {
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = assetManager.open("test_seed_project.zip");
 
+
+                String out1= Environment.getExternalStorageDirectory().getAbsolutePath() +"/loktemp/" ;
+                if(!new File(out1).isDirectory()){
+                    File f1=new File(out1);
+                    f1.mkdir();
+                }
+                File outFile = new File(out1 + "test_seed_project.zip");
+                Log.i("output file",outFile.toString());
+
+
+                out = new FileOutputStream(outFile);
+                copyFile(in, out);
+                in.close();
+                in = null;
+                out.flush();
+                out.close();
+                out = null;
+            } catch(IOException e) {
+                Log.e("tag", "Failed to copy asset file: " + "testseedproject", e);
+            }
+        //}
+    }
+
+    /**
+     * this method is called by copyAssets() method just to perform the writing into the output buffer.
+     *
+     * @param in
+     * @param out
+     * @throws IOException
+     */
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[5120];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
 
 
         }

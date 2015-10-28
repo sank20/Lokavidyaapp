@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.iitb.mobileict.lokavidya"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -32,6 +32,7 @@ dependencies {
     //compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile project(':FFmpegAndroid')
     compile project(':MultipleImageSelection')
+    compile files('libs/zip4j_1.3.2.jar')
 }
 android {
     packagingOptions {

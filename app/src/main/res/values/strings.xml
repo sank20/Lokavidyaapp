@@ -37,7 +37,7 @@
     <string name="share">Share</string>
     <string name="shareDialog">Pick a project to share</string>
     <string name="whatShareDialog">What would you like to share?</string>
-    <string name="forward">Let's make the project!</string>
+    <string name="forward">Let\'s make the project!</string>
     <string name="save">Do you want to save the changes made in the image?</string>
     <string name="bad">Stretch</string>
     <string name="fit">Fit</string>
@@ -56,5 +56,6 @@
     <string name="CancelButton">Cancel</string>
     <string name="NoFileManager">Please install a File Manager to import</string>
     <string name="galleryImageProcessMessage">Loading Images</string>
+    <string name="title_activity_tutorial_video">TutorialVideo</string>
 
 </resources>

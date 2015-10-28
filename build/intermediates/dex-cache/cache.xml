@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/home/sanket/lokavidyaapp/app/build/intermediates/exploded-aar/lokavidyaapp/MultipleImageSelection/unspecified/jars/classes.jar"
+        jar="/home/sanket/lokavidyaapp/app/libs/zip4j_1.3.2.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="075c8655cdd3c69049704f00b31d8ce9a7d35ada">
-        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-3e3f061d8e3b328eb2bc8ba78f255a7e21c5d841.jar" />
+        sha1="3e20955923c5b61bfbcd4590a87720643c729695">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/zip4j_1.3.2-73a8d5530d95c039cd0055f730ac6132d63b1e01.jar" />
     </item>
 
 </items>

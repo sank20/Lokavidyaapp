@@ -320,7 +320,7 @@ public class 																																																																			
 
 				images[i]= sharedPref.getString(project+"image_path" + (i+1),"");
 				texts[i]=  sharedPref.getString(project+"image_name" + (i+1),"");
-
+				System.out.println("inside IF : image:"+ images[i]+ " text: "+ texts[i]);
 			}
 
 			itemList = new ArrayList<ViewShotItemData>();
@@ -335,6 +335,7 @@ public class 																																																																			
 						mToggleFavs,
 						images[i],
 						i
+
 				);
 
 
@@ -359,6 +360,7 @@ public class 																																																																			
 
 				images[i]= sharedPref.getString(project+"image_path" + (i+1),"");
 				texts[i]=  sharedPref.getString(project+"image_name" + (i+1),"");
+
 
 			}
 

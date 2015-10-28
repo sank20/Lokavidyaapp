@@ -127,7 +127,7 @@ public class EditProject extends Activity {
                             });
                         }
                     }).start();
-                    //AddMultipleImagesCallBack(cr, path, this);
+
 
 
 
@@ -505,26 +505,5 @@ public class EditProject extends Activity {
         }
     }
 
-  /*  public void AddMultipleImagesCallBack(final ContentResolver cr, final List<String> path, final Context contx) {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        //setResult(0);
-                        imageLoadingProgress.dismiss();
-                        //finish();
-                    }
-                });
-
-            }
-        }).start();
-
-
-    }*/
 }

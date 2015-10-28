@@ -28,21 +28,37 @@
                 android:onClick="addProjectCallBack"
                 android:background="#e3f6ff87"
                 android:typeface="monospace"
-                />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/deleteProject"
-            android:textStyle="bold"
-            android:id="@+id/button2"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:onClick="deleteProjectCallBack"
-            android:background="@android:color/holo_orange_light"
-            android:typeface="monospace"
-            />
+            android:layout_gravity="left" />
 
-    </LinearLayout>
+            <Button
+                android:layout_width="129dp"
+                android:layout_height="wrap_content"
+                android:text="How to use this app?"
+                android:id="@+id/tutorialButton"
+                android:layout_alignBottom="@+id/titleHome"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:background="#fdce72"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textStyle="bold"
+                android:typeface="monospace"
+                android:onClick="appTutorialCallBack" />
+
+            <Button
+                android:layout_width="108dp"
+                android:layout_height="wrap_content"
+                android:text="@string/deleteProject"
+                android:textStyle="bold"
+                android:id="@+id/button2"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:onClick="deleteProjectCallBack"
+                android:background="@android:color/holo_orange_light"
+                android:typeface="monospace"
+                android:layout_gravity="right" />
+
+        </LinearLayout>
 
     <TextView
         android:id="@+id/titleHome"
@@ -81,7 +97,6 @@
         android:layout_below="@id/titleHome"
         android:layout_above="@id/button4"
         />
-
 
 
     <!--<Button
