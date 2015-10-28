@@ -50,6 +50,7 @@ public class EditProject extends Activity {
     Button btnDelete;
     public static int RESIZE_FACTOR = 400;
     private static final int REQUEST_IMAGE = 1;
+    int count=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -302,50 +303,51 @@ public class EditProject extends Activity {
     }
 
     public void deletePressed(View v) {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(EditProject.this);
-        builder1.setTitle("Sure?");
-        builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        if (count > 0) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(EditProject.this);
+            builder1.setTitle("Sure?");
+            builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                //  for(int i=imageadapter.getBox().size();i>=0;i--)
-                for (GalleryItem p : imageadapter.getBox()) {
-                    // GalleryItem p = imageadapter.getBox().get(i);
-                    if (p.box) {
-                        System.out.println("image pos----------->" + p.position);
 
-                        imageadapter.remove(p);
-                        //  Projectfile f = new Projectfile(getApplicationContext());
-                        //List<String> ImageNames = f.getImageNames(projectName);
+                    //  for(int i=imageadapter.getBox().size();i>=0;i--)
+                    for (GalleryItem p : imageadapter.getBox()) {
+                        // GalleryItem p = imageadapter.getBox().get(i);
+                        if (p.box) {
+                            System.out.println("image pos----------->" + p.position);
 
+                            imageadapter.remove(p);
+                            //  Projectfile f = new Projectfile(getApplicationContext());
+                            //List<String> ImageNames = f.getImageNames(projectName);
+
+                        }
 
                     }
-                    //loadImages();
+                    // imageadapter.removeTask();
+                    imageadapter.notifyDataSetChanged();
+                    // selectedFileInt.clear();
+                    loadImages();
                 }
-                // imageadapter.removeTask();
-                imageadapter.notifyDataSetChanged();
-                // selectedFileInt.clear();
-                loadImages();
-            }
-        })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+            })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
                                /* for (int i = 0; i < numberOfImages; i++) {
                                     System.out.println("Arrraaaayyyyy  at  /////" + i + ".......is selected/not" + selectedFileInt.get(i));
                                 }*/
-                                dialog.cancel();
+                                    dialog.cancel();
+                                }
                             }
-                        }
 
-                );
-        builder1.create().
+                    );
+            builder1.create().
 
-                show();
+                    show();
 
 
+        }
     }
-
 
     public class ImageAdapter1 extends ArrayAdapter<GalleryItem> {
         Context ctx;
@@ -408,6 +410,7 @@ public class EditProject extends Activity {
             }
             objects.remove(object);
             notifyDataSetChanged();
+            count=0;
             for (int i = 0; i < objects.size(); i++)
                 System.out.println("object postion retain------------------>" + objects.get(i).position + "---------" + objects.get(i).imgFileName);
         }
@@ -457,13 +460,9 @@ public class EditProject extends Activity {
         ArrayList<GalleryItem> getBox() {
             ArrayList<GalleryItem> box = new ArrayList<GalleryItem>();
             for (GalleryItem p : objects) {
-                //if (p.box)
-                // {
-                System.out.println("details------>" + p.position + "  " + p.box);
+                System.out.println("details------>"+p.position+"  "+p.box);
+
                 box.add(p);
-
-                //  }
-
             }
             return box;
         }
@@ -472,8 +471,13 @@ public class EditProject extends Activity {
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
                 getProduct((Integer) buttonView.getTag()).box = isChecked;
-                // if(isChecked==true)
-                getProduct((Integer) buttonView.getTag()).position = (Integer) buttonView.getTag();
+                if(isChecked==true){
+                    count++;
+                }else{
+                    count--;
+                }
+                getProduct((Integer) buttonView.getTag()).position=(Integer) buttonView.getTag();
+
             }
         };
 
@@ -504,6 +508,9 @@ public class EditProject extends Activity {
             }
         }
     }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 00c5ce8933047384a68969599981f82bc32a1ec2
 }

@@ -492,11 +492,7 @@ public class 																																																																			
 				builderShare.setTitle(R.string.whatShareDialog)
 						.setItems(y, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialogShare, int whichShare) {
-								//toast(Integer.toString(whichShare));
-								//deleteProject(y[whichShare]);
-								//share(mContext,x[which],y[whichShare]);
-                        /*toast(y[whichShare]+" "+x[whichUse]);*/
-								//String projectname = x[whichUse].toString();
+
 								System.out.println(project + whichShare);
 								Share.SendOptions(whichShare, getThisActivity(), getApplicationContext(), project);
 							}
