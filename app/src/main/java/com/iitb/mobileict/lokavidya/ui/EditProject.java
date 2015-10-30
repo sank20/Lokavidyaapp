@@ -508,9 +508,5 @@ public class EditProject extends Activity {
             }
         }
     }
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 00c5ce8933047384a68969599981f82bc32a1ec2
 }

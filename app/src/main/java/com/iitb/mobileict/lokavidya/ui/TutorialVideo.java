@@ -13,7 +13,7 @@ import com.iitb.mobileict.lokavidya.R;
 
 /**
  * This is a class merely for displaying the tutorial video after clicking the tutorialButton. It contains a VideoView with controls
- *
+ *  For now this feature has been removed (Date: 30/10/2015)
  */
 public class TutorialVideo extends Activity {
 

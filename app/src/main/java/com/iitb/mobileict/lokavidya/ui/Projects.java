@@ -214,15 +214,15 @@ public class Projects extends Activity {
      * to show the tutorial Video (TutorialVideo.java).
      * @see TutorialVideo
      * @param v view
-     */
-    public void appTutorialCallBack(View v){
+     */ //for now it's been discarded//
+    /*public void appTutorialCallBack(View v){
 
         Intent OpenVideo = new Intent(getThisActivity(),TutorialVideo.class);
         Projects.this.startActivity(OpenVideo);
 
 
 
-    }
+    }*/
 
     public void deleteProject(final CharSequence name){
         System.out.println("Outside dialog box");
@@ -376,7 +376,7 @@ public class Projects extends Activity {
     public Activity getThisActivity(){
         return this;
     }
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 
     /**
@@ -436,6 +436,6 @@ public class Projects extends Activity {
     }
 
 
-=======
->>>>>>> 00c5ce8933047384a68969599981f82bc32a1ec2
+//=======
+//>>>>>>> 00c5ce8933047384a68969599981f82bc32a1ec2
         }
