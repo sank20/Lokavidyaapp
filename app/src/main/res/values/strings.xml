@@ -45,7 +45,7 @@
     <string name="deleteItembutton">Delete</string>
     <string name="deleteProjectPickerDialog">Pick a project to delete</string>
     <string name="deleteConfirmation">Are you sure you want to delete the file?</string>
-    <string name="projectNameSpace">Project name should not contain space</string>
+    <string name="projectNameSpace">Project name should not start or end with space</string>
     <string name="projectNameDot">Project name should not contain dot.</string>
     <string name="projectNameEmpty">Project name cannot be empty</string>
     <string name="projectExists">Another project exists with same name.</string>
@@ -57,5 +57,6 @@
     <string name="NoFileManager">Please install a File Manager to import</string>
     <string name="galleryImageProcessMessage">Loading Images</string>
     <string name="title_activity_tutorial_video">TutorialVideo</string>
+    <string name="seed_download">Download sample projects</string>
 
 </resources>

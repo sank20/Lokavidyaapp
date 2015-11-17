@@ -1,20 +1,31 @@
 package com.iitb.mobileict.lokavidya.ui;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.SyncStateContract;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,15 +33,19 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+
 import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
+import com.iitb.mobileict.lokavidya.util.Communication;
 
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +59,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 
-public class Projects extends Activity {
+public class Projects extends AppCompatActivity  {
+
+
 
     private String importProjectName;
     private String seedpath=Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
@@ -52,6 +69,9 @@ public class Projects extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
 //----------------------------------------------------------------------------------------------------------------------------
         /*1.Copy the zipped sample project from assets to a temp folder called loktemp.
           2.Extract the zip to the lokavidya folder.
@@ -76,6 +96,13 @@ public class Projects extends Activity {
             delTemp.getParentFile().delete();
         }
 //-------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
         importProjectName="";
         Context context = getApplicationContext();
         Projectfile f = new Projectfile(context);
@@ -102,7 +129,7 @@ public class Projects extends Activity {
         SharedPreferences.Editor editor;
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         editor = sharedPref.edit();
-        editor.putInt("savedView",0);
+        editor.putInt("savedView", 0);
         editor.commit();
 
         displayProjects();
@@ -118,10 +145,75 @@ public class Projects extends Activity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+       // getMenuInflater().inflate(R.menu.menu_seed_download,menu);
+        switch(item.getItemId()){
+            case R.id.action_sync_seed:
+                if(!new File(seedpath + "Pump-Odiya/").exists()) {
+                    Communication.DownloadComplete=false;
+                    Communication.downloadSampleProjects(getThisActivity());
+                    Log.i("Downloaded?", String.valueOf(Communication.DownloadComplete));
+                    final ProgressDialog downloadSeed = ProgressDialog.show(this,"please wait","Downloading sample project");
+                    downloadSeed.setCancelable(false);
+                    downloadSeed.setCanceledOnTouchOutside(false);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            while (!Communication.DownloadComplete) {/*wait till download hasn't completed */}
+
+
+                            String serverseed = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/odiyapump.zip").toString();
+                            try {
+                                ZipFile seedzip = new ZipFile(serverseed);
+                                seedzip.extractAll(seedpath);
+                            } catch (ZipException e) {
+                                e.printStackTrace();
+                            }
+
+                            File delTemp= new File(serverseed);
+                            delTemp.delete();
+                            //delTemp.getParentFile().delete();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    recreate();
+                                    downloadSeed.dismiss();
+
+                                }
+                            });
+
+
+
+                        }
+                    }).start();
+
+
+                    Log.i("Downloaded?", String.valueOf(Communication.DownloadComplete));
+
+
+                }else{
+                    Toast.makeText(this,"Seed Project already exists",Toast.LENGTH_SHORT).show();
+                }
+
+                //return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_seed_download,menu);
+
+        //return true;
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
     public void toast(String text){
         int duration = Toast.LENGTH_SHORT;
@@ -173,28 +265,31 @@ public class Projects extends Activity {
 
                 Pattern pattern1 = Pattern.compile("\\s");
                 Pattern pattern2 = Pattern.compile("\\.");
-               // Pattern pattern3 = Pattern.compile("");
+                // Pattern pattern3 = Pattern.compile("");
 
-                Matcher matcher1 = pattern1.matcher(input.getText().toString());
+                //Matcher matcher1 = pattern1.matcher(input.getText().toString());
                 Matcher matcher2 = pattern2.matcher(input.getText().toString());
-               // Matcher matcher3 = pattern3.matcher(input.getText().toString());
+                // Matcher matcher3 = pattern3.matcher(input.getText().toString());
 
-                boolean found1 = matcher1.find();
+                //boolean found1 = matcher1.find();
+                boolean found1 = false;
                 boolean found2 = matcher2.find();
-               // boolean found3 = matcher3.find();
+                boolean found3 = input.getText().toString().contains("/");
+                // boolean found3 = matcher3.find();
 
+                if (input.getText().toString().charAt(0) == ' ' || input.getText().toString().charAt(input.getText().toString().length() - 1) == ' ')
+                    found1 = true;
 
-                if(found1)
-                    Toast.makeText(Projects.this,getString(R.string.projectNameSpace),Toast.LENGTH_LONG).show();
-                else if(found2)
-                    Toast.makeText(Projects.this,getString(R.string.projectNameDot),Toast.LENGTH_LONG).show();
-               /* else if(found3)
-                    Toast.makeText(Projects.this,"Project name cannot be empty.",Toast.LENGTH_LONG).show();
-*/
+                if (found1)
+                    Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
+                else if (found2)
+                    Toast.makeText(Projects.this, getString(R.string.projectNameDot), Toast.LENGTH_LONG).show();
+                else if (found3)
+                    Toast.makeText(Projects.this, "Project name cannot contain '/'", Toast.LENGTH_LONG).show();
                 else {
-                    if(input.getText().toString().equals("")){
-                        Toast.makeText(Projects.this,getString(R.string.projectNameEmpty),Toast.LENGTH_LONG).show();
-                    }else {
+                    if (input.getText().toString().equals("")) {
+                        Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
+                    } else {
                         addProject(input.getText().toString());
                     }
                 }
@@ -213,7 +308,7 @@ public class Projects extends Activity {
      * This method is called on click of tutorialButton . It contains just an intent to open an activity containing the VideoView
      * to show the tutorial Video (TutorialVideo.java).
      * @see TutorialVideo
-     * @param v view
+     * //@param v view
      */ //for now it's been discarded//
     /*public void appTutorialCallBack(View v){
 
@@ -270,12 +365,35 @@ public class Projects extends Activity {
             if(requestCode == Share.REQUEST_BLU_VIDEO) Share.sendVideo(this, getApplicationContext());
         }
         if(requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK){
-            Uri uri = data.getData();
+            final Uri uri = data.getData();
+            final Context mContext=this;
             System.out.println("File Uri : "+ uri.toString());
 //            try {
             String path = uri.getPath();
             System.out.println("FIle path ---------import> " + path);
-            Share.importproject(uri,this,importProjectName);
+            final String impProjectName=Share.pathToProjectname(path);
+            if(foundInProjectList(impProjectName)){
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(Projects.this);
+                builder1.setTitle("Overwrite existing project with same name?");
+                builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Projectfile f = new Projectfile(getApplicationContext());
+                        List<String> projects = f.DeleteProject(impProjectName);
+                        Share.importproject(uri, getThisActivity(), mContext);
+                    }
+                })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                builder1.create().show();
+            }
+            else{
+                Share.importproject(uri,getThisActivity(),this);
+            }
 //            }
 //            catch (URISyntaxException e) {
 //                e.printStackTrace();
@@ -319,56 +437,69 @@ public class Projects extends Activity {
     public void importProjectCallback(View v){
         importProjectName="";
         try{
-            //************************************************************************************************
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.enterName);
-            final EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_CLASS_TEXT);
-            builder.setView(input);
-            builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Pattern pattern1 = Pattern.compile("\\s");
-                    Pattern pattern2 = Pattern.compile("\\.");
-                    // Pattern pattern3 = Pattern.compile("");
-                    Matcher matcher1 = pattern1.matcher(input.getText().toString());
-                    Matcher matcher2 = pattern2.matcher(input.getText().toString());
-                    // Matcher matcher3 = pattern3.matcher(input.getText().toString());
-                    boolean found1 = matcher1.find();
-                    boolean found2 = matcher2.find();
-                    // boolean found3 = matcher3.find();
-                    if (found1)
-                        Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
-                    else if (found2)
-                        Toast.makeText(Projects.this, getString(R.string.projectNameDot), Toast.LENGTH_LONG).show();
-                    else {
-                        if (input.getText().toString().equals("")) {
-                            Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
-                        } else {
-                            if(foundInProjectList(input.getText().toString())){
-                                Toast.makeText(Projects.this, getString(R.string.projectExists), Toast.LENGTH_LONG).show();
-                            }
-                            else{
-                                importProjectName = input.getText().toString();
-                                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                                i.setType("*/*");
-                                i.addCategory(Intent.CATEGORY_OPENABLE);
-                                startActivityForResult(
-                                        Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
-                                );
-                            }
-                        }
-                    }
-                }
-            });
-            builder.setNegativeButton(getString(R.string.CancelButton), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            builder.show();
-            //************************************************************************************************
+//            //************************************************************************************************
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle(R.string.enterName);
+//            final EditText input = new EditText(this);
+//            input.setInputType(InputType.TYPE_CLASS_TEXT);
+//            builder.setView(input);
+//            builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    Pattern pattern1 = Pattern.compile("\\s");
+//                    Pattern pattern2 = Pattern.compile("\\.");
+//                    // Pattern pattern3 = Pattern.compile("");
+//
+//                    Matcher matcher1 = pattern1.matcher(input.getText().toString());
+//                    Matcher matcher2 = pattern2.matcher(input.getText().toString());
+//                    // Matcher matcher3 = pattern3.matcher(input.getText().toString());
+//
+//                    //boolean found1 = matcher1.find();
+//                    boolean found1 = false;
+//                    boolean found2 = matcher2.find();
+//                    // boolean found3 = matcher3.find();
+//
+//                    if(input.getText().toString().charAt(0) == ' ' || input.getText().toString().charAt(input.getText().toString().length() -1) == ' ' )
+//                        found1 = true;
+//
+//                    if (found1)
+//                        Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
+//                    else if (found2)
+//                        Toast.makeText(Projects.this, getString(R.string.projectNameDot), Toast.LENGTH_LONG).show();
+//                    else {
+//                        if (input.getText().toString().equals("")) {
+//                            Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
+//                        } else {
+//                            if(foundInProjectList(input.getText().toString())){
+//                                Toast.makeText(Projects.this, getString(R.string.projectExists), Toast.LENGTH_LONG).show();
+//                            }
+//                            else{
+//                                importProjectName = input.getText().toString();
+//                                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+//                                i.setType("*/*");
+//                                i.addCategory(Intent.CATEGORY_OPENABLE);
+//                                startActivityForResult(
+//                                        Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
+//                                );
+//                            }
+//                        }
+//                    }
+//                }
+//            });
+//            builder.setNegativeButton(getString(R.string.CancelButton), new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.cancel();
+//                }
+//            });
+//            builder.show();
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.setType("application/zip");
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(
+                Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
+        );
+        //************************************************************************************************
         }catch(android.content.ActivityNotFoundException ex) {
             Toast.makeText(this, getString(R.string.NoFileManager), Toast.LENGTH_SHORT).show();
         }
@@ -436,6 +567,11 @@ public class Projects extends Activity {
     }
 
 
-//=======
-//>>>>>>> 00c5ce8933047384a68969599981f82bc32a1ec2
-        }
+
+
+
+
+
+          }
+
+    
