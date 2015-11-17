@@ -59,5 +59,6 @@
     <string name="CancelButton">रद्द करा</string>
     <string name="NoFileManager">आयात करण्यासाठी एक फाइल व्यवस्थापक स्थापित करा</string>
     <string name="galleryImageProcessMessage">चित्रे लोड होत आहेत.</string>
+    <string name="seed_download">Download sample projects</string>
 
 </resources>

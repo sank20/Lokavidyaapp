@@ -56,6 +56,7 @@
     <string name="CancelButton">नहीं</string>
     <string name="NoFileManager">आयात करने के लिए एक फ़ाइल प्रबंधक एप्लिकेशन स्थापित करें</string>
     <string name="galleryImageProcessMessage">छवियों को लोड कर रहे हैं</string>
+    <string name="seed_download">Download sample projects</string>
 
 
 </resources>

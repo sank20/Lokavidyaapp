@@ -2,6 +2,7 @@ package com.iitb.mobileict.lokavidya;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.iitb.mobileict.lokavidya.ui.Projects;
+
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.ZipParameters;
+import net.lingala.zip4j.util.Zip4jConstants;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -109,18 +116,81 @@ public class Share {
             }
     }
 
-    public static  void shareProject(Activity activity, Context mContext){
-        String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + Share.projectname;
-        zipFolder(outputFile + "/images", outputFile + "/images.zip");
-        zipFolder(outputFile + "/audio", outputFile + "/audio.zip");
-        zipFolder(outputFile, outputFile + ".zip");
-        File delete_file = new File(outputFile + "/images.zip");
-        delete_file.delete();
-        delete_file = new File(outputFile + "/audio.zip");
-        delete_file.delete();
+    public static  void shareProject(final Activity activity, Context mContext) {
+//        final ProgressDialog ringProgressDialog = ProgressDialog.show(mContext, mContext.getString(R.string.stitchingProcessTitle), mContext.getString(R.string.stitchingProcessMessage), true);
+//        final ProgressDialog ringProgressDialog = new ProgressDialog(mContext);
+//        ringProgressDialog.setMessage("loading");
+//        ringProgressDialog.setCancelable(false);
+//        ringProgressDialog.setCanceledOnTouchOutside(false);
+//        ringProgressDialog.show();
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(activity, "EXPORT",
+                "Generating .zip folder", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.setCanceledOnTouchOutside(false);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                String inputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + Share.projectname;
+                String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + Share.projectname + ".zip";
+                ZipFile zipFile = null;
+                try {
+                    zipFile = new ZipFile(outputFile);
+                } catch (ZipException e) {
+                    e.printStackTrace();
+                }
+                ZipParameters parameters = new ZipParameters();
+
+                // COMP_DEFLATE is for compression
+                // COMp_STORE no compression
+                parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+                // DEFLATE_LEVEL_ULTRA = maximum compression
+                // DEFLATE_LEVEL_MAXIMUM
+                // DEFLATE_LEVEL_NORMAL = normal compression
+                // DEFLATE_LEVEL_FAST
+                // DEFLATE_LEVEL_FASTEST = fastest compression
+                parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_FASTEST);
+                File dir = new File(inputFile+"/tmp");
+                if (dir.isDirectory())
+                {
+                    String[] children = dir.list();
+                    for (int i = 0; i < children.length; i++)
+                    {
+                        new File(dir, children[i]).delete();
+                    }
+                }
+                dir.delete();
+                // file compressed
+                try {
+                    zipFile.addFolder(inputFile, parameters);
+                } catch (ZipException e) {
+                    e.printStackTrace();
+                }
+
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        ringProgressDialog.dismiss();
+                    }
+                });
+            }
+        }).start();
+
+
+//        zipFolder(outputFile + "/images", outputFile + "/images.zip");
+//        zipFolder(outputFile + "/audio", outputFile + "/audio.zip");
+//        zipFolder(outputFile, outputFile + ".zip");
+//        File delete_file = new File(outputFile + "/images.zip");
+//        delete_file.delete();
+//        delete_file = new File(outputFile + "/audio.zip");
+//        delete_file.delete();
         Intent i = new Intent(Intent.ACTION_SEND);
+        String inputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + Share.projectname;
+        String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + Share.projectname + ".zip";
         i.setType("application/zip");
-        File f = new File(outputFile + ".zip");
+        File f = new File(outputFile);
         i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
         activity.startActivity(Intent.createChooser(i, "Share Project Via"));
 }
@@ -168,25 +238,45 @@ public class Share {
         return path.substring(j+1,path.length() - 4);
     }
 
-    public static void importproject(Uri uri,Context context,String importProjectName){
-        System.out.println("-*----------> Import function called success");
-        String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya";
+    public static void importproject(final Uri uri,final Activity activity,final Context context){
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(activity, "EXTRACTING...",
+                "extracting .zip to your app", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.setCanceledOnTouchOutside(false);
+        new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya";
 //        System.out.println("----------------Share.java: import project: >" + outputFile);
 //        System.out.println(Share.unpackZip(path, outputFile));
-        //path=Environment.getExternalStorageDirectory().getAbsolutePath()+"/empty.zip";
-        //System.out.println(path);
-        String proj = importProjectName;
-        _dirChecker(outputFile + "/", proj);
-        String path1= outputFile +"/" + proj + "/";
-        //System.out.println("----------------import project >: "+ proj + ":" + path + ":" +path1);
-        Share.unzipuri(uri, path1,context); // check for / at the end of path1
-        _dirChecker(path1, "images");
-        _dirChecker(path1, "audio");
-        Share.unzip(path1 + "images.zip", path1 + "images/");
-        Share.unzip(path1 + "audio.zip", path1 + "audio/");
-        System.out.println("---------------->FInished extraction calls");
-        File delete_file = new File(path1 + "images.zip");delete_file.delete();
-             delete_file = new File(path1 + "audio.zip");delete_file.delete();
+                //path=Environment.getExternalStorageDirectory().getAbsolutePath()+"/empty.zip";
+                //System.out.println(path);
+                //String proj = importProjectName;
+                //_dirChecker(outputFile + "/", proj);
+                //String path1= outputFile +"/" + proj + "/";
+                String path1= outputFile +"/";
+                Share.unzipuri(uri, path1,context); // check for / at the end of path1
+                Intent intent = activity.getIntent();
+                activity.finish();
+                activity.startActivity(intent);
+//                _dirChecker(path1, "images");
+//                _dirChecker(path1, "audio");
+//                Share.unzip(path1 + "images.zip", path1 + "images/");
+//                Share.unzip(path1 + "audio.zip", path1 + "audio/");
+//                System.out.println("---------------->FInished extraction calls");
+//                File delete_file = new File(path1 + "images.zip");delete_file.delete();
+//                delete_file = new File(path1 + "audio.zip");delete_file.delete();
+
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        ringProgressDialog.dismiss();
+                    }
+                });
+            }
+        }).start();
     }
 
 //    public static boolean unpackZip(String input, String output)

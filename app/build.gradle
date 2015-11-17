@@ -13,6 +13,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
     }
     buildTypes {
         release {
@@ -29,10 +30,11 @@ dependencies {
     compile 'com.squareup.dagger:dagger:1.2.2'
     compile 'com.jakewharton:butterknife:5.1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
-    //compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile project(':FFmpegAndroid')
     compile project(':MultipleImageSelection')
     compile files('libs/zip4j_1.3.2.jar')
+    
+
 }
 android {
     packagingOptions {

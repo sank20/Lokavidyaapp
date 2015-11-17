@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -87,13 +88,17 @@ public class FfmpegWrapper {
 
               //  String cmd= "-loop 1 -i "+imageUrls.get(i)+" -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=320:240 /storage/emulated/0/DstApp/tmp/out-"+i+".mp4";
 
-                String cmd= "-loop 1 -i "+imageUrls.get(i)+" -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=320:240 "+imgOut+i+".mp4";
+                String cmd= "-loop 1 -i '"+imageUrls.get(i)+"' -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=320:240 '"+imgOut+i+".mp4'";
+
+                System.out.println("command to stich audio files:" + cmd);
 
                 cmdArrayList.add(cmd);
             }
             for(int i=0;i<audioUrls.size();i++)
             {
-                String cmd="-i "+audioUrls.get(i)+" -i "+imgOut+i+".mp4 -c:a copy -vcodec copy -strict -2 "+videoOut+i+".mp4";
+                String cmd="-i '"+audioUrls.get(i)+"' -i '"+imgOut+i+".mp4' -c:a copy -vcodec copy -strict -2 '"+videoOut+i+".mp4'";
+
+                System.out.println("command to stich image files:"+cmd);
 
                 cmdArrayList.add(cmd);
             }
@@ -140,19 +145,28 @@ public class FfmpegWrapper {
 
             String cmd = cmdArrayList.get(i);
 
+//            String str = "Location \"Welcome  to india\" Bangalore " +
+//                    "Channai \"IT city\"  Mysore";
+
+            List<String> command = new ArrayList<String>();
+            Matcher m = Pattern.compile("([^']\\S*|'.+?')\\s*").matcher(cmd);
+            while (m.find())
+                command.add(m.group(1).replace("'","")); // Add .replace("\"", "") to remove surrounding quotes.
 
 
-            String[] command = cmd.split(" ");
-            for(int z=0;z<command.length;z++)
+            System.out.println(command);
+            String []commandArray = command.toArray(new String[command.size()]);
+//            String[] command = cmd.split(" ");
+            for(int z=0;z<commandArray.length;z++)
             {
-                Log.e("wahji",command[z]);
+                Log.e("wahji",commandArray[z]);
             }
           //  Log.v("Displaying list of commands", "Commands");
-            for (String s : command) {
+            for (String s : commandArray) {
                 Log.v("Command", s);
             }
-            if (command.length != 0) {
-                execFFmpegBinary(command);
+            if (commandArray.length != 0) {
+                execFFmpegBinary(commandArray);
             } else {
                 //Toast.makeText(, getString(R.string.empty_command_toast), Toast.LENGTH_LONG).show();
                 Log.v("ho gya", "ho gya");
@@ -165,10 +179,18 @@ public class FfmpegWrapper {
             Log.e("Hello World", f.getName());
         }
 */
-        String cmd="-f concat -i " +Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/tmp/order.txt -codec copy "+Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/tmp/final.mp4";
-        String[] command=cmd.split(" ");
-        if (command.length != 0) {
-            execFFmpegBinary(command);
+        String cmd="-f concat -i '" +Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/tmp/order.txt' -codec copy '"+Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/tmp/final.mp4'";
+
+        List<String> command = new ArrayList<String>();
+        Matcher m = Pattern.compile("([^']\\S*|'.+?')\\s*").matcher(cmd);
+        while (m.find())
+            command.add(m.group(1).replace("'","")); // Add .replace("\"", "") to remove surrounding quotes.
+
+        System.out.println(command);
+        String []commandArray = command.toArray(new String[command.size()]);
+        //String[] command=cmd.split(" ");
+        if (commandArray.length != 0) {
+            execFFmpegBinary(commandArray);
         } else {
             //Toast.makeText(, getString(R.string.empty_command_toast), Toast.LENGTH_LONG).show();
             Log.v("ho gya final", "ho gya");

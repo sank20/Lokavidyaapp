@@ -91,28 +91,18 @@
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="guava-15.0" level="project" />
-<<<<<<< HEAD
-    <orderEntry type="library" exported="" name="dagger-1.2.2" level="project" />
-=======
->>>>>>> remotes/sank20/lokavidyaapp/master
+    <orderEntry type="library" exported="" name="zip4j_1.3.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="assertj-android-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="dagger-1.2.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="assertj-core-1.6.1" level="project" />
     <orderEntry type="library" exported="" name="dagger-compiler-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.0.0" level="project" />
-<<<<<<< HEAD
-    <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-23.0.0" level="project" />
-    <orderEntry type="library" exported="" name="butterknife-5.1.2" level="project" />
-=======
-    <orderEntry type="library" exported="" name="activeandroid-3.1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="javax.inject-1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.0.0" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.4.0" level="project" />
-    <orderEntry type="library" exported="" name="butterknife-5.1.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.0.0" level="project" />
+    <orderEntry type="library" exported="" name="butterknife-5.1.2" level="project" />
     <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
->>>>>>> remotes/sank20/lokavidyaapp/master
     <orderEntry type="module" module-name="FFmpegAndroid" exported="" />
     <orderEntry type="module" module-name="MultipleImageSelection" exported="" />
   </component>
