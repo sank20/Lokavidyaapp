@@ -30,27 +30,8 @@ public class Communication extends BroadcastReceiver {
         DownloadComplete=true;
         Log.i("Downloaded? onreceive",String.valueOf(DownloadComplete));
 
-        /*
-        final String action = intent.getAction();
-        final ProgressDialog downloadSeed = ProgressDialog.show(context,"please wait","Downloading sample project");
-        downloadSeed.setCancelable(false);
-        downloadSeed.setCanceledOnTouchOutside(false);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(!DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                    try{
-                        Thread.sleep(20);
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-                downloadSeed.dismiss();
 
-            }
-        }).start();
 
-*/
     }
 
 
