@@ -2,103 +2,102 @@
 <items version="2" >
 
     <item
-<<<<<<< HEAD
+        jar="/home/sanket/lokavidyaapp/app/build/intermediates/exploded-aar/lokavidyaapp/MultipleImageSelection/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="c74288b1109aa4e1f7d30b90b1ac848533b2c33b">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-3e3f061d8e3b328eb2bc8ba78f255a7e21c5d841.jar" />
+    </item>
+    <item
+        jar="/home/sanket/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger/1.2.2/e8f912ee19ad84958510883ea191135276b091f8/dagger-1.2.2.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="e8f912ee19ad84958510883ea191135276b091f8">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/dagger-1.2.2-535aaddd739252e164b51798e401f84fb8e1be12.jar" />
+    </item>
+    <item
+        jar="/home/sanket/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger-compiler/1.2.2/fa9b2f9ae597cedf2a66ef3e60662ff36bb60e57/dagger-compiler-1.2.2.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="fa9b2f9ae597cedf2a66ef3e60662ff36bb60e57">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/dagger-compiler-1.2.2-7be9a82b60fc011b33e043a701870302c8455329.jar" />
+    </item>
+    <item
         jar="/home/sanket/lokavidyaapp/app/libs/zip4j_1.3.2.jar"
         jumboMode="false"
         revision="23.0.0"
         sha1="3e20955923c5b61bfbcd4590a87720643c729695">
         <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/zip4j_1.3.2-73a8d5530d95c039cd0055f730ac6132d63b1e01.jar" />
-=======
-        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/81241ff7078ef14f42ea2a8995fa09c096256e6b/javawriter-2.5.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="81241ff7078ef14f42ea2a8995fa09c096256e6b">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/javawriter-2.5.0-75967d0ad3ff61f5007227171cba928ebeb8de94.jar" />
     </item>
     <item
-        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/5.1.2/daf5472b0df6dabaceb6ad755b3812535863965a/butterknife-5.1.2.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="daf5472b0df6dabaceb6ad755b3812535863965a">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/butterknife-5.1.2-122b347349ec4bebcb074fb53e9b14f2e2e5e665.jar" />
-    </item>
-    <item
-        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/libs/internal_impl-23.0.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.0-4eec9779945958257d150eaee02bf5eba9c5c9ba.jar" />
-    </item>
-    <item
-        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-ca2e75ab98be79e535104316b343a51a88fcdf25.jar" />
-    </item>
-    <item
-        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.4.0/f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2/picasso-2.4.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/picasso-2.4.0-898bd11f0bf97eacd8a771dd77176e6a04357895.jar" />
-    </item>
-    <item
-        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/15.0/ed727a8d9f247e2050281cb083f1c77b09dcb5cd/guava-15.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="ed727a8d9f247e2050281cb083f1c77b09dcb5cd">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/guava-15.0-3673cc8ef261a01ec91db5f3e163a4422167b187.jar" />
-    </item>
-    <item
-        jar="/home/saifur/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.0-6ab3340f0c35ced46ca9b73ddca0e3d0f18bbfe0.jar" />
-    </item>
-    <item
-        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger-compiler/1.2.2/fa9b2f9ae597cedf2a66ef3e60662ff36bb60e57/dagger-compiler-1.2.2.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="fa9b2f9ae597cedf2a66ef3e60662ff36bb60e57">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/dagger-compiler-1.2.2-e151e6f8043cab37ca2582e091ab5f3e445fafab.jar" />
-    </item>
-    <item
-        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/lokavidyaapp/MultipleImageSelection/unspecified/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="7eefe36db50963b7e3324c2c4507995d577d242a">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-3e9c9f8de9871c01ffa85024fc0089282086db56.jar" />
-    </item>
-    <item
-        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/classes.jar"
+        jar="/home/sanket/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.0"
         sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-ece480477d4aff15c8ad57a8fa5860fd08e43610.jar" />
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-c9cb8fa89780647e8ebc914a756e0c1dfd66f529.jar" />
     </item>
     <item
-        jar="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/exploded-aar/lokavidyaapp/FFmpegAndroid/unspecified/jars/classes.jar"
+        jar="/home/sanket/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.0/jars/libs/internal_impl-23.0.0.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="e37eff645d8d60db29fca9c440b676775f332830">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-4d3040da5afc13657f7dafe94bc645edf1ff418e.jar" />
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.0-145ab6e7808702f546ed7f43543ec45865dc4a0f.jar" />
     </item>
     <item
-        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger/1.2.2/e8f912ee19ad84958510883ea191135276b091f8/dagger-1.2.2.jar"
+        jar="/home/sanket/.gradle/caches/modules-2/files-2.1/com.google.guava/guava/15.0/ed727a8d9f247e2050281cb083f1c77b09dcb5cd/guava-15.0.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="e8f912ee19ad84958510883ea191135276b091f8">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/dagger-1.2.2-9b67072c1dc1e95d8fcf968d2c8207f086a470e4.jar" />
+        sha1="ed727a8d9f247e2050281cb083f1c77b09dcb5cd">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/guava-15.0-4376dfb99a1b1ec8841bf15403df1c46860cdef1.jar" />
     </item>
     <item
-        jar="/home/saifur/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
+        jar="/home/sanket/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-4de96d920cd9530e4537d9d768c19a6530e36e8f.jar" />
+    </item>
+    <item
+        jar="/home/sanket/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
         jumboMode="false"
         revision="23.0.0"
         sha1="6975da39a7040257bd51d21a231b76c915872d38">
-        <dex dex="/home/saifur/Development/repos/lokavidyaapp/app/build/intermediates/pre-dexed/debug/javax.inject-1-53fd89a801099ee79143bf68fdb3e0e521491bdd.jar" />
->>>>>>> 00c5ce8933047384a68969599981f82bc32a1ec2
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/javax.inject-1-0b64f9413fa3755ee930a0fd931b6f28fcfd1ba8.jar" />
+    </item>
+    <item
+        jar="/home/sanket/lokavidyaapp/app/build/intermediates/exploded-aar/lokavidyaapp/FFmpegAndroid/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="9601e542992aefc365d3594dd317d449c20065d3">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-9946c7561ec486b51eee390f106f62bd579179b7.jar" />
+    </item>
+    <item
+        jar="/home/sanket/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife/5.1.2/daf5472b0df6dabaceb6ad755b3812535863965a/butterknife-5.1.2.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="daf5472b0df6dabaceb6ad755b3812535863965a">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/butterknife-5.1.2-b3d4f342f7177b4c045966065578a25e60c3253d.jar" />
+    </item>
+    <item
+        jar="/home/sanket/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.5.0/81241ff7078ef14f42ea2a8995fa09c096256e6b/javawriter-2.5.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="81241ff7078ef14f42ea2a8995fa09c096256e6b">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/javawriter-2.5.0-3a8d508bc10837ab8cbcf85fe449bc3dec7561df.jar" />
+    </item>
+    <item
+        jar="/home/sanket/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.4.0/f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2/picasso-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="f36d2d4e3a36b3259aaf9d004d29b4cdc6c1bfb2">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/picasso-2.4.0-49da5b14e642f5132d25b7fb3fef55bb03b48420.jar" />
+    </item>
+    <item
+        jar="/home/sanket/android-sdks/extras/android/m2repository/com/android/support/support-annotations/23.0.0/support-annotations-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.0-41a437c02f7a6970c95c376ed6bdd70acb20bd01.jar" />
     </item>
 
 </items>

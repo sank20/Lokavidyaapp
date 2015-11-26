@@ -5,4 +5,6 @@
     <dimen name="button_padding">10dp</dimen>
     <dimen name="destination_width">250dip</dimen>
     <dimen name="destination_height">250dip</dimen>
+
+    <dimen name="nav_drawer_width">260dp</dimen>
 </resources>

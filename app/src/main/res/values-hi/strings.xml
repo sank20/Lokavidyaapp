@@ -5,7 +5,7 @@
     <string name="title_activity_recording">रिकॉर्डिंग</string>
     <string name="title_activity_view_video">वीडियो देखें </string>
     <string name="delete">मिटायें</string>
-    <string name="myprojects">मेरे परियोजनाओं </string>
+    <string name="myprojects">मेरे परियोजनाएँ  </string>
     <string name="addProject">एक परियोजना जोड़ें</string>
     <string name="deleteProject">परियोजना हटाये</string>
     <string name="ffmpeg_cmd_hint">Enter command here. To run \"ffmpeg -version\" enter \"-version\"</string>
@@ -14,7 +14,7 @@
     <string name="run">चलाएँ।</string>
     <string name="empty_command_toast">आप खाली आदेश पर अमल नहीं कर सकते</string>
     <string name="title_activity_db">DBActivity</string>
-    <string name="takePic">एक तस्वीर करेे</string>
+    <string name="takePic">तस्वीर खींचे </string>
     <string name="gallery">गैलरी से चयन करेंे</string>
     <string name="start">प्रारंभ</string>
     <string name="pause">ठहराव</string>
@@ -56,7 +56,14 @@
     <string name="CancelButton">नहीं</string>
     <string name="NoFileManager">आयात करने के लिए एक फ़ाइल प्रबंधक एप्लिकेशन स्थापित करें</string>
     <string name="galleryImageProcessMessage">छवियों को लोड कर रहे हैं</string>
-    <string name="seed_download">Download sample projects</string>
+    
+    <string name="seed_download">नमूना परियोजना डाउनलोड</string>
+    <string name="ChangeImage">चित्र को बदलें</string>
+    <string name="Biogas">बायोगैस के बारे में (हिंदी )</string>
+    <string name="TreadlePump">पावदान पम्प का कार्य(ओड़िया )</string>
+    <string name="offlineSeed">ST-Swirler-Marathi</string>
+    <string name="seedDownloadProgress">नमूना परियोजनाओं डाउनलोड कर रहा है</string>
 
 
+    <string-array name="nav_drawer_labels" />
 </resources>

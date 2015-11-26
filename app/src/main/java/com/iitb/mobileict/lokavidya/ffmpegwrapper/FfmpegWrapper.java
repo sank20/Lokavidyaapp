@@ -88,7 +88,7 @@ public class FfmpegWrapper {
 
               //  String cmd= "-loop 1 -i "+imageUrls.get(i)+" -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=320:240 /storage/emulated/0/DstApp/tmp/out-"+i+".mp4";
 
-                String cmd= "-loop 1 -i '"+imageUrls.get(i)+"' -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=320:240 '"+imgOut+i+".mp4'";
+                String cmd= "-loop 1 -i '"+imageUrls.get(i)+"' -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=800:600 '"+imgOut+i+".mp4'";
 
                 System.out.println("command to stich audio files:" + cmd);
 

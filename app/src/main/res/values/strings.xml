@@ -58,5 +58,23 @@
     <string name="galleryImageProcessMessage">Loading Images</string>
     <string name="title_activity_tutorial_video">TutorialVideo</string>
     <string name="seed_download">Download sample projects</string>
+    <string name="sampleproject1">sample1</string>
+    <string name="sampleproject2">sample2</string>
+    <string name="sampleproject3">sample3</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ChangeImage">Change Image</string>
+    <string name="Biogas">About Biogas(hindi)</string>
+    <string name="TreadlePump">Working of a Treadle Pump(odiya)</string>
+    <string name="offlineSeed">ST-Swirler-Marathi</string>
+    <string name="seedDownloadProgress">Downloading Sample Projects</string>
 
+    <string-array name="nav_drawer_labels">
+
+        <item>@string/sampleproject1</item>
+        <item>@string/sampleproject2</item>
+        <item>@string/sampleproject3</item>
+    </string-array>
 </resources>

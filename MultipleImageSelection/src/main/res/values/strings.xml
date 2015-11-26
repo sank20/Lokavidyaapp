@@ -7,5 +7,6 @@
     <string name="DoneSelectionButton">Done</string>
     <string name="Pictures">Picture</string>
     <string name="images">Images</string>
+    <string name="takePic">Take a Picture</string>
 
 </resources>

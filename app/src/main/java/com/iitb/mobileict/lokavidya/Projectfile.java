@@ -117,19 +117,19 @@ public class Projectfile {
     }
 
     /* addImage: used in EditProject.java. to take an image from the gallery and put it in the images folder.
-    the picking image from gallery is done in EditProject.java.
-     */
-    public void addImage(Bitmap bitmap, String projectname){
-        String newImg;
-        File sdCard = Environment.getExternalStorageDirectory();
-        File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
+            the picking image from gallery is done in EditProject.java.
+                */
+            public void addImage(Bitmap bitmap, String projectname){
+            String newImg;
+            File sdCard = Environment.getExternalStorageDirectory();
+            File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
 
-        if(imgDir.exists()&& imgDir.isDirectory())
-        {
-            File file[] = imgDir.listFiles();
-            newImg = projectname + "." + String.valueOf(file.length+1) + ".png";
+            if(imgDir.exists()&& imgDir.isDirectory())
+            {
+                File file[] = imgDir.listFiles();
+                newImg = projectname + "." + String.valueOf(file.length+1) + ".png";
 
-            if(file.length!=0)
+                if(file.length!=0)
             {
                 boolean fileExists= false;
 
@@ -385,6 +385,48 @@ public class Projectfile {
                 String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
                 if (!name.equals("final.mp4") && extension.equals("mp4"))
                     list[i].delete();
+            }
+        }
+    }
+
+    /**
+     * the temp folder is completely deleted.
+     * @param ProjectName The name of the project saved in a caller method's string.
+     */
+    public static void deleteTmpFolder(String ProjectName){
+        String path= Environment.getExternalStorageDirectory().getAbsolutePath()+ "/lokavidya" + "/" + ProjectName + "/tmp/";
+        File dir= new File(path);
+        dir.delete();
+
+    }
+
+    public void replaceImage(String ImageName, String projectname, Bitmap bitmap) {
+        String newImg;
+        File sdCard = Environment.getExternalStorageDirectory();
+        File imgDir = new File(sdCard.getAbsolutePath() + "/" + mainFolder + "/" + projectname + "/images");
+
+
+        File writetofile = new File(imgDir, ImageName);
+        FileOutputStream outStream = null;
+        try {
+
+
+            outStream = new FileOutputStream(writetofile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+
+
+        } catch (Exception e) {
+            toast("Cannot create new image : addimage");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (outStream != null) {
+                    outStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -15,9 +15,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +52,7 @@ public class EditProject extends Activity {
     ImageAdapter1 imageadapter;
     Button btnDelete;
     public static int RESIZE_FACTOR = 400;
-    private static final int REQUEST_IMAGE = 1;
+    public static final int REQUEST_IMAGE = 1;
     int count=0;
 
     @Override
@@ -59,9 +62,17 @@ public class EditProject extends Activity {
         projectName = intent.getStringExtra("projectname");
         setContentView(R.layout.activity_edit_project);
         btnDelete = (Button) findViewById(R.id.btnDeleteImg);
-        loadImages();
+
+
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        loadImages(true);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -122,7 +133,7 @@ public class EditProject extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    loadImages();
+                                    loadImages(true);
                                     imageLoadingProgress.dismiss();
                                 }
                             });
@@ -145,7 +156,7 @@ public class EditProject extends Activity {
 
                     Projectfile f = new Projectfile(getApplicationContext());
                     f.addImage(photo, projectName);
-                    loadImages();
+                    loadImages(true);
                 } else {
                     Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
                 }
@@ -183,7 +194,7 @@ public class EditProject extends Activity {
 
     }
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+    public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
 
@@ -263,7 +274,10 @@ public class EditProject extends Activity {
 
     }
 
-    public void loadImages() {
+    /**
+     * Loads the images and displays them into the  gridview
+     */
+    public void loadImages(boolean isNew) {
         Projectfile f = new Projectfile(this);
         List<String> ImageNames = f.getImageNames(projectName);
 
@@ -290,11 +304,16 @@ public class EditProject extends Activity {
         for (int i = 0; i < galleryItemsList.size(); i++)
             System.out.println("loading image pos------->" + galleryItemsList.get(i).position + "---------" + galleryItemsList.get(i).imgFileName);
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        imageadapter = new ImageAdapter1(this, R.layout.galleryitem, galleryItemsList);
-        gridview.setAdapter(imageadapter);
+        if(isNew) {
+            GridView gridview = (GridView) findViewById(R.id.gridview);
+            imageadapter = new ImageAdapter1(this, R.layout.galleryitem, galleryItemsList);
+            gridview.setAdapter(imageadapter);
+        }
+
+
 
     }
+
 
     class ViewHolder {
         ImageView imageview;
@@ -327,7 +346,7 @@ public class EditProject extends Activity {
                     // imageadapter.removeTask();
                     imageadapter.notifyDataSetChanged();
                     // selectedFileInt.clear();
-                    loadImages();
+                    loadImages(true);
                 }
             })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {

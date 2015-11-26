@@ -17,7 +17,7 @@ import com.iitb.mobileict.lokavidya.R;
  */
 public class TutorialVideo extends Activity {
 
-    @Override
+   /* @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial_video);
@@ -36,5 +36,5 @@ public class TutorialVideo extends Activity {
 
 
     }
-
+*/
 }

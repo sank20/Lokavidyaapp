@@ -1,32 +1,33 @@
 package com.iitb.mobileict.lokavidya.ui;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.provider.SyncStateContract;
+
 import android.support.v7.app.AppCompatActivity;
+
+import android.support.v7.widget.PopupMenu;
 import android.text.InputType;
 
+
+
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -43,33 +44,27 @@ import com.iitb.mobileict.lokavidya.util.Communication;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 
-public class Projects extends AppCompatActivity  {
-
+public class Projects extends AppCompatActivity {
 
 
     private String importProjectName;
-    private String seedpath=Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
+    private String seedpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
 //----------------------------------------------------------------------------------------------------------------------------
@@ -77,9 +72,9 @@ public class Projects extends AppCompatActivity  {
           2.Extract the zip to the lokavidya folder.
           3.Delete loktemp.
          */
-        if(!new File(seedpath + "test_seed_project/").exists()) {
+        if (!new File(seedpath + "biogas-st-marathi"+"/").exists()) {
             copyAssets();
-            String seed = Environment.getExternalStorageDirectory().getAbsolutePath() + "/loktemp/" + "test_seed_project.zip";
+            String seed = Environment.getExternalStorageDirectory().getAbsolutePath() + "/loktemp/" + "biogas-st-marathi.zip";
             try {
                 ZipFile seedzip = new ZipFile(seed);
                 if (!new File(seedpath).isDirectory()) {
@@ -91,19 +86,14 @@ public class Projects extends AppCompatActivity  {
                 e.printStackTrace();
             }
 
-            File delTemp= new File(seed);
+            File delTemp = new File(seed);
             delTemp.delete();
             delTemp.getParentFile().delete();
         }
 //-------------------------------------------------------------------------------------------------------------------------
 
 
-
-
-
-
-
-        importProjectName="";
+        importProjectName = "";
         Context context = getApplicationContext();
         Projectfile f = new Projectfile(context);
         List<String> projectsList = f.DisplayProject_with_zips();
@@ -117,7 +107,13 @@ public class Projects extends AppCompatActivity  {
                 delete_file.delete();
             }
         }
+
+
+//        View seed= (View)findViewById(R.id.action_sync_seed);
+//        registerForContextMenu(seed);
         setContentView(R.layout.activity_projects);
+
+
     }
 
 
@@ -147,13 +143,36 @@ public class Projects extends AppCompatActivity  {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-       // getMenuInflater().inflate(R.menu.menu_seed_download,menu);
-        switch(item.getItemId()){
+        PopupMenu popup = new PopupMenu(this, findViewById(R.id.action_sync_seed));
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_seed_projects, popup.getMenu());
+        popup.show();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.TreadlePump:
+
+                        downloadSeed("Pump-Odiya","odiyapump.zip","http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/odiyapump.zip");
+                        Log.i("seed", "pummmmmppppppp");
+                        return true;
+                    case R.id.biogas:
+                        downloadSeed("biogas-st-hindi","biogasSThi.zip","http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/biogasSThi.zip");
+                        Log.i("seed", "biiioooooooooo");
+
+                        return true;
+
+                }
+                return true;
+            }
+        });
+        // getMenuInflater().inflate(R.menu.menu_seed_download,menu);
+        /*switch(item.getItemId()){
             case R.id.action_sync_seed:
                 if(!new File(seedpath + "Pump-Odiya/").exists()) {
-                    Communication.DownloadComplete=false;
+                    Communication.isDownloadComplete =false;
                     Communication.downloadSampleProjects(getThisActivity());
-                    Log.i("Downloaded?", String.valueOf(Communication.DownloadComplete));
+                    Log.i("Downloaded?", String.valueOf(Communication.isDownloadComplete));
                     final ProgressDialog downloadSeed = ProgressDialog.show(this,"please wait","Downloading sample project");
                     downloadSeed.setCancelable(false);
                     downloadSeed.setCanceledOnTouchOutside(false);
@@ -161,7 +180,7 @@ public class Projects extends AppCompatActivity  {
                         @Override
                         public void run() {
 
-                            while (!Communication.DownloadComplete) {/*wait till download hasn't completed */}
+                            while (!Communication.isDownloadComplete) {*//*wait till download hasn't completed *//*}
 
 
                             String serverseed = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/odiyapump.zip").toString();
@@ -191,7 +210,7 @@ public class Projects extends AppCompatActivity  {
                     }).start();
 
 
-                    Log.i("Downloaded?", String.valueOf(Communication.DownloadComplete));
+                    Log.i("Downloaded?", String.valueOf(Communication.isDownloadComplete));
 
 
                 }else{
@@ -201,29 +220,29 @@ public class Projects extends AppCompatActivity  {
                 //return true;
 
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_seed_download,menu);
+        inflater.inflate(R.menu.menu_seed_download, menu);
 
         //return true;
         return super.onCreateOptionsMenu(menu);
     }
 
 
-    public void toast(String text){
+    public void toast(String text) {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
     }
 
-    public void ProjectsListView(List<String> myStringArray){
+    public void ProjectsListView(List<String> myStringArray) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-        android.R.layout.simple_list_item_1, myStringArray);
+                android.R.layout.simple_list_item_1, myStringArray);
         ListView listView = (ListView) findViewById(R.id.ProjectList);
         listView.setAdapter(adapter);
     }
@@ -242,14 +261,15 @@ public class Projects extends AppCompatActivity  {
         return myStringArray;
     }
 
-    public void addProject(String newproject){
-        if(newproject.equals("") || newproject.equals(" "))   return; //(Sanket P) changed newproject == "" to newproject.equals("").
+    public void addProject(String newproject) {
+        if (newproject.equals("") || newproject.equals(" "))
+            return; //(Sanket P) changed newproject == "" to newproject.equals("").
         Projectfile f = new Projectfile(getApplicationContext());
         List<String> projects = f.AddNewProject(newproject);
         ProjectsListView(projects);
     }
 
-    public void addProjectCallBack(View v){
+    public void addProjectCallBack(View v) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.enterName);
@@ -307,6 +327,7 @@ public class Projects extends AppCompatActivity  {
     /**
      * This method is called on click of tutorialButton . It contains just an intent to open an activity containing the VideoView
      * to show the tutorial Video (TutorialVideo.java).
+     *
      * @see TutorialVideo
      * //@param v view
      */ //for now it's been discarded//
@@ -318,8 +339,7 @@ public class Projects extends AppCompatActivity  {
 
 
     }*/
-
-    public void deleteProject(final CharSequence name){
+    public void deleteProject(final CharSequence name) {
         System.out.println("Outside dialog box");
 
 //    final CharSequence name1 = name;
@@ -344,10 +364,11 @@ public class Projects extends AppCompatActivity  {
 
 
     }
-    public void deleteProjectCallBack(View v){
+
+    public void deleteProjectCallBack(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         List<String> projects = projectsList();
-        final  CharSequence[] x = projects.toArray(new CharSequence[projects.size()]);
+        final CharSequence[] x = projects.toArray(new CharSequence[projects.size()]);
         builder.setTitle(getString(R.string.deleteProjectPickerDialog))
                 .setItems(x, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -361,18 +382,19 @@ public class Projects extends AppCompatActivity  {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Share.DISCOVER_DURATION ) {
-            if(requestCode == Share.REQUEST_BLU_VIDEO) Share.sendVideo(this, getApplicationContext());
+        if (resultCode == Share.DISCOVER_DURATION) {
+            if (requestCode == Share.REQUEST_BLU_VIDEO)
+                Share.sendVideo(this, getApplicationContext());
         }
-        if(requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK){
+        if (requestCode == FILE_SELECT_CODE && resultCode == RESULT_OK) {
             final Uri uri = data.getData();
-            final Context mContext=this;
-            System.out.println("File Uri : "+ uri.toString());
+            final Context mContext = this;
+            System.out.println("File Uri : " + uri.toString());
 //            try {
             String path = uri.getPath();
             System.out.println("FIle path ---------import> " + path);
-            final String impProjectName=Share.pathToProjectname(path);
-            if(foundInProjectList(impProjectName)){
+            final String impProjectName = Share.pathToProjectname(path);
+            if (foundInProjectList(impProjectName)) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(Projects.this);
                 builder1.setTitle("Overwrite existing project with same name?");
                 builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -390,9 +412,8 @@ public class Projects extends AppCompatActivity  {
                             }
                         });
                 builder1.create().show();
-            }
-            else{
-                Share.importproject(uri,getThisActivity(),this);
+            } else {
+                Share.importproject(uri, getThisActivity(), this);
             }
 //            }
 //            catch (URISyntaxException e) {
@@ -400,20 +421,20 @@ public class Projects extends AppCompatActivity  {
 //            }
         }
     }
-    boolean foundInProjectList(String project){
+
+    boolean foundInProjectList(String project) {
         List<String> projectList = projectsList();
-        for(String str: projectList) {
-            if(str.equalsIgnoreCase(project))
+        for (String str : projectList) {
+            if (str.equalsIgnoreCase(project))
                 return true;
         }
         return false;
     }
 
 
-
     public static String getPath(Context context, Uri uri) throws URISyntaxException {
         if ("content".equalsIgnoreCase(uri.getScheme())) {
-            String[] projection = { "_data" };
+            String[] projection = {"_data"};
             Cursor cursor = null;
 
             try {
@@ -425,8 +446,7 @@ public class Projects extends AppCompatActivity  {
             } catch (Exception e) {
                 // Eat it
             }
-        }
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
             return uri.getPath();
         }
 
@@ -434,9 +454,10 @@ public class Projects extends AppCompatActivity  {
     }
 
     public static final int FILE_SELECT_CODE = 102;
-    public void importProjectCallback(View v){
-        importProjectName="";
-        try{
+
+    public void importProjectCallback(View v) {
+        importProjectName = "";
+        try {
 //            //************************************************************************************************
 //            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 //            builder.setTitle(R.string.enterName);
@@ -493,18 +514,19 @@ public class Projects extends AppCompatActivity  {
 //                }
 //            });
 //            builder.show();
-        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-        i.setType("application/zip");
-        i.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(
-                Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
-        );
-        //************************************************************************************************
-        }catch(android.content.ActivityNotFoundException ex) {
+            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("application/zip");
+            i.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(
+                    Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
+            );
+            //************************************************************************************************
+        } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(this, getString(R.string.NoFileManager), Toast.LENGTH_SHORT).show();
         }
     }
-    public Activity getThisActivity(){
+
+    public Activity getThisActivity() {
         return this;
     }
 //<<<<<<< HEAD
@@ -522,32 +544,33 @@ public class Projects extends AppCompatActivity  {
         } catch (IOException e) {
             Log.e("tag", "Failed to get asset file list.", e);
         }*/
-       // for(String filename : files) {
-            InputStream in = null;
-            OutputStream out = null;
-            try {
-                in = assetManager.open("test_seed_project.zip");
+        // for(String filename : files) {
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = assetManager.open("biogas-st-marathi.zip");
 
 
-                String out1= Environment.getExternalStorageDirectory().getAbsolutePath() +"/loktemp/" ;
-                if(!new File(out1).isDirectory()){
-                    File f1=new File(out1);
-                    f1.mkdir();
-                }
-                File outFile = new File(out1 + "test_seed_project.zip");
-                Log.i("output file",outFile.toString());
-
-
-                out = new FileOutputStream(outFile);
-                copyFile(in, out);
-                in.close();
-                in = null;
-                out.flush();
-                out.close();
-                out = null;
-            } catch(IOException e) {
-                Log.e("tag", "Failed to copy asset file: " + "testseedproject", e);
+            String out1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/loktemp/";
+            if (!new File(out1).isDirectory()) {
+                File f1 = new File(out1);
+                f1.mkdir();
             }
+            File outFile = new File(out1 + "biogas-st-marathi.zip");
+            Log.i("output file", outFile.toString());
+
+
+            out = new FileOutputStream(outFile);
+            copyFile(in, out);
+            in.close();
+            in = null;
+            out.flush();
+            out.close();
+            out = null;
+        } catch (IOException e) {
+            Log.e("tag", "Failed to copy asset file: " + "testseedproject", e);
+            e.printStackTrace();
+        }
         //}
     }
 
@@ -561,17 +584,56 @@ public class Projects extends AppCompatActivity  {
     private void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[5120];
         int read;
-        while((read = in.read(buffer)) != -1){
+        while ((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
         }
     }
 
+    public void downloadSeed(String Projectname, final String zipname, String link) {
+
+        if (!new File(seedpath + Projectname+"/").exists()) {
+            Communication.isDownloadComplete = false;
+            Communication.downloadSampleProjects(getThisActivity(),link,zipname);
+            Log.i("Downloaded?", String.valueOf(Communication.isDownloadComplete));
+            final ProgressDialog downloadSeed = ProgressDialog.show(this, getString(R.string.stitchingProcessTitle), getString(R.string.seedDownloadProgress));
+            downloadSeed.setCancelable(false);
+            downloadSeed.setCanceledOnTouchOutside(false);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    while (!Communication.isDownloadComplete) {/*wait till download hasn't completed */}
 
 
+                    String serverseed = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + "/"+ zipname).toString();
+                    try {
+                        ZipFile seedzip = new ZipFile(serverseed);
+                        seedzip.extractAll(seedpath);
+                    } catch (ZipException e) {
+                        e.printStackTrace();
+                    }
+
+                    File delTemp = new File(serverseed);
+                    delTemp.delete();
+                    //delTemp.getParentFile().delete();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            recreate();
+                            downloadSeed.dismiss();
+
+                        }
+                    });
 
 
+                }
+            }).start();
+
+        }
 
 
-          }
+    }
+}
 
     
