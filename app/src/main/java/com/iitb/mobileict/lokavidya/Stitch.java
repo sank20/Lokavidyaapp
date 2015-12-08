@@ -15,6 +15,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+/**
+ * the stitching activity- totally java based, no xml used
+ */
 public class Stitch extends Activity {
 
 

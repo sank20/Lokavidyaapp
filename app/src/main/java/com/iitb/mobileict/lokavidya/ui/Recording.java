@@ -53,6 +53,9 @@ import java.util.regex.Pattern;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
 
+/**
+ * implementation of the recording activity
+ */
 public class Recording extends Activity implements SeekBar.OnSeekBarChangeListener{
     public String imagefileName,projectName;
     SharedPreferences sharedPref;
@@ -396,6 +399,10 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         changed = true;
     }
 
+    /**
+     * method called when 'change image' button is pressed
+     * @param view
+     */
 
     public void onChangeImagePressed(View view){
 
@@ -411,6 +418,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                 switch (item.getItemId()) {
                     case R.id.takeApicture:
                         Log.i("Change image","camera selected");*/
+
 
                         //MultipleImage selection code (implementation same as the one in Editproject////////////////////////////////////////////
 
@@ -443,6 +451,11 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
 
     }
+
+    /**
+     * read editproject before reading this
+     * @see EditProject
+     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

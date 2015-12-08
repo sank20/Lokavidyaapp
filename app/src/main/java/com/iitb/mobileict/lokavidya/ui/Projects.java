@@ -1,19 +1,24 @@
 package com.iitb.mobileict.lokavidya.ui;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-
+import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v7.widget.PopupMenu;
@@ -44,19 +49,27 @@ import com.iitb.mobileict.lokavidya.util.Communication;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
+/**
+ * Implementation of the Projects / dashboard activity
+ */
+public class Projects extends AppCompatActivity  {
 
-public class Projects extends AppCompatActivity {
 
 
     private String importProjectName;
@@ -92,7 +105,7 @@ public class Projects extends AppCompatActivity {
         }
 //-------------------------------------------------------------------------------------------------------------------------
 
-
+        /*the following code loads all the folders inside the lokavidya folder and removes zips */
         importProjectName = "";
         Context context = getApplicationContext();
         Projectfile f = new Projectfile(context);
@@ -121,6 +134,7 @@ public class Projects extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        /*shared preferences used to store the project data*/
         SharedPreferences sharedPref;
         SharedPreferences.Editor editor;
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -128,8 +142,12 @@ public class Projects extends AppCompatActivity {
         editor.putInt("savedView", 0);
         editor.commit();
 
+        //show all the projects in the list
         displayProjects();
         ListView listView = (ListView) findViewById(R.id.ProjectList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.listitem, projectsList());
+        listView.setAdapter(adapter);
+        registerForContextMenu(listView); //for floating context menu (on long click)
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
                 String item = (String) adapter.getItemAtPosition(position);
@@ -140,6 +158,11 @@ public class Projects extends AppCompatActivity {
         });
     }
 
+    /**
+     * when the top right download icon is pressed, you get options to select the sample projects to download
+     * @param item
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -154,11 +177,11 @@ public class Projects extends AppCompatActivity {
                     case R.id.TreadlePump:
 
                         downloadSeed("Pump-Odiya","odiyapump.zip","http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/odiyapump.zip");
-                        Log.i("seed", "pummmmmppppppp");
+                        Log.i("seed", "pump");
                         return true;
                     case R.id.biogas:
                         downloadSeed("biogas-st-hindi","biogasSThi.zip","http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/biogasSThi.zip");
-                        Log.i("seed", "biiioooooooooo");
+                        Log.i("seed", "biogas");
 
                         return true;
 
@@ -166,6 +189,7 @@ public class Projects extends AppCompatActivity {
                 return true;
             }
         });
+
         // getMenuInflater().inflate(R.menu.menu_seed_download,menu);
         /*switch(item.getItemId()){
             case R.id.action_sync_seed:
@@ -240,6 +264,10 @@ public class Projects extends AppCompatActivity {
         toast.show();
     }
 
+    /**
+     *set adapter to listview in projects activity
+     * @param myStringArray
+     */
     public void ProjectsListView(List<String> myStringArray) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, myStringArray);
@@ -261,6 +289,10 @@ public class Projects extends AppCompatActivity {
         return myStringArray;
     }
 
+    /**
+     * when you need to add new project
+     * @param newproject namme of the new project
+     */
     public void addProject(String newproject) {
         if (newproject.equals("") || newproject.equals(" "))
             return; //(Sanket P) changed newproject == "" to newproject.equals("").
@@ -269,6 +301,10 @@ public class Projects extends AppCompatActivity {
         ProjectsListView(projects);
     }
 
+    /**
+     * when you press the 'add project' button in the activity
+     * @param v view
+     */
     public void addProjectCallBack(View v) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -282,6 +318,8 @@ public class Projects extends AppCompatActivity {
         builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                //all the checks and validations for an appropriate project names are performed:
 
                 Pattern pattern1 = Pattern.compile("\\s");
                 Pattern pattern2 = Pattern.compile("\\.");
@@ -324,6 +362,114 @@ public class Projects extends AppCompatActivity {
         builder.show();
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        System.out.print("Entered long press-1");
+        if (v.getId()==R.id.ProjectList) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+            menu.setHeaderTitle(projectsList().get(info.position));
+            String[] menuItems = getResources().getStringArray(R.array.menu);
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        System.out.print("Entered long press-2");
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int menuItemIndex = item.getItemId();
+        String[] menuItems = getResources().getStringArray(R.array.menu);
+        String menuItemName = menuItems[menuItemIndex];
+        String listItemName = projectsList().get(info.position);
+        if(menuItemName.equals("Delete")){
+            deleteProject(listItemName);
+        }
+        else if(menuItemName.equals("Duplicate Project")){
+            duplicateProject(listItemName);
+        }
+        else{
+            Toast.makeText(Projects.this, "Something is wrong", Toast.LENGTH_SHORT).show();
+        }
+//        Toast.makeText(Projects.this, menuItemName+" + "+listItemName, Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    /**
+     * code for creating a copy of the project. Renaming of the project also implemented in the same
+     * @param pname new project name
+     */
+    public void duplicateProject(final String pname){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.enterName);
+
+        final EditText input = new EditText(this);
+
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Pattern pattern1 = Pattern.compile("\\s");
+                Pattern pattern2 = Pattern.compile("\\.");
+                // Pattern pattern3 = Pattern.compile("");
+                String enteredProjectName=input.getText().toString();
+                //Matcher matcher1 = pattern1.matcher(input.getText().toString());
+                Matcher matcher2 = pattern2.matcher(enteredProjectName);
+                // Matcher matcher3 = pattern3.matcher(input.getText().toString());
+
+                //boolean found1 = matcher1.find();
+                boolean found1 = false;
+                boolean found2 = matcher2.find();
+                boolean found3 = enteredProjectName.contains("/");
+                // boolean found3 = matcher3.find();
+
+                if (enteredProjectName.charAt(0) == ' ' || enteredProjectName.charAt(enteredProjectName.length() - 1) == ' ')
+                    found1 = true;
+
+                if (found1)
+                    Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
+                else if (found2)
+                    Toast.makeText(Projects.this, getString(R.string.projectNameDot), Toast.LENGTH_LONG).show();
+                else if (found3)
+                    Toast.makeText(Projects.this, "Project name cannot contain '/'", Toast.LENGTH_LONG).show();
+                else {
+                    if (input.getText().toString().equals("")) {
+                        Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
+                    }
+                    else if(foundInProjectList(enteredProjectName)){
+                        Toast.makeText(Projects.this, getString(R.string.projectExists), Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        copyDuplicateProject(pname,enteredProjectName);
+                    }
+                }
+            }
+        });
+        builder.setNegativeButton(getString(R.string.CancelButton), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+
+    public void copyDuplicateProject(String pname, String newName){
+        Projectfile f = new Projectfile(getApplicationContext());
+        List<String> projects = f.AddNewProject(newName);
+        try {
+            f.duplicateContents(pname,newName,getThisActivity(),this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ProjectsListView(projects);
+    }
     /**
      * This method is called on click of tutorialButton . It contains just an intent to open an activity containing the VideoView
      * to show the tutorial Video (TutorialVideo.java).
@@ -339,6 +485,11 @@ public class Projects extends AppCompatActivity {
 
 
     }*/
+
+    /**
+     * dialog for delete project
+     * @param name project name
+     */
     public void deleteProject(final CharSequence name) {
         System.out.println("Outside dialog box");
 
@@ -365,6 +516,10 @@ public class Projects extends AppCompatActivity {
 
     }
 
+    /**
+     * onclick of delete project button
+     * @param v
+     */
     public void deleteProjectCallBack(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         List<String> projects = projectsList();
@@ -432,6 +587,7 @@ public class Projects extends AppCompatActivity {
     }
 
 
+
     public static String getPath(Context context, Uri uri) throws URISyntaxException {
         if ("content".equalsIgnoreCase(uri.getScheme())) {
             String[] projection = {"_data"};
@@ -455,6 +611,10 @@ public class Projects extends AppCompatActivity {
 
     public static final int FILE_SELECT_CODE = 102;
 
+    /**
+     * called for importing project after clicking on 'import'
+     * @param v
+     */
     public void importProjectCallback(View v) {
         importProjectName = "";
         try {
@@ -589,6 +749,12 @@ public class Projects extends AppCompatActivity {
         }
     }
 
+    /**
+     * method which calls the communication method for the given project zip and performs other checks
+     * @param Projectname name of the project
+     * @param zipname name of the project zip file
+     * @param link link to the server
+     */
     public void downloadSeed(String Projectname, final String zipname, String link) {
 
         if (!new File(seedpath + Projectname+"/").exists()) {

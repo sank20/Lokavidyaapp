@@ -11,6 +11,7 @@ import android.util.Log;
 
 /**
  * Created by Sanket Pimple on 15/11/15.
+ * contains everything related to communication with the server and upload/download
  */
 public class Communication extends BroadcastReceiver {
 

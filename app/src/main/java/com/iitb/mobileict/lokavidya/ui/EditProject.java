@@ -46,13 +46,17 @@ import java.util.List;
  * Created by saifur on 16/10/15.
  */
 
+/**
+ * Implementation of the Editing activity- contains all the supporting methods
+ *
+ */
 public class EditProject extends Activity {
 
     String projectName;
     ImageAdapter1 imageadapter;
     Button btnDelete;
-    public static int RESIZE_FACTOR = 400;
-    public static final int REQUEST_IMAGE = 1;
+    public static int RESIZE_FACTOR = 400; // resize factor used for compression
+    public static final int REQUEST_IMAGE = 1; //just a constant
     int count=0;
 
     @Override
@@ -71,7 +75,7 @@ public class EditProject extends Activity {
     protected void onStart() {
         super.onStart();
 
-        loadImages(true);
+        loadImages(true);  //goes to the project folder and loads all the images in the gridview
     }
 
     @Override
@@ -96,7 +100,7 @@ public class EditProject extends Activity {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         switch (requestCode) {
-            case REQUEST_IMAGE:
+            case REQUEST_IMAGE: //when you tap on 'Choose from gallery'
                 if (resultCode == RESULT_OK) {
                     //Uri imageUri = imageReturnedIntent.getData();
 
@@ -104,6 +108,7 @@ public class EditProject extends Activity {
 
                     final List<String> path = imageReturnedIntent.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                     Log.i("wth inside gallery case", path.get(0));
+
                     final ProgressDialog imageLoadingProgress = ProgressDialog.show(this, getString(R.string.stitchingProcessTitle), getString(R.string.galleryImageProcessMessage), true);
 
                     imageLoadingProgress.setCancelable(false);
@@ -145,7 +150,7 @@ public class EditProject extends Activity {
 
                 }
                 break;
-            case 2:
+            case 2: // when 'take a photo' is pressed
 
                 if (resultCode == Activity.RESULT_OK) {
                     Uri takenPhotoUri = getPhotoFileUri("temp.png");
@@ -167,16 +172,24 @@ public class EditProject extends Activity {
         }
     }
 
+    /**
+     * make a toast!
+     * @param text string to put in the toast
+     */
     public void toast(String text) {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
     }
 
+    /**
+     * called on click of 'Choose from gallery'
+     * @param v view
+     */
     public void gallery(View v) {
         /*Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(pickPhoto, 1);*/
-        Log.i("inside gallery method", "wth");
+        Log.i("inside gallery method", "ok");
 
         Intent intent = new Intent(getApplicationContext(), MultiImageSelectorActivity.class);
 
@@ -194,6 +207,12 @@ public class EditProject extends Activity {
 
     }
 
+    /**
+     * resize the bitmap according to the given size
+     * @param image the bitmap
+     * @param maxSize Resize factor
+     * @return returns resized bitmap
+     */
     public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
@@ -209,6 +228,10 @@ public class EditProject extends Activity {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
+    /**
+     * opens the recording activity of the given image in the project.
+     * @param position position of the image in the gridview
+     */
     public void ImageClickCallBack(int position) {
         Intent intent = new Intent(getApplicationContext(), Recording.class);
         intent.putExtra("projectname", projectName);
@@ -223,6 +246,10 @@ public class EditProject extends Activity {
     }
 
 
+    /**
+     * called when the button 'take picture is pressed
+     * @param v the View
+     */
     public void takePic(View v) {
 
 
@@ -233,6 +260,11 @@ public class EditProject extends Activity {
 
     }
 
+    /**
+     * returns the uri of the given file path
+     * @param fileName the image filename
+     * @return
+     */
     public Uri getPhotoFileUri(String fileName) {
 
 
@@ -253,6 +285,10 @@ public class EditProject extends Activity {
         return null;
     }
 
+    /**
+     * check if SD card is available
+     * @return true if available, false if not
+     */
     private boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
@@ -261,6 +297,10 @@ public class EditProject extends Activity {
         return false;
     }
 
+    /**
+     * When you press 'Let's make a project
+     * @param view
+     */
     public void proceed(View view) {
         //ImageAdapter1 ia = new ImageAdapter1();
         int check = imageadapter.getCount();
@@ -304,7 +344,7 @@ public class EditProject extends Activity {
         for (int i = 0; i < galleryItemsList.size(); i++)
             System.out.println("loading image pos------->" + galleryItemsList.get(i).position + "---------" + galleryItemsList.get(i).imgFileName);
 
-        if(isNew) {
+        if(isNew) {//this check was added to decide whether to add the images in the gridview, since if you need to call it from other method, this UI cannot be updated
             GridView gridview = (GridView) findViewById(R.id.gridview);
             imageadapter = new ImageAdapter1(this, R.layout.galleryitem, galleryItemsList);
             gridview.setAdapter(imageadapter);

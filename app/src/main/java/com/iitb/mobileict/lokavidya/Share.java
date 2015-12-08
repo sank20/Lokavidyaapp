@@ -39,6 +39,9 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 /**
  * Created by saikiran on 1/10/15.
+ * class and methods for implementation of the share feature,
+ * also contains the zipping and unzipping modules of the project
+ *
  */
 public class Share {
     public Context mContext;

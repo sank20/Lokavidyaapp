@@ -1,18 +1,28 @@
 package com.iitb.mobileict.lokavidya;
 
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * all the file handling methods related to projects are found here
+ */
 public class Projectfile {
     public Context mContext;
     public String mainFolder = "lokavidya";
@@ -117,19 +127,19 @@ public class Projectfile {
     }
 
     /* addImage: used in EditProject.java. to take an image from the gallery and put it in the images folder.
-            the picking image from gallery is done in EditProject.java.
-                */
-            public void addImage(Bitmap bitmap, String projectname){
-            String newImg;
-            File sdCard = Environment.getExternalStorageDirectory();
-            File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
+    the picking image from gallery is done in EditProject.java.
+     */
+    public void addImage(Bitmap bitmap, String projectname){
+        String newImg;
+        File sdCard = Environment.getExternalStorageDirectory();
+        File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
 
-            if(imgDir.exists()&& imgDir.isDirectory())
-            {
-                File file[] = imgDir.listFiles();
-                newImg = projectname + "." + String.valueOf(file.length+1) + ".png";
+        if(imgDir.exists()&& imgDir.isDirectory())
+        {
+            File file[] = imgDir.listFiles();
+            newImg = projectname + "." + String.valueOf(file.length+1) + ".png";
 
-                if(file.length!=0)
+            if(file.length!=0)
             {
                 boolean fileExists= false;
 
@@ -245,15 +255,17 @@ public class Projectfile {
         toast.show();
     }
 
+    /**
+     * create new project
+     * @param nameofproject projectname
+     * @return list of projects
+     */
     public List<String> AddNewProject(String nameofproject) {
 
 
         List<String> myStringArray = new ArrayList<String>();
         File sdCard = Environment.getExternalStorageDirectory();
-
-
-
-        File mainDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder);
+	File mainDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder);
 
         if(mainDir.exists()&& mainDir.isDirectory())
         {
@@ -329,6 +341,84 @@ public class Projectfile {
         return myStringArray;
     }
 
+    /**
+     * copy feature like google docs
+     *
+     * @param pname proj name
+     * @param newName new name the project needs to be renamed to
+     * @param activity
+     * @param context
+     * @throws IOException
+     */
+    public void duplicateContents(final String pname, final String newName, final Activity activity, final Context context) throws IOException {
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(activity, "Duplicating..",
+                "Duplicating your project", true);
+        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.setCanceledOnTouchOutside(false);
+        new Thread(new Runnable() {
+            @Override
+            public void run(){
+                File sdCard = Environment.getExternalStorageDirectory();
+                File mainDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder);
+                File fromImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + pname + "/images");
+                File fromAudiodir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + pname + "/audio");
+                File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + newName + "/images");
+                File toAudiodir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + newName + "/audio");
+                String[] fromImages = fromImagesdir.list();
+                String[] fromAudio = fromAudiodir.list();
+                List<String> toImagesList = new ArrayList<String>();
+                List<String> toAudioList = new ArrayList<String>();
+                for(int i=0;i<fromImages.length;i++){
+                    String image = fromImages[i];
+                    toImagesList.add(newName+image.substring(image.length()-6));
+                }
+                for(int i=0;i<fromAudio.length;i++){
+                    String audio = fromAudio[i];
+                    toAudioList.add(newName + audio.substring(audio.length() - 6));
+                }
+                String[] toImages = new String[toImagesList.size()];
+                toImagesList.toArray(toImages);
+                String[] toAudio = new String[toAudioList.size()];
+                toAudioList.toArray(toAudio);
+                try {
+                    for (int i = 0; i < fromImagesdir.listFiles().length; i++) {
+                        InputStream in = new FileInputStream(new File(fromImagesdir, fromImages[i]));
+                        OutputStream out = new FileOutputStream(new File(toImagesdir, toImages[i]));
+                        // Copy the bits from instream to outstream
+                        byte[] buf = new byte[1024];
+                        int len;
+                        while ((len = in.read(buf)) > 0) {
+                            out.write(buf, 0, len);
+                        }
+                        in.close();
+                        out.close();
+                    }
+                    for (int i = 0; i < fromAudiodir.listFiles().length; i++) {
+                        InputStream in = new FileInputStream(new File(fromAudiodir, fromAudio[i]));
+                        OutputStream out = new FileOutputStream(new File(toAudiodir, toAudio[i]));
+                        // Copy the bits from instream to outstream
+                        byte[] buf = new byte[1024];
+                        int len;
+                        while ((len = in.read(buf)) > 0) {
+                            out.write(buf, 0, len);
+                        }
+                        in.close();
+                        out.close();
+                    }
+                }
+                catch (Exception exp){
+                    System.out.print(exp);
+                }
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        ringProgressDialog.dismiss();
+                    }
+                });
+            }
+        }).start();
+    }
 
     public List<String> DeleteProject(CharSequence projectName)
     {
@@ -400,6 +490,12 @@ public class Projectfile {
 
     }
 
+    /**
+     * changing the image for the same audio
+     * @param ImageName
+     * @param projectname
+     * @param bitmap
+     */
     public void replaceImage(String ImageName, String projectname, Bitmap bitmap) {
         String newImg;
         File sdCard = Environment.getExternalStorageDirectory();
