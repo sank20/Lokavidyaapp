@@ -46,7 +46,7 @@ public class Stitch extends Activity {
 
         projectName= sharedPref.getString("projectname","");
 
-       count = sharedPref.getInt(projectName, 0);
+        count = sharedPref.getInt(projectName, 0);
 
         for(int i=0;i<count;i++)
         {
@@ -93,7 +93,7 @@ public class Stitch extends Activity {
                 } catch (Exception e) {
 
                 }finally {
-                   // Projectfile.deleteTempFiles(projectName);
+                    // Projectfile.deleteTempFiles(projectName);
                 }
 
 
@@ -115,5 +115,11 @@ public class Stitch extends Activity {
 
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setVisible(true);
     }
 }

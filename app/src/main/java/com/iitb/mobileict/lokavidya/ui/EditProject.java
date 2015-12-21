@@ -11,6 +11,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,6 +40,7 @@ import com.iitb.mobileict.lokavidya.ui.shotview.GalleryItem;
 import com.iitb.mobileict.lokavidya.ui.shotview.ViewShots;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +70,6 @@ public class EditProject extends Activity {
         setContentView(R.layout.activity_edit_project);
         btnDelete = (Button) findViewById(R.id.btnDeleteImg);
 
-
-
     }
 
     @Override
@@ -95,6 +96,12 @@ public class EditProject extends Activity {
 
     }
 
+    public Bitmap getImage(String path) throws IOException {
+        ContentResolver cr = this.getContentResolver();
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, getImageContentUri(getApplicationContext(), path));
+        return bitmap;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
@@ -103,9 +110,6 @@ public class EditProject extends Activity {
             case REQUEST_IMAGE: //when you tap on 'Choose from gallery'
                 if (resultCode == RESULT_OK) {
                     //Uri imageUri = imageReturnedIntent.getData();
-
-
-
                     final List<String> path = imageReturnedIntent.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                     Log.i("wth inside gallery case", path.get(0));
 
@@ -119,16 +123,16 @@ public class EditProject extends Activity {
                         @Override
                         public void run() {
 
-
                             try {
-
                                 int i;
-
                                 for (i = 0; i < path.size(); i++) {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, getImageContentUri(getApplicationContext(), path.get(i))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
                                     bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
                                     Projectfile f = new Projectfile(getApplicationContext());
                                     f.addImage(bitmap, projectName);
+
+                                    System.out.println("...........................??=="+ bitmap.getHeight());
+                                    System.out.println("...........................??==" + bitmap.getWidth());
                                 }
 
                             } catch (IOException fe) {
@@ -158,6 +162,9 @@ public class EditProject extends Activity {
 
                     Bitmap photo = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                     photo = getResizedBitmap(photo, RESIZE_FACTOR);
+
+                    System.out.println("...........................??" + photo.getHeight());
+                    System.out.println("...........................??"+photo.getWidth());
 
                     Projectfile f = new Projectfile(getApplicationContext());
                     f.addImage(photo, projectName);
@@ -218,14 +225,16 @@ public class EditProject extends Activity {
         int height = image.getHeight();
 
         float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 0) {
+
+        if (bitmapRatio >= 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
         } else {
             height = maxSize;
             width = (int) (height * bitmapRatio);
         }
-        return Bitmap.createScaledBitmap(image, width, height, true);
+        return addpaddingBitmap(image, width, height, maxSize);
+//        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
     /**
@@ -566,6 +575,44 @@ public class EditProject extends Activity {
                 return null;
             }
         }
+    }
+
+    public static Bitmap addpaddingBitmap(Bitmap unscaledBitmap, int dstWidth, int dstHeight, int maxsize){
+        int width, height;
+        int padwidth, padheight;
+        int imwidth, imheight;
+
+        width = 400;
+        height = 300;
+
+        if (height > dstHeight) {
+            padheight = height - dstHeight;
+            padwidth = 0;
+        } else {
+            padheight = 0;
+            float ratio = (float)dstHeight / (float)height;
+            padwidth = (int) (width - width / ratio);
+        }
+
+        imwidth = width - padwidth;
+        imheight = height - padheight;
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(unscaledBitmap, imwidth, imheight, true);
+
+        Bitmap paddedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(paddedBitmap);
+        canvas.drawARGB(0xFF, 0x00, 0x00, 0x00);
+        canvas.drawBitmap(scaledBitmap, padwidth / 2, padheight / 2, null);
+
+//        System.out.println("...................................................dstHeight = "+dstHeight);
+//        System.out.println("...................................................dstWidth = " + dstWidth);
+//        System.out.println("...................................................padheight = "+padheight);
+//        System.out.println("...................................................padwidth = "+padwidth);
+//        System.out.println("...................................................imheight = "+imheight);
+//        System.out.println("...................................................imwidth = "+imwidth);
+//        System.out.println("...................................................canwidth = " + canvas.getWidth());
+//        System.out.println("...................................................canheight = " + canvas.getHeight());
+
+        return paddedBitmap;
     }
 
 }

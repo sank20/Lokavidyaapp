@@ -76,11 +76,13 @@ public class ScalingUtilities {
      * @return New scaled bitmap object
      */
     public static Bitmap createScaledBitmap(Bitmap unscaledBitmap, int dstWidth, int dstHeight,
-            ScalingLogic scalingLogic) {
+                                            ScalingLogic scalingLogic) {
+
         Rect srcRect = calculateSrcRect(unscaledBitmap.getWidth(), unscaledBitmap.getHeight(),
                 dstWidth, dstHeight, scalingLogic);
         Rect dstRect = calculateDstRect(unscaledBitmap.getWidth(), unscaledBitmap.getHeight(),
                 dstWidth, dstHeight, scalingLogic);
+
         Bitmap scaledBitmap = Bitmap.createBitmap(dstRect.width(), dstRect.height(),
                 Config.ARGB_8888);
         Canvas canvas = new Canvas(scaledBitmap);
@@ -118,7 +120,7 @@ public class ScalingUtilities {
      * @return Optimal down scaling sample size for decoding
      */
     public static int calculateSampleSize(int srcWidth, int srcHeight, int dstWidth, int dstHeight,
-            ScalingLogic scalingLogic) {
+                                          ScalingLogic scalingLogic) {
         if (scalingLogic == ScalingLogic.FIT) {
             final float srcAspect = (float)srcWidth / (float)srcHeight;
             final float dstAspect = (float)dstWidth / (float)dstHeight;
@@ -151,7 +153,7 @@ public class ScalingUtilities {
      * @return Optimal source rectangle
      */
     public static Rect calculateSrcRect(int srcWidth, int srcHeight, int dstWidth, int dstHeight,
-            ScalingLogic scalingLogic) {
+                                        ScalingLogic scalingLogic) {
         if (scalingLogic == ScalingLogic.CROP) {
             final float srcAspect = (float)srcWidth / (float)srcHeight;
             final float dstAspect = (float)dstWidth / (float)dstHeight;
@@ -181,7 +183,7 @@ public class ScalingUtilities {
      * @return Optimal destination rectangle
      */
     public static Rect calculateDstRect(int srcWidth, int srcHeight, int dstWidth, int dstHeight,
-            ScalingLogic scalingLogic) {
+                                        ScalingLogic scalingLogic) {
         if (scalingLogic == ScalingLogic.FIT) {
             final float srcAspect = (float)srcWidth / (float)srcHeight;
             final float dstAspect = (float)dstWidth / (float)dstHeight;
