@@ -6,6 +6,8 @@
         <color name="textColorPrimary">#FFFFFF</color>
         <color name="windowBackground">#FFFFFF</color>
         <color name="navigationBarColor">#000000</color>
-        <color name="colorAccent">#FF80AB</color>
+        <color name="colorAccent">#F44336</color>
+        <color name="colorFAB1">#2196F3</color>
+        <color name="colorFAB2">#E040FB</color>
 
 </resources>

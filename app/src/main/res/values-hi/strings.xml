@@ -63,6 +63,8 @@
     <string name="TreadlePump">पावदान पम्प का कार्य(ओड़िया )</string>
     <string name="offlineSeed">ST-Swirler-Marathi</string>
     <string name="seedDownloadProgress">नमूना परियोजनाओं डाउनलोड कर रहा है</string>
+    <string name="fab_add_button">Add Project</string>
+    <string name="fab_import_button">Import Project</string>
 
 
     <string-array name="nav_drawer_labels" />

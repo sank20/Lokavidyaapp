@@ -1,42 +1,54 @@
 package com.iitb.mobileict.lokavidya.ui;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DownloadManager;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.provider.SyncStateContract;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 
-import android.support.v7.widget.PopupMenu;
+
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.PopupMenu;
 import android.text.InputType;
 
 
 
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+
 import android.widget.Toast;
 
 
@@ -44,36 +56,47 @@ import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
 import com.iitb.mobileict.lokavidya.util.Communication;
+import com.iitb.mobileict.lokavidya.util.animations;
 
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 /**
  * Implementation of the Projects / dashboard activity
  */
-public class Projects extends AppCompatActivity  {
+public class Projects extends Activity implements View.OnClickListener {
 
 
 
     private String importProjectName;
     private String seedpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
+
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    private String[] mPlanetTitles;
+    private LinearLayout drawerLinearLayout;
+
+    public static Boolean isFabOpen = false;
+    private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+
+    private Button fabAddButton,fabImportButton;
+    private FloatingActionButton fabadd,fabmain,fabimport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +147,109 @@ public class Projects extends AppCompatActivity  {
 
 //        View seed= (View)findViewById(R.id.action_sync_seed);
 //        registerForContextMenu(seed);
+
+
         setContentView(R.layout.activity_projects);
+
+
+
+
+        mTitle = mDrawerTitle = getTitle();
+        mPlanetTitles = getResources().getStringArray(R.array.drawer_list_array);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerLinearLayout=(LinearLayout)findViewById(R.id.drawer_linear_layout);
+        // set a custom shadow that overlays the main content when the drawer opens
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        // set up the drawer's list view with items and click listener
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, mPlanetTitles));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+         //ImageView drawerImg = (ImageView) findViewById(R.id.drawer_image);
+        //drawerImg.setImageResource(R.drawable.fuckthat);
+        // enable ActionBar app icon to behave as action to toggle nav drawer
+        /*TextView drawertext=(TextView)findViewById(R.id.drawer_textview);
+        drawertext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplication(),"text clicked!!",Toast.LENGTH_SHORT).show();
+            }
+        });*/
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        // ActionBarDrawerToggle ties together the the proper interactions
+        // between the sliding drawer and the action bar app icon
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                mDrawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description for accessibility */
+                R.string.drawer_close  /* "close drawer" description for accessibility */
+        ) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(mDrawerTitle);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        if (savedInstanceState == null) {
+            selectItem(0);
+        }
+
+        //------------------------------------------F---------------A---------------B--------------------------------------------------
+
+        fabadd= (FloatingActionButton) findViewById(R.id.fab_add);
+        fabimport= (FloatingActionButton) findViewById(R.id.fab_import);
+        fabmain = (FloatingActionButton) findViewById(R.id.fab_main);
+
+
+        fabmain.setOnClickListener(this);
+        fabadd.setOnClickListener(this);
+        fabimport.setOnClickListener(this);
+
+        fabAddButton=(Button)findViewById(R.id.fabAddbutton);
+        fabImportButton=(Button)findViewById(R.id.fabImportButton);
+
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+
+
+
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        int id = v.getId();
+        switch (id){
+            case R.id.fab_main:
+
+                animations.animateFAB(isFabOpen,fabmain,fabadd,fabimport,rotate_forward,rotate_backward,fab_open,fab_close,fabAddButton,fabImportButton);
+                break;
+            case R.id.fab_add:
+
+                Log.d("FAB", "ADD");
+                addProjectCallBack(v);
+                break;
+            case R.id.fab_import:
+
+                Log.d("FAB", "Import");
+                importProjectCallback(v);
+                break;
+        }
 
 
     }
@@ -158,6 +283,14 @@ public class Projects extends AppCompatActivity  {
         });
     }
 
+    /* Called whenever we call invalidateOptionsMenu() */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // If the nav drawer is open, hide action items related to the content view
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(drawerLinearLayout);
+        //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
     /**
      * when the top right download icon is pressed, you get options to select the sample projects to download
      * @param item
@@ -166,29 +299,10 @@ public class Projects extends AppCompatActivity  {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        PopupMenu popup = new PopupMenu(this, findViewById(R.id.action_sync_seed));
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_seed_projects, popup.getMenu());
-        popup.show();
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.TreadlePump:
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
 
-                        downloadSeed("Pump-Odiya","odiyapump.zip","http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/odiyapump.zip");
-                        Log.i("seed", "pump");
-                        return true;
-                    case R.id.biogas:
-                        downloadSeed("biogas-st-hindi","biogasSThi.zip","http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/biogasSThi.zip");
-                        Log.i("seed", "biogas");
-
-                        return true;
-
-                }
-                return true;
-            }
-        });
 
         // getMenuInflater().inflate(R.menu.menu_seed_download,menu);
         /*switch(item.getItemId()){
@@ -248,14 +362,7 @@ public class Projects extends AppCompatActivity  {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_seed_download, menu);
 
-        //return true;
-        return super.onCreateOptionsMenu(menu);
-    }
 
 
     public void toast(String text) {
@@ -799,6 +906,121 @@ public class Projects extends AppCompatActivity  {
         }
 
 
+    }
+
+
+
+    /* The click listner for ListView in the navigation drawer */
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            System.out.println("------------------------------Drawer list item click "+ position+"-------------------------------");
+            selectItem(position);
+
+        }
+    }
+
+    private void selectItem(int position) {
+        // update the main content by replacing fragments
+        if(position==1){
+            System.out.println("------------------------------selectitem item click "+ position+"-------------------------------");
+
+            showSampleProjectPopup();
+        }
+        else {
+            Fragment fragment = new ProjectFragment();
+            Bundle args = new Bundle();
+            args.putInt("drawer_list_array", position);
+            fragment.setArguments(args);
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+            // update selected item and title, then close the drawer
+            mDrawerList.setItemChecked(position, true);
+            setTitle(mPlanetTitles[position]);
+            mDrawerLayout.closeDrawer(drawerLinearLayout);
+        }
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(mTitle);
+    }
+
+    /**
+     * When using the ActionBarDrawerToggle, you must call it during
+     * onPostCreate() and onConfigurationChanged()...
+     */
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggls
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+
+    public void showSampleProjectPopup(){
+        System.out.println("------------------------------inside showsampleprojectpopup item click -------------------------------");
+
+        PopupMenu popup = new PopupMenu(this , findViewById(R.id.drawelistitem));
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.menu_seed_projects, popup.getMenu());
+
+        popup.show();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.TreadlePump:
+
+                        downloadSeed("Pump-Odiya", "odiyapump.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/odiyapump.zip");
+                        Log.i("seed", "pump");
+                        return true;
+                    case R.id.biogas:
+                        downloadSeed("biogas-st-hindi", "biogasSThi.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/biogasSThi.zip");
+                        Log.i("seed", "biogas");
+
+                        return true;
+
+
+                }
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Fragment that appears in the "content_frame", shows a planet
+     */
+    public static class ProjectFragment extends Fragment {
+        public static final String ARG_PLANET_NUMBER = "planet_number";
+
+        public ProjectFragment() {
+            // Empty constructor required for fragment subclasses
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+           // Toast.makeText(getActivity(),"YAY",Toast.LENGTH_SHORT).show();
+            int i = getArguments().getInt("drawer_list_array");
+            String option = getResources().getStringArray(R.array.drawer_list_array)[i];
+            Log.i("ProjectFragment",option+" at position "+Integer.toString(i)+" selected");
+
+
+            return super.onCreateView(inflater, container, savedInstanceState);
+        }
     }
 }
 

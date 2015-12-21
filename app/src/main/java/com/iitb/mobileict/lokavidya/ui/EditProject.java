@@ -127,6 +127,7 @@ public class EditProject extends Activity {
                                 for (i = 0; i < path.size(); i++) {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, getImageContentUri(getApplicationContext(), path.get(i))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
                                     bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
+
                                     Projectfile f = new Projectfile(getApplicationContext());
                                     f.addImage(bitmap, projectName);
                                 }
@@ -217,6 +218,7 @@ public class EditProject extends Activity {
         int width = image.getWidth();
         int height = image.getHeight();
 
+        Log.i("getresizedbitmapInitial","width: "+Integer.toString(width) + " height: "+Integer.toString(height));
         float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 0) {
             width = maxSize;
@@ -225,6 +227,8 @@ public class EditProject extends Activity {
             height = maxSize;
             width = (int) (height * bitmapRatio);
         }
+        Log.i("getresizedbitmapChanged","width: "+Integer.toString(width) + " height: "+Integer.toString(height));
+
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
