@@ -12,7 +12,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +20,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,7 +59,7 @@ public class EditProject extends Activity {
     String projectName;
     ImageAdapter1 imageadapter;
     Button btnDelete;
-    public static int RESIZE_FACTOR = 400; // resize factor used for compression
+    public static int RESIZE_FACTOR; // resize factor used for compression
     public static final int REQUEST_IMAGE = 1; //just a constant
     int count=0;
 
@@ -106,6 +107,8 @@ public class EditProject extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
+        RESIZE_FACTOR = getScreenwidth();
+        System.out.println("RESIZE_FACTOR-----------------------------------------"+RESIZE_FACTOR);
         switch (requestCode) {
             case REQUEST_IMAGE: //when you tap on 'Choose from gallery'
                 if (resultCode == RESULT_OK) {
@@ -128,6 +131,7 @@ public class EditProject extends Activity {
                                 for (i = 0; i < path.size(); i++) {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, getImageContentUri(getApplicationContext(), path.get(i))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
                                     bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
+
                                     Projectfile f = new Projectfile(getApplicationContext());
                                     f.addImage(bitmap, projectName);
 
@@ -189,6 +193,14 @@ public class EditProject extends Activity {
         toast.show();
     }
 
+    public int getScreenwidth(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        return width;
+    }
+
     /**
      * called on click of 'Choose from gallery'
      * @param v view
@@ -224,6 +236,7 @@ public class EditProject extends Activity {
         int width = image.getWidth();
         int height = image.getHeight();
 
+        Log.i("getresizedbitmapInitial","width: "+Integer.toString(width) + " height: "+Integer.toString(height));
         float bitmapRatio = (float) width / (float) height;
 
         if (bitmapRatio >= 1) {
@@ -233,8 +246,10 @@ public class EditProject extends Activity {
             height = maxSize;
             width = (int) (height * bitmapRatio);
         }
+        Log.i("getresizedbitmapChanged","width: "+Integer.toString(width) + " height: "+Integer.toString(height));
         return addpaddingBitmap(image, width, height, maxSize);
 //        return Bitmap.createScaledBitmap(image, width, height, true);
+
     }
 
     /**
@@ -582,16 +597,31 @@ public class EditProject extends Activity {
         int padwidth, padheight;
         int imwidth, imheight;
 
-        width = 400;
-        height = 300;
+        width = maxsize;
+        height = (int) maxsize*3/4;
 
-        if (height > dstHeight) {
-            padheight = height - dstHeight;
-            padwidth = 0;
-        } else {
-            padheight = 0;
-            float ratio = (float)dstHeight / (float)height;
-            padwidth = (int) (width - width / ratio);
+        if(dstWidth>=dstHeight) {
+            if (height > dstHeight) {
+                padheight = height - dstHeight;
+                padwidth = 0;
+            } else {
+                padheight = 0;
+                float ratio = (float) dstHeight / (float) height;
+                padwidth = (int) (width - width / ratio);
+            }
+        }
+        else{
+            dstHeight = (int)dstHeight*3/4;
+            dstWidth = (int)dstWidth*3/4;
+            if(width>dstWidth){
+                padheight = 0;
+                padwidth = width - dstWidth;
+            }
+            else{
+                padwidth = 0;
+                float ratio = (float) dstWidth / (float) width;
+                padheight = (int) (height - height/ratio);
+            }
         }
 
         imwidth = width - padwidth;
@@ -603,14 +633,14 @@ public class EditProject extends Activity {
         canvas.drawARGB(0xFF, 0x00, 0x00, 0x00);
         canvas.drawBitmap(scaledBitmap, padwidth / 2, padheight / 2, null);
 
-//        System.out.println("...................................................dstHeight = "+dstHeight);
-//        System.out.println("...................................................dstWidth = " + dstWidth);
-//        System.out.println("...................................................padheight = "+padheight);
-//        System.out.println("...................................................padwidth = "+padwidth);
-//        System.out.println("...................................................imheight = "+imheight);
-//        System.out.println("...................................................imwidth = "+imwidth);
-//        System.out.println("...................................................canwidth = " + canvas.getWidth());
-//        System.out.println("...................................................canheight = " + canvas.getHeight());
+        System.out.println("...................................................dstHeight = "+dstHeight);
+        System.out.println("...................................................dstWidth = " + dstWidth);
+        System.out.println("...................................................padheight = "+padheight);
+        System.out.println("...................................................padwidth = "+padwidth);
+        System.out.println("...................................................imheight = "+imheight);
+        System.out.println("...................................................imwidth = "+imwidth);
+        System.out.println("...................................................canwidth = " + canvas.getWidth());
+        System.out.println("...................................................canheight = " + canvas.getHeight());
 
         return paddedBitmap;
     }
