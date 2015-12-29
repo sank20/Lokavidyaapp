@@ -4,6 +4,7 @@
     <string name="title_activity_edit_project">Edit Project</string>
     <string name="title_activity_recording">Recording</string>
     <string name="title_activity_view_video">View Video</string>
+    <string name="title_activity_crop_image">Crop</string>
     <string name="delete">Delete</string>
     <string name="myprojects">My Projects</string>
     <string name="addProject">Add project</string>
@@ -74,5 +75,7 @@
         <item>Duplicate Project</item>
         <item>Delete</item>
     </string-array>
+
+    <string name="croppedImageDesc">The cropped image.</string>
 
 </resources>

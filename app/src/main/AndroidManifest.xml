@@ -20,8 +20,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-         >
+        android:label="@string/app_name">
 
         <receiver
             android:name="com.iitb.mobileict.lokavidya.util.Communication"
@@ -44,37 +43,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
 
             </intent-filter>
-
-
         </activity>
+
         <activity
             android:name=".ui.shotview.ViewShots"
             android:label="Shots"
-
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name=".ui.EditProject"
             android:theme="@style/Base.Theme.AppCompat.Light"
             android:label="@string/title_activity_edit_project"
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name=".ui.Recording"
             android:label="@string/title_activity_recording"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>
+
         <activity
             android:name=".ui.ViewVideo"
             android:label="@string/title_activity_view_video"
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name=".Stitch"
             android:label="Stitch"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoDisplay" >
+        </activity>
+
+        <activity
+            android:name=".ui.CropImage"
+            android:label="@string/title_activity_crop_image"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
         </activity>
         <!--
         <activity
@@ -88,7 +96,6 @@
             android:name=".ui.TutorialVideo"
             android:label="@string/title_activity_tutorial_video" >
         </activity>
-
 
     </application>
 

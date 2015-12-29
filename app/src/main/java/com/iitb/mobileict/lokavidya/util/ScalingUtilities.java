@@ -75,19 +75,13 @@ public class ScalingUtilities {
      * @param scalingLogic Logic to use to avoid image stretching
      * @return New scaled bitmap object
      */
-    public static Bitmap createScaledBitmap(Bitmap unscaledBitmap, int dstWidth, int dstHeight,
-                                            ScalingLogic scalingLogic) {
+    public static Bitmap createScaledBitmap(Bitmap unscaledBitmap, int dstWidth, int dstHeight, ScalingLogic scalingLogic) {
 
-        Rect srcRect = calculateSrcRect(unscaledBitmap.getWidth(), unscaledBitmap.getHeight(),
-                dstWidth, dstHeight, scalingLogic);
-        Rect dstRect = calculateDstRect(unscaledBitmap.getWidth(), unscaledBitmap.getHeight(),
-                dstWidth, dstHeight, scalingLogic);
-
-        Bitmap scaledBitmap = Bitmap.createBitmap(dstRect.width(), dstRect.height(),
-                Config.ARGB_8888);
+        Rect srcRect = calculateSrcRect(unscaledBitmap.getWidth(), unscaledBitmap.getHeight(), dstWidth, dstHeight, scalingLogic);
+        Rect dstRect = calculateDstRect(unscaledBitmap.getWidth(), unscaledBitmap.getHeight(), dstWidth, dstHeight, scalingLogic);
+        Bitmap scaledBitmap = Bitmap.createBitmap(dstRect.width(), dstRect.height(), Config.ARGB_8888);
         Canvas canvas = new Canvas(scaledBitmap);
         canvas.drawBitmap(unscaledBitmap, srcRect, dstRect, new Paint(Paint.FILTER_BITMAP_FLAG));
-
         return scaledBitmap;
     }
 

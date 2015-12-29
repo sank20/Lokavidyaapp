@@ -70,7 +70,6 @@ public class EditProject extends Activity {
         projectName = intent.getStringExtra("projectname");
         setContentView(R.layout.activity_edit_project);
         btnDelete = (Button) findViewById(R.id.btnDeleteImg);
-
     }
 
     @Override
@@ -275,7 +274,6 @@ public class EditProject extends Activity {
      * @param v the View
      */
     public void takePic(View v) {
-
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri("temp.png"));
