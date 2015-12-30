@@ -821,7 +821,7 @@ public class Projects extends Activity implements View.OnClickListener {
     public Activity getThisActivity() {
         return this;
     }
-//<<<<<<< HEAD
+
 
 
     /**

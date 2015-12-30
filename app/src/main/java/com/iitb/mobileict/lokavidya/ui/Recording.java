@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -23,6 +24,7 @@ import android.support.v7.widget.PopupMenu;
 import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Display;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,8 +46,10 @@ import com.iitb.mobileict.lokavidya.util.Utilities;
 import com.iitb.mobileict.lokavidya.util.ScalingUtilities;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -76,7 +80,10 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     File image_file;
     Bitmap scaledBitmap;
 
+    public static final int REQUEST_CROP=2;
 
+    public int flag;
+    public static int RESIZE_FACTOR;
     /** Id of image resource to decode */
     private int mSourceId;
 
@@ -85,6 +92,9 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
     /** Wanted height of decoded image */
     private int mDstHeight;
+
+    private String temp_path;
+    private String cropped_path;
 
     /** Image view for presenting decoding result */
     private ImageView imageView;
@@ -387,16 +397,19 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     public void cropButtonPressed(View view) {
         final long startTime = SystemClock.uptimeMillis();
 
-        // Part 1: Decode image
-        Bitmap unscaledBitmap = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, image_file.getAbsolutePath());
+//        // Part 1: Decode image
+//        Bitmap unscaledBitmap = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, image_file.getAbsolutePath());
+//        // Part 2: Scale image
+//        scaledBitmap = ScalingUtilities.createScaledBitmap(unscaledBitmap, mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.CROP);
 
-        // Part 2: Scale image
-        scaledBitmap = ScalingUtilities.createScaledBitmap(unscaledBitmap, mDstWidth,
-                mDstHeight, ScalingUtilities.ScalingLogic.CROP);
-        unscaledBitmap.recycle();
+//        imageView.setImageBitmap(scaledBitmap);
 
-        imageView.setImageBitmap(scaledBitmap);
-        changed = true;
+        Intent intent = new Intent(getApplicationContext(),CropImage.class);
+        intent.putExtra("mDstWidth",mDstWidth);
+        intent.putExtra("mDstHeight",mDstHeight);
+        intent.putExtra("path", image_file.getAbsolutePath());
+        startActivityForResult(intent, REQUEST_CROP);
+//        unscaledBitmap.recycle();
     }
 
     /**
@@ -457,10 +470,20 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
      * @see EditProject
      */
 
+    public int getScreenwidth(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        return width;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        flag = 0;
         if(requestCode == EditProject.REQUEST_IMAGE){
+            System.out.println("REQUEST_IMAGE passed");
             if(resultCode == RESULT_OK){
                 // Get the result list of select image paths
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
@@ -507,6 +530,19 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                     Toast.makeText(getApplicationContext(),"Image file not found in the library " + Uri.parse(path.get(0)),Toast.LENGTH_LONG).show();
                     fe.printStackTrace();
                 }
+            }
+        }
+        else if(requestCode == REQUEST_CROP){
+            if(resultCode == RESULT_OK){
+                cropped_path = data.getStringExtra("path");
+                temp_path = data.getStringExtra("temp_path");
+                Bitmap cropped = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, cropped_path+imagefileName + ".png");
+
+                RESIZE_FACTOR = getScreenwidth();
+                scaledBitmap = EditProject.getResizedBitmap(cropped, RESIZE_FACTOR);
+                imageView.setImageBitmap(scaledBitmap);
+                changed = true;
+                flag = 1;
             }
         }
     }
@@ -606,41 +642,70 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.save);
 
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+
                     File sdCard = Environment.getExternalStorageDirectory();
-                    File imgDir = new File (sdCard.getAbsolutePath() + "/lokavidya"+"/"+projectName+"/images");
-                    File writetofile = new File(imgDir, imagefileName+".png");
+                    File imgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/images");
+                    File writetofile = new File(imgDir, imagefileName + ".png");
                     FileOutputStream outStream = null;
                     try {
-
-
                         outStream = new FileOutputStream(writetofile);
                         scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
                         outStream.flush();
                         outStream.close();
 
-
                     } catch (Exception e) {
-                        Toast.makeText(Recording.this,"Cannot create new image : addimage",Toast.LENGTH_LONG);
+                        Toast.makeText(Recording.this, "Cannot create new image : addimage", Toast.LENGTH_LONG);
                         e.printStackTrace();
                     } finally {
                         try {
-                            if (outStream!= null) {
+                            if (outStream != null) {
                                 outStream.close();
+                                File temp_image = new File(temp_path+imagefileName + ".png");
+                                temp_image.delete();
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                     finish();
+                    }
 
-                   }
+
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    if(flag==1){
+
+                        flag = 0;
+                        String file_name = imagefileName + ".png";
+
+                        Bitmap bm = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, temp_path+file_name);
+                        OutputStream out = null;
+                        File file = new File(cropped_path,file_name);
+                        try {
+                            out = new FileOutputStream(file);
+                            bm.compress(Bitmap.CompressFormat.PNG, 100, out);
+                        }
+                        catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        finally{
+                            try{
+                                if(out != null){
+                                    out.close();
+                                    File temp_image = new File(temp_path+imagefileName + ".png");
+                                    temp_image.delete();
+                                }
+                            }
+                            catch(IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }
                     dialog.cancel();
                     finish();
                 }

@@ -7,5 +7,11 @@
     <dimen name="destination_height">250dip</dimen>
 
     <dimen name="nav_drawer_width">260dp</dimen>
+
     <dimen name="fab_margin">0dp</dimen>
+
+
+    <dimen name="content_padding">16dp</dimen>          //Crop
+    <dimen name="content_padding_half">8dp</dimen>      //Crop
+
 </resources>

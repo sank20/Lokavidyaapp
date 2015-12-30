@@ -35,7 +35,8 @@ dependencies {
     compile project(':MultipleImageSelection')
     compile files('libs/zip4j_1.3.2.jar')
     compile 'com.android.support:design:23.0.1'
-    
+    compile 'com.edmodo:cropper:1.0.1'
+
 
 }
 android {

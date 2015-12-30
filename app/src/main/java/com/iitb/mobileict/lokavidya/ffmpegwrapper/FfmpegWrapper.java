@@ -1,10 +1,19 @@
 package com.iitb.mobileict.lokavidya.ffmpegwrapper;
 
+import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import com.iitb.mobileict.lokavidya.data.Video;
+import com.iitb.mobileict.lokavidya.ui.EditProject;
 import com.iitb.mobileict.lokavidya.util.DaggerDependencyModule;
 import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
@@ -31,7 +40,7 @@ import dagger.ObjectGraph;
  * Created by sanket on 9/7/2015.
  */
 
-public class FfmpegWrapper {
+public class FfmpegWrapper{
     private static final String TAG = FfmpegWrapper.class.getSimpleName();
 
     @Inject
@@ -48,7 +57,7 @@ public class FfmpegWrapper {
         loadFFMpegBinary();
     }
 
-    public Video stitch(ArrayList<String> imageUrls,ArrayList<String> audioUrls,String projectName) throws FileNotFoundException {
+    public Video stitch(ArrayList<String> imageUrls,ArrayList<String> audioUrls,String projectName) throws IOException {
         Log.v("imageURLS", imageUrls.toString());
         Log.v("audioURLS",audioUrls.toString());
         ArrayList<String> lastStitchCommand = new ArrayList<String>();
@@ -76,8 +85,11 @@ public class FfmpegWrapper {
             tmpDir.mkdirs();
         }
 
-
-
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imageUrls.get(0), bitmapOptions);
+        int width = bitmapOptions.outWidth;
+        int height = bitmapOptions.outHeight;
 
         /// Command Generation
         if(imageUrls.size()==audioUrls.size())
@@ -85,10 +97,10 @@ public class FfmpegWrapper {
             for(int i=0;i<imageUrls.size();i++)
             {
                 File imageFile = new File(imageUrls.get(i));
+//                String cmd= "-loop 1 -i "+imageUrls.get(i)+" -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=320:240 /storage/emulated/0/DstApp/tmp/out-"+i+".mp4";
 
-              //  String cmd= "-loop 1 -i "+imageUrls.get(i)+" -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=320:240 /storage/emulated/0/DstApp/tmp/out-"+i+".mp4";
-
-                String cmd= "-loop 1 -i '"+imageUrls.get(i)+"' -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=640:480 '"+imgOut+i+".mp4'";
+//                String cmd= "-loop 1 -i '"+imageUrls.get(i)+"' -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=640:480 '"+imgOut+i+".mp4'";
+                String cmd= "-loop 1 -i '"+imageUrls.get(i)+"' -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale="+width+":"+height+" '"+imgOut+i+".mp4'";
 
                 System.out.println("command to stich audio files:" + cmd);
 
@@ -132,7 +144,7 @@ public class FfmpegWrapper {
             lastStitchCommand.add("-2");
             lastStitchCommand.add("/storage/emulated/0/DstApp/tmp/superfinal.mp4");
 */
-           // cmd += " \" [0:0] [0:1] [1:0] [1:1] concat=n=2:v=1:a=1 [v] [a] \" -map \" [v] \" -map \" [a] \" -strict -2 superfinal.mp4";
+            // cmd += " \" [0:0] [0:1] [1:0] [1:1] concat=n=2:v=1:a=1 [v] [a] \" -map \" [v] \" -map \" [a] \" -strict -2 superfinal.mp4";
 
             //cmdArrayList.add(cmd);
         }
@@ -161,7 +173,7 @@ public class FfmpegWrapper {
             {
                 Log.e("wahji",commandArray[z]);
             }
-          //  Log.v("Displaying list of commands", "Commands");
+            //  Log.v("Displaying list of commands", "Commands");
             for (String s : commandArray) {
                 Log.v("Command", s);
             }
@@ -251,13 +263,13 @@ public class FfmpegWrapper {
 
 
 
-        public static File[] listFilesMatching(File root, String regex) {
-           // System.out.println("************************************************************************************************");
+    public static File[] listFilesMatching(File root, String regex) {
+        // System.out.println("************************************************************************************************");
         if(!root.isDirectory()) {
             throw new IllegalArgumentException(root+" is no directory.");
         }
         final Pattern p = Pattern.compile(regex); // careful: could also throw an exception!
-        return root.listFiles(new FileFilter(){
+        return root.listFiles(new FileFilter() {
             @Override
             public boolean accept(File file) {
                 return p.matcher(file.getName()).matches();
@@ -270,8 +282,8 @@ public class FfmpegWrapper {
             ffmpeg.loadBinary(new LoadBinaryResponseHandler() {
                 @Override
                 public void onFailure() {
-                   // showUnsupportedExceptionDialog();
-                    Log.v("Unsupported","Unsupported");
+                    // showUnsupportedExceptionDialog();
+                    Log.v("Unsupported", "Unsupported");
                 }
             });
         } catch (FFmpegNotSupportedException e) {
@@ -299,7 +311,7 @@ public class FfmpegWrapper {
                 @Override
                 public void onProgress(String s) {
                     Log.d(TAG, "Started command : ffmpeg " + command);
-                    Log.d(TAG,"progress : "+s);
+                    Log.d(TAG, "progress : " + s);
                 }
 
                 @Override
@@ -319,6 +331,4 @@ public class FfmpegWrapper {
             // do nothing for now
         }
     }
-
-
 }

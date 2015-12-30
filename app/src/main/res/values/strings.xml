@@ -4,6 +4,7 @@
     <string name="title_activity_edit_project">Edit Project</string>
     <string name="title_activity_recording">Recording</string>
     <string name="title_activity_view_video">View Video</string>
+    <string name="title_activity_crop_image">Crop</string>
     <string name="delete">Delete</string>
     <string name="myprojects">My Projects</string>
     <string name="addProject">Add project</string>
@@ -84,5 +85,7 @@
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string name="fab_add_button">Add Project</string>
     <string name="fab_import_button">Import Project</string>
+
+    <string name="croppedImageDesc">The cropped image.</string>
 
 </resources>
