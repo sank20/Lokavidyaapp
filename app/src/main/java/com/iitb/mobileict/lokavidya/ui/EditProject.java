@@ -125,6 +125,7 @@ public class EditProject extends Activity {
                                 int i;
 
                                 for (i = 0; i < path.size(); i++) {
+                                    Log.i("image content URI",getImageContentUri(getApplicationContext(), path.get(i)).toString());
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, getImageContentUri(getApplicationContext(), path.get(i))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
                                     bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
 

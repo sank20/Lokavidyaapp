@@ -238,10 +238,11 @@ public class Share {
                 j = i;break;
             }
         }
+
         return path.substring(j+1,path.length() - 4);
     }
 
-    public static void importproject(final Uri uri,final Activity activity,final Context context){
+    public static void importproject(final Uri uri,final Activity activity,final Context context, final String zipPath){
         final ProgressDialog ringProgressDialog = ProgressDialog.show(activity, "EXTRACTING...",
                 "extracting .zip to your app", true);
         ringProgressDialog.setCancelable(false);
@@ -250,7 +251,7 @@ public class Share {
             @Override
             public void run()
             {
-                String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya";
+                String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
 //        System.out.println("----------------Share.java: import project: >" + outputFile);
 //        System.out.println(Share.unpackZip(path, outputFile));
                 //path=Environment.getExternalStorageDirectory().getAbsolutePath()+"/empty.zip";
@@ -259,7 +260,26 @@ public class Share {
                 //_dirChecker(outputFile + "/", proj);
                 //String path1= outputFile +"/" + proj + "/";
                 String path1= outputFile +"/";
-                Share.unzipuri(uri, path1,context); // check for / at the end of path1
+                Log.i("Import","uri: "+uri);
+
+
+                //Share.unzipuri(uri, path1, context); // check for / at the end of path1
+
+                try {
+                    ZipFile seedzip = new ZipFile(zipPath);
+                    if (!new File(outputFile).isDirectory()) {
+                        File f1 = new File(outputFile);
+                        f1.mkdir();
+                    }
+                    seedzip.extractAll(outputFile);
+                } catch (ZipException e) {
+                    e.printStackTrace();
+                }
+
+                File delTemp = new File(zipPath);
+                delTemp.delete();
+                delTemp.getParentFile().delete();
+
                 Intent intent = activity.getIntent();
                 activity.finish();
                 activity.startActivity(intent);

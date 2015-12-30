@@ -63,6 +63,8 @@ import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.io.IOException;
@@ -97,6 +99,7 @@ public class Projects extends Activity implements View.OnClickListener {
 
     private Button fabAddButton,fabImportButton;
     private FloatingActionButton fabadd,fabmain,fabimport;
+    String loktemp = Environment.getExternalStorageDirectory().getAbsolutePath() + "/loktemp/" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,9 +113,8 @@ public class Projects extends Activity implements View.OnClickListener {
          */
         if (!new File(seedpath + "biogas-st-marathi"+"/").exists()) {
             copyAssets();
-            String seed = Environment.getExternalStorageDirectory().getAbsolutePath() + "/loktemp/" + "biogas-st-marathi.zip";
             try {
-                ZipFile seedzip = new ZipFile(seed);
+                ZipFile seedzip = new ZipFile(loktemp+ "biogas-st-marathi.zip");
                 if (!new File(seedpath).isDirectory()) {
                     File f1 = new File(seedpath);
                     f1.mkdir();
@@ -122,7 +124,7 @@ public class Projects extends Activity implements View.OnClickListener {
                 e.printStackTrace();
             }
 
-            File delTemp = new File(seed);
+            File delTemp = new File(loktemp + "biogas-st-marathi.zip");
             delTemp.delete();
             delTemp.getParentFile().delete();
         }
@@ -653,9 +655,32 @@ public class Projects extends Activity implements View.OnClickListener {
             final Context mContext = this;
             System.out.println("File Uri : " + uri.toString());
 //            try {
+
             String path = uri.getPath();
             System.out.println("FIle path ---------import> " + path);
+
             final String impProjectName = Share.pathToProjectname(path);
+            String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bluetooth/";
+//-----------------------------------------------------------------------------------------------------------
+
+
+
+
+            InputStream is = null;
+            try {
+                is =  getContentResolver().openInputStream(uri);
+                Projectfile.copyFileFromInputstream(is, loktemp +impProjectName+".zip");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+            //-----------------------------------------------------------------------------------------------------------
+
+            Log.i("Import","after pathtoprojectname: "+ impProjectName);
             if (foundInProjectList(impProjectName)) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(Projects.this);
                 builder1.setTitle("Overwrite existing project with same name?");
@@ -664,7 +689,7 @@ public class Projects extends Activity implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         Projectfile f = new Projectfile(getApplicationContext());
                         List<String> projects = f.DeleteProject(impProjectName);
-                        Share.importproject(uri, getThisActivity(), mContext);
+                        Share.importproject(uri, getThisActivity(), mContext,loktemp +impProjectName+".zip");
                     }
                 })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -675,7 +700,7 @@ public class Projects extends Activity implements View.OnClickListener {
                         });
                 builder1.create().show();
             } else {
-                Share.importproject(uri, getThisActivity(), this);
+                Share.importproject(uri, getThisActivity(), this,loktemp +impProjectName+".zip");
             }
 //            }
 //            catch (URISyntaxException e) {
@@ -722,76 +747,76 @@ public class Projects extends Activity implements View.OnClickListener {
      * called for importing project after clicking on 'import'
      * @param v
      */
-    public void importProjectCallback(View v) {
-        importProjectName = "";
-        try {
-//            //************************************************************************************************
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle(R.string.enterName);
-//            final EditText input = new EditText(this);
-//            input.setInputType(InputType.TYPE_CLASS_TEXT);
-//            builder.setView(input);
-//            builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    Pattern pattern1 = Pattern.compile("\\s");
-//                    Pattern pattern2 = Pattern.compile("\\.");
-//                    // Pattern pattern3 = Pattern.compile("");
-//
-//                    Matcher matcher1 = pattern1.matcher(input.getText().toString());
-//                    Matcher matcher2 = pattern2.matcher(input.getText().toString());
-//                    // Matcher matcher3 = pattern3.matcher(input.getText().toString());
-//
-//                    //boolean found1 = matcher1.find();
-//                    boolean found1 = false;
-//                    boolean found2 = matcher2.find();
-//                    // boolean found3 = matcher3.find();
-//
-//                    if(input.getText().toString().charAt(0) == ' ' || input.getText().toString().charAt(input.getText().toString().length() -1) == ' ' )
-//                        found1 = true;
-//
-//                    if (found1)
-//                        Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
-//                    else if (found2)
-//                        Toast.makeText(Projects.this, getString(R.string.projectNameDot), Toast.LENGTH_LONG).show();
-//                    else {
-//                        if (input.getText().toString().equals("")) {
-//                            Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
-//                        } else {
-//                            if(foundInProjectList(input.getText().toString())){
-//                                Toast.makeText(Projects.this, getString(R.string.projectExists), Toast.LENGTH_LONG).show();
-//                            }
-//                            else{
-//                                importProjectName = input.getText().toString();
-//                                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-//                                i.setType("*/*");
-//                                i.addCategory(Intent.CATEGORY_OPENABLE);
-//                                startActivityForResult(
-//                                        Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
-//                                );
-//                            }
-//                        }
-//                    }
-//                }
-//            });
-//            builder.setNegativeButton(getString(R.string.CancelButton), new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.cancel();
-//                }
-//            });
-//            builder.show();
-            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-            i.setType("application/zip");
-            i.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(
-                    Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
-            );
-            //************************************************************************************************
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, getString(R.string.NoFileManager), Toast.LENGTH_SHORT).show();
+        public void importProjectCallback(View v) {
+            importProjectName = "";
+            try {
+    //            //************************************************************************************************
+    //            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    //            builder.setTitle(R.string.enterName);
+    //            final EditText input = new EditText(this);
+    //            input.setInputType(InputType.TYPE_CLASS_TEXT);
+    //            builder.setView(input);
+    //            builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
+    //                @Override
+    //                public void onClick(DialogInterface dialog, int which) {
+    //                    Pattern pattern1 = Pattern.compile("\\s");
+    //                    Pattern pattern2 = Pattern.compile("\\.");
+    //                    // Pattern pattern3 = Pattern.compile("");
+    //
+    //                    Matcher matcher1 = pattern1.matcher(input.getText().toString());
+    //                    Matcher matcher2 = pattern2.matcher(input.getText().toString());
+    //                    // Matcher matcher3 = pattern3.matcher(input.getText().toString());
+    //
+    //                    //boolean found1 = matcher1.find();
+    //                    boolean found1 = false;
+    //                    boolean found2 = matcher2.find();
+    //                    // boolean found3 = matcher3.find();
+    //
+    //                    if(input.getText().toString().charAt(0) == ' ' || input.getText().toString().charAt(input.getText().toString().length() -1) == ' ' )
+    //                        found1 = true;
+    //
+    //                    if (found1)
+    //                        Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
+    //                    else if (found2)
+    //                        Toast.makeText(Projects.this, getString(R.string.projectNameDot), Toast.LENGTH_LONG).show();
+    //                    else {
+    //                        if (input.getText().toString().equals("")) {
+    //                            Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
+    //                        } else {
+    //                            if(foundInProjectList(input.getText().toString())){
+    //                                Toast.makeText(Projects.this, getString(R.string.projectExists), Toast.LENGTH_LONG).show();
+    //                            }
+    //                            else{
+    //                                importProjectName = input.getText().toString();
+    //                                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+    //                                i.setType("*/*");
+    //                                i.addCategory(Intent.CATEGORY_OPENABLE);
+    //                                startActivityForResult(
+    //                                        Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
+    //                                );
+    //                            }
+    //                        }
+    //                    }
+    //                }
+    //            });
+    //            builder.setNegativeButton(getString(R.string.CancelButton), new DialogInterface.OnClickListener() {
+    //                @Override
+    //                public void onClick(DialogInterface dialog, int which) {
+    //                    dialog.cancel();
+    //                }
+    //            });
+    //            builder.show();
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.setType("application/zip");
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                startActivityForResult(
+                        Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
+                );
+                //************************************************************************************************
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(this, getString(R.string.NoFileManager), Toast.LENGTH_SHORT).show();
+            }
         }
-    }
 
     public Activity getThisActivity() {
         return this;
