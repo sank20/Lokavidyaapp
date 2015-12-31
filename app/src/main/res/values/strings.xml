@@ -62,8 +62,7 @@
     <string name="sampleproject1">sample1</string>
     <string name="sampleproject2">sample2</string>
     <string name="sampleproject3">sample3</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ChangeImage">Change Image</string>
@@ -75,6 +74,17 @@
         <item>Duplicate Project</item>
         <item>Delete</item>
     </string-array>
+    <string-array name="drawer_list_array">
+        <item>My Projects</item>
+        <item>Download Sample Projects</item>
+
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="fab_add_button">Add Project</string>
+    <string name="fab_import_button">Import Project</string>
 
     <string name="croppedImageDesc">The cropped image.</string>
 

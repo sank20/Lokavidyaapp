@@ -93,7 +93,11 @@ public class Stitch extends Activity {
                 } catch (Exception e) {
 
                 }finally {
+
+                   //
+
                     // Projectfile.deleteTempFiles(projectName);
+
                 }
 
 
@@ -104,6 +108,7 @@ public class Stitch extends Activity {
                     {
                         setResult(0);
                         ringProgressDialog.dismiss();
+
                         finish();
                     }
                 });
@@ -120,6 +125,10 @@ public class Stitch extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
+
+//        Projectfile.deleteTempFiles(projectName);
+
         setVisible(true);
+
     }
 }

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FFmpegAndroid/FFmpegAndroid.iml" filepath="$PROJECT_DIR$/FFmpegAndroid/FFmpegAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FFmpegAndroid/FFmpegAndroid.iml" filepath="$PROJECT_DIR$/FFmpegAndroid/FFmpegAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/MultipleImageSelection/MultipleImageSelection.iml" filepath="$PROJECT_DIR$/MultipleImageSelection/MultipleImageSelection.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/cropper/cropper.iml" filepath="$PROJECT_DIR$/cropper/cropper.iml" />

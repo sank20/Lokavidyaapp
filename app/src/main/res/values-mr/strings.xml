@@ -67,6 +67,8 @@
     <string name="TreadlePump">चालवणे पंप कार्य(ओडिया )</string>
     <string name="offlineSeed">ST-Swirler-Marathi</string>
     <string name="seedDownloadProgress">नमुना प्रकल्प डाउनलोड करत आहेत</string>
+    <string name="fab_add_button">Add Project</string>
+    <string name="fab_import_button">Import Project</string>
 
     <string-array name="nav_drawer_labels" />
 </resources>

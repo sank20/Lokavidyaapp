@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="takeApicture" type="id">takeApicture</item>
+    <item name="drawer_textview" type="id">drawer_textview</item>
 </resources>

@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/exploded-aar/com.edmodo/cropper/1.0.1/jars/classes.jar"
+        jar="/home/sanket/lokavidyaapp/app/build/intermediates/exploded-aar/com.edmodo/cropper/1.0.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.0"
         sha1="66467578c335f7a6babdbe01f7f0ac63230f578e">
-        <dex dex="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-5cd0a2b3344bfd1435df142c2e3df845436d1b2e.jar" />
+        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-933ffedcad5cb31d6ab3ccf7ef238196230202d9.jar" />
     </item>
 
 </items>

@@ -527,4 +527,57 @@ public class Projectfile {
         }
     }
 
+    /**
+     * Copies the zip from an inputstream to the given path
+     * @param is the inputstream of the file
+     * @param outputURI the path of the outputfile
+     */
+    public static void copyFileFromInputstream(InputStream is,String outputURI){
+
+        OutputStream impout=null;
+        File temp= new File(outputURI).getParentFile();
+        try {
+
+            //Convert your stream to data here
+            File outputzip=new File(outputURI);
+            if(!temp.exists()){
+                temp.mkdir();
+
+            }
+            impout= new FileOutputStream(outputzip);
+            int read=0;
+            byte[] bytes= new byte[10240];
+            Log.i("import","begin is-> os");
+            while((read=is.read(bytes))!= -1){
+                impout.write(bytes,0,read);
+                Log.i("import","writing to outstream");
+            }
+            Log.i("import","done is->os, check the folder");
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }finally {
+            if(is!=null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(impout!=null){
+                try {
+                    impout.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+    }
+
 }
