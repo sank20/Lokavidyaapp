@@ -2,11 +2,32 @@
 <items version="2" >
 
     <item
-        jar="/home/sanket/lokavidyaapp/app/build/intermediates/exploded-aar/com.edmodo/cropper/1.0.1/jars/classes.jar"
+        jar="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="66467578c335f7a6babdbe01f7f0ac63230f578e">
-        <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-933ffedcad5cb31d6ab3ccf7ef238196230202d9.jar" />
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-e33589088ecb582d6237288093259a33acf03d7f.jar" />
+    </item>
+    <item
+        jar="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-544e15207a8ba0ede2dc0b4cb25d3c101633e6ee.jar" />
+    </item>
+    <item
+        jar="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-2c8f2c8bcdcd91afb0479f759a6e4d673a53bb32.jar" />
+    </item>
+    <item
+        jar="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-6fcfe2b3231073718bf85fe9fd07cba833ac885f.jar" />
     </item>
 
 </items>

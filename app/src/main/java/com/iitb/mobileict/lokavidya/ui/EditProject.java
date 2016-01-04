@@ -107,7 +107,7 @@ public class EditProject extends Activity {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
         RESIZE_FACTOR = getScreenwidth();
-        System.out.println("RESIZE_FACTOR-----------------------------------------"+RESIZE_FACTOR);
+
         switch (requestCode) {
             case REQUEST_IMAGE: //when you tap on 'Choose from gallery'
                 if (resultCode == RESULT_OK) {
@@ -484,15 +484,20 @@ public class EditProject extends Activity {
 
             File imgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/images");
             File audDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/audio");
+            File tmpimgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/tmp_images");
 
             File image_file = new File(imgDir, imagefilename);
             File audio_file = new File(audDir, audioFilename);
+            File tmpimage_file = new File(tmpimgDir, imagefilename);
 
 
             if (image_file.delete()) {
 
             }
             if (audio_file.delete()) {
+
+            }
+            if (tmpimage_file.delete()) {
 
             }
             objects.remove(object);

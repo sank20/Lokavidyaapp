@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -79,6 +80,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     boolean changed = false;
     int count=-1;
     File image_file;
+    File tmp_file;
     Bitmap scaledBitmap;
 
     public static final int REQUEST_CROP=2;
@@ -143,6 +145,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
 
         image_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/images", imagefileName + ".png");
+        tmp_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/tmp_images", imagefileName + ".png");
 
 
         Bitmap myBitmap = BitmapFactory.decodeFile(image_file.getAbsolutePath());
@@ -383,8 +386,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         Bitmap unscaledBitmap = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, image_file.getAbsolutePath());
 
         // Part 2: Scale image
-        scaledBitmap = ScalingUtilities.createScaledBitmap(unscaledBitmap, mDstWidth,
-                mDstHeight, ScalingUtilities.ScalingLogic.FIT);
+        scaledBitmap = ScalingUtilities.createScaledBitmap(unscaledBitmap, mDstWidth,mDstHeight, ScalingUtilities.ScalingLogic.FIT);
         unscaledBitmap.recycle();
 
         // Calculate memory usage and performance statistics
@@ -417,11 +419,8 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 //        unscaledBitmap.recycle();
     }
 
-    /**
-     * method called when 'change image' button is pressed
-     * @param view
-     */
-    public String[] imageBackup(String imagepath, Bitmap bm){
+
+    public String[] imageBackup(String imagepath, Bitmap bm, Bitmap scaledBitmap){
         String[] str = imagepath.split("/");
         String temp_path="",path="";
         int i;
@@ -440,9 +439,18 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
         OutputStream out2 = null;
 
+        OutputStream out3 = null;
+        File file3 = new File(temp_path+"/images/" ,file_name);
+
+        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+        Bitmap image = EditProject.getResizedBitmap(scaledBitmap, RESIZE_FACTOR);;
+
         try {
             out = new FileOutputStream(file);
             scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+            out3 = new FileOutputStream(file3);
+            image.compress(Bitmap.CompressFormat.PNG, 100, out3);
 
             if(!backup) {
                 File temp_file = new File(temp_path, file_name);
@@ -496,18 +504,21 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
 
     public void rotateButtonPressed(View view){
-        String imagepath = image_file.getAbsolutePath();
-        Bitmap bm = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT,imagepath );
+        String imagepath = tmp_file.getAbsolutePath();
+        Bitmap bm = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, imagepath);
         scaledBitmap = rotateImage(bm);
 
         RESIZE_FACTOR = getScreenwidth();
-        Bitmap imageview = EditProject.getResizedBitmap(scaledBitmap, RESIZE_FACTOR);;
+        Bitmap imageview = EditProject.getResizedBitmap(scaledBitmap, RESIZE_FACTOR);
         imageView.setImageBitmap(imageview);
 
         String[] paths = new String[2];
-        paths = imageBackup(imagepath, bm);
+        paths = imageBackup(imagepath, bm, scaledBitmap);
         cropped_path = paths[0];
         temp_path = paths[1];
+
+        System.out.println("cropped_path = "+cropped_path);
+        System.out.println("temp_path = "+temp_path);
 
         flag = 2;
         changed = true;
@@ -630,15 +641,11 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         }
         else if(requestCode == REQUEST_CROP){
             if(resultCode == RESULT_OK){
-                cropped_path = data.getStringExtra("path");
-                temp_path = data.getStringExtra("temp_path");
-                Bitmap cropped = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, cropped_path+imagefileName + ".png");
-
+                String imagepath = image_file.getAbsolutePath();
+                scaledBitmap = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, imagepath);
                 RESIZE_FACTOR = getScreenwidth();
-                scaledBitmap = EditProject.getResizedBitmap(cropped, RESIZE_FACTOR);
-                imageView.setImageBitmap(scaledBitmap);
-                changed = true;
-                flag = 1;
+                Bitmap imageview = EditProject.getResizedBitmap(scaledBitmap, RESIZE_FACTOR);
+                imageView.setImageBitmap(imageview);
             }
         }
     }
@@ -744,16 +751,28 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
                     File sdCard = Environment.getExternalStorageDirectory();
                     File imgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/images");
+                    File tmpimgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/tmp_images");
+
                     File writetofile = new File(imgDir, imagefileName + ".png");
+                    File write_backup = new File(tmpimgDir, imagefileName + ".png");
+
                     FileOutputStream outStream = null;
+                    FileOutputStream outStream_backup = null;
                     try {
                         outStream = new FileOutputStream(writetofile);
-                        if(flag==2){
+                        outStream_backup = new FileOutputStream(write_backup);
+                        Bitmap tmp_image = scaledBitmap;
+                        if(flag>0){
                             scaledBitmap = EditProject.getResizedBitmap(scaledBitmap, EditProject.RESIZE_FACTOR);
                         }
                         scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                        tmp_image.compress(Bitmap.CompressFormat.PNG, 100, outStream_backup);
+
                         outStream.flush();
                         outStream.close();
+
+                        outStream_backup.flush();
+                        outStream_backup.close();
 
                     } catch (Exception e) {
                         Toast.makeText(Recording.this, "Cannot create new image : addimage", Toast.LENGTH_LONG);
@@ -762,6 +781,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                         try {
                             if (outStream != null) {
                                 outStream.close();
+                                outStream_backup.close();
                                 File temp_image = new File(temp_path+imagefileName + ".png");
                                 temp_image.delete();
                             }
@@ -785,9 +805,15 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
                         OutputStream out = null;
                         File file = new File(cropped_path,file_name);
+
+                        OutputStream out2 = null;
+                        File file2 = new File(temp_path+"/images/" ,file_name);
                         try {
                             out = new FileOutputStream(file);
                             bm.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+                            out2 = new FileOutputStream(file2);
+                            bm.compress(Bitmap.CompressFormat.PNG, 100, out2);
                         }
                         catch (FileNotFoundException e) {
                             e.printStackTrace();
@@ -796,6 +822,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                             try{
                                 if(out != null){
                                     out.close();
+                                    out2.close();
                                     File temp_image = new File(temp_path+imagefileName + ".png");
                                     temp_image.delete();
                                 }
