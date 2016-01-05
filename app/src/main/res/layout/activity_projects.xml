@@ -169,7 +169,7 @@
     <android.support.design.widget.FloatingActionButton android:id="@+id/fab_add"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_add_white_48dp"
+        android:src="@drawable/ic_library_add_white_48dp"
         app:borderWidth="0dp"
         app:backgroundTint="@color/colorFAB1"
         app:rippleColor="#70FFFFFF"
@@ -183,7 +183,7 @@
     <android.support.design.widget.FloatingActionButton android:id="@+id/fab_import"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_add_white_48dp"
+        android:src="@drawable/ic_seed_download"
         app:borderWidth="0dp"
         app:backgroundTint="@color/colorFAB2"
         app:rippleColor="#70FFFFFF"
@@ -201,6 +201,7 @@
         android:visibility="invisible"
         android:text="@string/fab_add_button"
         android:layout_alignTop="@+id/fab_add"
+
 
         />
 

@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.iitb.mobileict.lokavidya.util.Communication;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -547,12 +549,12 @@ public class Projectfile {
             impout= new FileOutputStream(outputzip);
             int read=0;
             byte[] bytes= new byte[10240];
-            Log.i("import","begin is-> os");
+            Log.i("import", "begin is-> os");
             while((read=is.read(bytes))!= -1){
                 impout.write(bytes,0,read);
                 Log.i("import","writing to outstream");
             }
-            Log.i("import","done is->os, check the folder");
+            Log.i("import", "done is->os, check the folder");
 
 
         } catch (FileNotFoundException e) {
@@ -579,5 +581,6 @@ public class Projectfile {
 
 
     }
+
 
 }

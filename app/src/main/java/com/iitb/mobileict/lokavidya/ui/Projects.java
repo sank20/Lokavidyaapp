@@ -1,6 +1,7 @@
 package com.iitb.mobileict.lokavidya.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
@@ -12,20 +13,26 @@ import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
 
-import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
+import android.view.Display;
 import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -62,15 +69,19 @@ import com.iitb.mobileict.lokavidya.util.animations;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -100,6 +111,17 @@ public class Projects extends Activity implements View.OnClickListener {
     private Button fabAddButton,fabImportButton;
     private FloatingActionButton fabadd,fabmain,fabimport;
     String loktemp = Environment.getExternalStorageDirectory().getAbsolutePath() + "/loktemp/" ;
+    private ListView sampleProjectList;
+    private Dialog dialog;
+    Window window;
+    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+    Point size;
+    WindowManager windowManager;
+    Display display;
+    int width,height,dialogid,alertdialogid;
+    ArrayList<String> zipNameArrayList;
+    final HashMap<String,String> sampleprojectsHashmap =new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -398,6 +420,103 @@ public class Projects extends Activity implements View.OnClickListener {
         return myStringArray;
     }
 
+
+    /**
+     * parse projects.txt and get the list
+     *
+     */
+    public void getSeedProjectList(){
+
+        zipNameArrayList = new ArrayList<String>();
+
+        if(!(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"projects.txt").exists())) {
+            Communication.downloadseedList(getApplication());
+        }
+        final ProgressDialog downloadSeed = ProgressDialog.show(this, getString(R.string.stitchingProcessTitle),"");
+        downloadSeed.setCancelable(false);
+        downloadSeed.setCanceledOnTouchOutside(false);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"projects.txt").exists())) {/*wait till download hasn't completed */
+                    try{
+                        Thread.sleep(1000);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    Log.i("downloading txt","waiting");
+                }
+
+                try {
+                    BufferedReader br = new BufferedReader(new FileReader(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"projects.txt"));
+
+                    StringBuilder sb = new StringBuilder();
+                    String line = br.readLine();
+
+                    while (line != null) {
+                        String name=line.split(":")[0];
+                        String link=line.split(":")[1];
+                        sampleprojectsHashmap.put(name, link);
+                        Log.i("hashmap split 0 and 1", line.split(":")[0] + "," + line.split(":")[1]);
+
+                        int pos = link.lastIndexOf("/");
+
+                        String zipname =link.substring(pos + 1, link.length() );
+                        zipname= URLDecoder.decode(zipname, "UTF-8");
+                        Log.i("txt parse zipname",zipname);
+
+                        zipNameArrayList.add(zipname);
+                        sb.append(line);
+                        // sb.append(System.lineSeparator());
+                        line = br.readLine();
+                    }
+                    //String projitem= sampleprojectsHashmap.get(0);
+
+                    String everything = sb.toString();
+                    System.out.println("------------------------------seed text file contents:\n " + everything + "\n" + "arraylist 0:" + sampleprojectsHashmap.get(0));
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+
+                File suicidebomber= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"projects.txt");
+                suicidebomber.delete();
+
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                       // recreate();
+                        downloadSeed.dismiss();
+
+                    }
+                });
+            }
+        }).start();
+
+        try{
+            Thread.sleep(2000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //return sampleprojectsHashmap;
+
+                /*try{
+                    Thread.sleep(3000);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+*/
+
+
+
+       // downloadSeed.dismiss();
+
+    }
+
     /**
      * when you need to add new project
      * @param newproject namme of the new project
@@ -444,9 +563,11 @@ public class Projects extends Activity implements View.OnClickListener {
                 boolean found3 = input.getText().toString().contains("/");
                 // boolean found3 = matcher3.find();
 
-                if (input.getText().toString().charAt(0) == ' ' || input.getText().toString().charAt(input.getText().toString().length() - 1) == ' ')
+                if (input.getText().toString().equals("")) {
+                    Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
+                }
+                else if (input.getText().toString().charAt(0) == ' ' || input.getText().toString().endsWith(" "))
                     found1 = true;
-
                 if (found1)
                     Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
                 else if (found2)
@@ -454,11 +575,8 @@ public class Projects extends Activity implements View.OnClickListener {
                 else if (found3)
                     Toast.makeText(Projects.this, "Project name cannot contain '/'", Toast.LENGTH_LONG).show();
                 else {
-                    if (input.getText().toString().equals("")) {
-                        Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
-                    } else {
-                        addProject(input.getText().toString());
-                    }
+                    addProject(input.getText().toString());
+
                 }
             }
         });
@@ -920,6 +1038,7 @@ public class Projects extends Activity implements View.OnClickListener {
 
                             recreate();
                             downloadSeed.dismiss();
+                            dialog.dismiss();
 
                         }
                     });
@@ -933,6 +1052,12 @@ public class Projects extends Activity implements View.OnClickListener {
 
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 
     /* The click listner for ListView in the navigation drawer */
@@ -950,7 +1075,13 @@ public class Projects extends Activity implements View.OnClickListener {
         if(position==1){
             System.out.println("------------------------------selectitem item click "+ position+"-------------------------------");
 
-            showSampleProjectPopup();
+            //showSampleProjectPopup();
+            if(isNetworkAvailable()) {
+                openDialog();
+            }
+            else{
+                Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
+            }
         }
         else {
             Fragment fragment = new ProjectFragment();
@@ -1041,12 +1172,95 @@ public class Projects extends Activity implements View.OnClickListener {
            // Toast.makeText(getActivity(),"YAY",Toast.LENGTH_SHORT).show();
             int i = getArguments().getInt("drawer_list_array");
             String option = getResources().getStringArray(R.array.drawer_list_array)[i];
-            Log.i("ProjectFragment",option+" at position "+Integer.toString(i)+" selected");
+            Log.i("ProjectFragment", option + " at position " + Integer.toString(i) + " selected");
 
 
             return super.onCreateView(inflater, container, savedInstanceState);
         }
     }
+
+
+    public void openDialog()
+    {
+
+        //HashMap<String,String> chaddi= getSeedProjectList();
+        getSeedProjectList();
+        final List<String> lungi= new ArrayList<>(sampleprojectsHashmap.keySet());
+
+
+
+
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,lungi );
+
+        dialog = new Dialog(Projects.this);
+
+        LayoutInflater inflater = getLayoutInflater();
+        final View Layout = inflater.inflate(R.layout.sample_project_list, (ViewGroup) findViewById(R.id.sampleProjList), false);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(Layout);
+        sampleProjectList=(ListView) Layout.findViewById(R.id.sampleProjList);
+        sampleProjectList.setAdapter(adapter);
+
+        sampleProjectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
+                String item = (String) adapter.getItemAtPosition(position);
+                System.out.println("sample projects item-----------------------------------:" + item);
+                int pos= lungi.indexOf(item);
+                downloadSeed(item,zipNameArrayList.get(pos),"http://"+sampleprojectsHashmap.get(item));
+
+            }
+        });
+        /*TextView totalBill = (TextView)Layout.findViewById(R.id.cancel_order_total_bill);
+        totalBill.setText(""+order.totalBill);
+*/
+
+        window =dialog.getWindow();
+
+        size = new Point();
+        windowManager = getWindowManager();
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2){
+            windowManager.getDefaultDisplay().getSize(size);
+
+            width = size.x;
+            height = size.y;
+        }else{
+            display = windowManager.getDefaultDisplay();
+            width = display.getWidth();
+            height = display.getHeight();
+        }
+
+
+
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            lp.width=(int)(width/1.125);
+            lp.height = (int)(height/1.5);
+
+
+        } else {
+            lp.width=width/2;
+            lp.height = (int)(height/1.25);
+
+
+        }
+
+
+
+        lp.gravity = Gravity.CENTER;
+
+        window.setAttributes(lp);
+
+        dialog.setCancelable(true);
+        dialog.show();
+    }
+
+
+
+
+
 }
 
     

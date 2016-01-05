@@ -88,4 +88,9 @@
 
     <string name="croppedImageDesc">The cropped image.</string>
 
+    <string-array name="dummy_list">
+        <item>asdas</item>
+        <item>xyz</item>
+    </string-array>
+
 </resources>
