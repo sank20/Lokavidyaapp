@@ -133,8 +133,9 @@ public class Projectfile {
         String newImg;
         File sdCard = Environment.getExternalStorageDirectory();
         File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
+        File back_img = new File(sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+ "/tmp_images");
 
-        if(imgDir.exists()&& imgDir.isDirectory())
+        if(imgDir.exists() && imgDir.isDirectory())
         {
             File file[] = imgDir.listFiles();
             newImg = projectname + "." + String.valueOf(file.length+1) + ".png";
@@ -172,14 +173,22 @@ public class Projectfile {
             }
             File writetofile = new File(imgDir, newImg);
             FileOutputStream outStream = null;
+
+            File writebackup = new File(back_img, newImg);
+            FileOutputStream outStream_backup = null;
+
             try {
-
-
                 outStream = new FileOutputStream(writetofile);
+                outStream_backup = new FileOutputStream(writebackup);
+
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream_backup);
+
                 outStream.flush();
                 outStream.close();
 
+                outStream_backup.flush();
+                outStream_backup.close();
 
             } catch (Exception e) {
                 toast("Cannot create new image : addimage");
@@ -188,6 +197,7 @@ public class Projectfile {
                 try {
                     if (outStream!= null) {
                         outStream.close();
+                        outStream_backup.close();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -200,6 +210,7 @@ public class Projectfile {
         else
         {
             imgDir.mkdirs();
+            back_img.mkdirs();
 
         }
     }
@@ -303,6 +314,8 @@ public class Projectfile {
                     imgdir.mkdirs();
                     File audiodir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+nameofproject+"/audio");
                     audiodir.mkdirs();
+                    File tmpimgdir = new File(sdCard.getAbsolutePath() + "/"+mainFolder+"/"+nameofproject+"/tmp_images");
+                    tmpimgdir.mkdirs();
 
                     myStringArray.add(nameofproject);
                 }
@@ -316,6 +329,8 @@ public class Projectfile {
                 imgdir.mkdirs();
                 File audiodir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+nameofproject+"/audio");
                 audiodir.mkdirs();
+                File tmpimgdir = new File(sdCard.getAbsolutePath() + "/"+mainFolder+"/"+nameofproject+"/tmp_images");
+                tmpimgdir.mkdirs();
 
                 myStringArray.add(nameofproject);
             }
@@ -331,6 +346,8 @@ public class Projectfile {
             imgdir.mkdirs();
             File audiodir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+nameofproject+"/audio");
             audiodir.mkdirs();
+            File tmpimgdir = new File(sdCard.getAbsolutePath() + "/"+mainFolder+"/"+nameofproject+"/tmp_images");
+            tmpimgdir.mkdirs();
 
             myStringArray.add(nameofproject);
         }
@@ -501,16 +518,26 @@ public class Projectfile {
         File sdCard = Environment.getExternalStorageDirectory();
         File imgDir = new File(sdCard.getAbsolutePath() + "/" + mainFolder + "/" + projectname + "/images");
 
+        File back_img = new File(sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+ "/tmp_images");
 
         File writetofile = new File(imgDir, ImageName);
+        File write_backup = new File(back_img, ImageName);
+
         FileOutputStream outStream = null;
+        FileOutputStream outStream_backup = null;
         try {
 
 
             outStream = new FileOutputStream(writetofile);
+            outStream_backup = new FileOutputStream(write_backup);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream_backup);
+
             outStream.flush();
             outStream.close();
+
+            outStream_backup.flush();
+            outStream_backup.close();
 
 
         } catch (Exception e) {
@@ -520,6 +547,7 @@ public class Projectfile {
             try {
                 if (outStream != null) {
                     outStream.close();
+                    outStream_backup.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -78,6 +80,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     boolean changed = false;
     int count=-1;
     File image_file;
+    File tmp_file;
     Bitmap scaledBitmap;
 
     public static final int REQUEST_CROP=2;
@@ -95,6 +98,8 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
     private String temp_path;
     private String cropped_path;
+
+    private boolean backup;
 
     /** Image view for presenting decoding result */
     private ImageView imageView;
@@ -127,6 +132,8 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         mDstWidth = getResources().getDimensionPixelSize(R.dimen.destination_width);
         mDstHeight = getResources().getDimensionPixelSize(R.dimen.destination_height);
 
+        backup = false;
+
         count = sharedPref.getInt(projectName,0);
         if(count==0)
         {
@@ -138,6 +145,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
 
         image_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/images", imagefileName + ".png");
+        tmp_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/tmp_images", imagefileName + ".png");
 
 
         Bitmap myBitmap = BitmapFactory.decodeFile(image_file.getAbsolutePath());
@@ -186,7 +194,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
                     myChronometer.setBase(SystemClock.elapsedRealtime());
                     myChronometer.start();
-                  //  audioProgressBar.setProgress(0);
+                    //  audioProgressBar.setProgress(0);
 
                 } catch (IllegalStateException e) {
                     // TODO Auto-generated catch block
@@ -350,7 +358,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             }
         });
 
-           }
+    }
     /**
      * Invoked when pressing button for showing result of the "Bad" decoding
      * method
@@ -378,8 +386,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         Bitmap unscaledBitmap = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, image_file.getAbsolutePath());
 
         // Part 2: Scale image
-        scaledBitmap = ScalingUtilities.createScaledBitmap(unscaledBitmap, mDstWidth,
-                mDstHeight, ScalingUtilities.ScalingLogic.FIT);
+        scaledBitmap = ScalingUtilities.createScaledBitmap(unscaledBitmap, mDstWidth,mDstHeight, ScalingUtilities.ScalingLogic.FIT);
         unscaledBitmap.recycle();
 
         // Calculate memory usage and performance statistics
@@ -412,10 +419,110 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 //        unscaledBitmap.recycle();
     }
 
-    /**
-     * method called when 'change image' button is pressed
-     * @param view
-     */
+
+    public String[] imageBackup(String imagepath, Bitmap bm, Bitmap scaledBitmap){
+        String[] str = imagepath.split("/");
+        String temp_path="",path="";
+        int i;
+        for (i = 0; i < str.length - 1; i++) {
+            if(i==str.length-2){
+                temp_path = path;
+            }
+            path = path.concat(str[i]);
+            path = path.concat("/");
+        }
+
+        String file_name = imagefileName + ".png";
+
+        OutputStream out = null;
+        File file = new File(path,file_name);
+
+        OutputStream out2 = null;
+
+        OutputStream out3 = null;
+        File file3 = new File(temp_path+"/images/" ,file_name);
+
+        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+        Bitmap image = EditProject.getResizedBitmap(scaledBitmap, RESIZE_FACTOR);;
+
+        try {
+            out = new FileOutputStream(file);
+            scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+            out3 = new FileOutputStream(file3);
+            image.compress(Bitmap.CompressFormat.PNG, 100, out3);
+
+            if(!backup) {
+                File temp_file = new File(temp_path, file_name);
+
+                out2 = new FileOutputStream(temp_file);
+                bm.compress(Bitmap.CompressFormat.PNG, 100, out2);
+            }
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if(out2 != null){
+                    out2.close();
+                }
+            }
+            catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+
+        backup = true;
+
+        String[] paths = new String[2];
+        paths[0] = path;
+        paths[1] = temp_path;
+        return paths;
+    }
+
+    public Bitmap rotateImage(Bitmap bm){
+        Matrix matrix = new Matrix();
+        matrix.reset();
+        int rotation = 90;
+
+        int bw = bm.getWidth();
+        int bh = bm.getHeight();
+
+        Bitmap rot_image = Bitmap.createBitmap(bh, bw, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(rot_image);
+        matrix.postTranslate(-bw / 2, -bh / 2);
+        matrix.postRotate(rotation);
+        matrix.postTranslate(bh / 2, bw / 2);
+        canvas.drawBitmap(bm, matrix, null);
+
+        return rot_image;
+    }
+
+
+    public void rotateButtonPressed(View view){
+        String imagepath = tmp_file.getAbsolutePath();
+        Bitmap bm = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, imagepath);
+        scaledBitmap = rotateImage(bm);
+
+        RESIZE_FACTOR = getScreenwidth();
+        Bitmap imageview = EditProject.getResizedBitmap(scaledBitmap, RESIZE_FACTOR);
+        imageView.setImageBitmap(imageview);
+
+        String[] paths = new String[2];
+        paths = imageBackup(imagepath, bm, scaledBitmap);
+        cropped_path = paths[0];
+        temp_path = paths[1];
+
+        System.out.println("cropped_path = "+cropped_path);
+        System.out.println("temp_path = "+temp_path);
+
+        flag = 2;
+        changed = true;
+    }
 
     public void onChangeImagePressed(View view){
 
@@ -433,22 +540,22 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                         Log.i("Change image","camera selected");*/
 
 
-                        //MultipleImage selection code (implementation same as the one in Editproject////////////////////////////////////////////
+        //MultipleImage selection code (implementation same as the one in Editproject////////////////////////////////////////////
 
-                        Intent intent = new Intent(getApplicationContext(), MultiImageSelectorActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MultiImageSelectorActivity.class);
 
 // whether show camera
-                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
 
 // max select image amount
-                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 1);
 
 // select mode (MultiImageSelectorActivity.MODE_SINGLE OR MultiImageSelectorActivity.MODE_MULTI)
-                        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
 
-                        startActivityForResult(intent, EditProject.REQUEST_IMAGE);
+        startActivityForResult(intent, EditProject.REQUEST_IMAGE);
 
-                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
                         return true;
                     case R.id.PickFromGallery:
@@ -494,22 +601,22 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
 
 
-                   // for (i = 0; i < path.size(); i++) {
-                        Log.i("change image ", " file : " + new File(path.get(0)).getName());
+                    // for (i = 0; i < path.size(); i++) {
+                    Log.i("change image ", " file : " + new File(path.get(0)).getName());
                     Log.i("change image- name",image_file.getName());
                     Log.i("Change image- path", image_file.getAbsolutePath());
 
-                        File changeImageFile= new File(path.get(0));
-                        //File changeImageFileNew= new File(changeImageFile.getParent()+"/"+image_file.getName());
+                    File changeImageFile= new File(path.get(0));
+                    //File changeImageFileNew= new File(changeImageFile.getParent()+"/"+image_file.getName());
 
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, EditProject.getImageContentUri(getApplicationContext(), path.get(0))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
-                        bitmap = EditProject.getResizedBitmap(bitmap, EditProject.RESIZE_FACTOR);
-                        Projectfile f = new Projectfile(getApplicationContext());
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, EditProject.getImageContentUri(getApplicationContext(), path.get(0))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
+                    bitmap = EditProject.getResizedBitmap(bitmap, EditProject.RESIZE_FACTOR);
+                    Projectfile f = new Projectfile(getApplicationContext());
 
 
-                        //f.addImage(bitmap, projectName);
-                   // File newImage= new File(image_file.getParent().toString()+"/"+projectName+"."+);
-                   // Log.i("change image",newImage.getAbsolutePath());
+                    //f.addImage(bitmap, projectName);
+                    // File newImage= new File(image_file.getParent().toString()+"/"+projectName+"."+);
+                    // Log.i("change image",newImage.getAbsolutePath());
                     image_file.delete();
                     //newImage.renameTo(image_file);
                     //Log.i("change image", newImage.getAbsolutePath());
@@ -534,15 +641,11 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         }
         else if(requestCode == REQUEST_CROP){
             if(resultCode == RESULT_OK){
-                cropped_path = data.getStringExtra("path");
-                temp_path = data.getStringExtra("temp_path");
-                Bitmap cropped = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, cropped_path+imagefileName + ".png");
-
+                String imagepath = image_file.getAbsolutePath();
+                scaledBitmap = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, imagepath);
                 RESIZE_FACTOR = getScreenwidth();
-                scaledBitmap = EditProject.getResizedBitmap(cropped, RESIZE_FACTOR);
-                imageView.setImageBitmap(scaledBitmap);
-                changed = true;
-                flag = 1;
+                Bitmap imageview = EditProject.getResizedBitmap(scaledBitmap, RESIZE_FACTOR);
+                imageView.setImageBitmap(imageview);
             }
         }
     }
@@ -648,13 +751,28 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
                     File sdCard = Environment.getExternalStorageDirectory();
                     File imgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/images");
+                    File tmpimgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/tmp_images");
+
                     File writetofile = new File(imgDir, imagefileName + ".png");
+                    File write_backup = new File(tmpimgDir, imagefileName + ".png");
+
                     FileOutputStream outStream = null;
+                    FileOutputStream outStream_backup = null;
                     try {
                         outStream = new FileOutputStream(writetofile);
+                        outStream_backup = new FileOutputStream(write_backup);
+                        Bitmap tmp_image = scaledBitmap;
+                        if(flag>0){
+                            scaledBitmap = EditProject.getResizedBitmap(scaledBitmap, EditProject.RESIZE_FACTOR);
+                        }
                         scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+                        tmp_image.compress(Bitmap.CompressFormat.PNG, 100, outStream_backup);
+
                         outStream.flush();
                         outStream.close();
+
+                        outStream_backup.flush();
+                        outStream_backup.close();
 
                     } catch (Exception e) {
                         Toast.makeText(Recording.this, "Cannot create new image : addimage", Toast.LENGTH_LONG);
@@ -663,6 +781,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                         try {
                             if (outStream != null) {
                                 outStream.close();
+                                outStream_backup.close();
                                 File temp_image = new File(temp_path+imagefileName + ".png");
                                 temp_image.delete();
                             }
@@ -671,24 +790,30 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                         }
                     }
                     finish();
-                    }
+                }
 
 
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if(flag==1){
+                    if(flag>0){
 
                         flag = 0;
                         String file_name = imagefileName + ".png";
-
                         Bitmap bm = ScalingUtilities.decodeResource(mDstWidth, mDstHeight, ScalingUtilities.ScalingLogic.FIT, temp_path+file_name);
+
                         OutputStream out = null;
                         File file = new File(cropped_path,file_name);
+
+                        OutputStream out2 = null;
+                        File file2 = new File(temp_path+"/images/" ,file_name);
                         try {
                             out = new FileOutputStream(file);
                             bm.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+                            out2 = new FileOutputStream(file2);
+                            bm.compress(Bitmap.CompressFormat.PNG, 100, out2);
                         }
                         catch (FileNotFoundException e) {
                             e.printStackTrace();
@@ -697,6 +822,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                             try{
                                 if(out != null){
                                     out.close();
+                                    out2.close();
                                     File temp_image = new File(temp_path+imagefileName + ".png");
                                     temp_image.delete();
                                 }
@@ -712,7 +838,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             });
 
             builder.show();
-        }else{
+        } else{
             finish();
         }
 

@@ -42,61 +42,72 @@
                 android:onClick="fitButtonPressed"/>
 
             <Button
-                android:layout_width="wrap_content"
+                android:id="@+id/imageChangeButton"
+                android:layout_weight="3"
+                android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:text="@string/ChangeImage"
-                android:id="@+id/imageChangeButton"
                 android:onClick="onChangeImagePressed" />
 
             <Button
                 android:id="@+id/button_scaling_crop"
-                android:layout_weight="1.71"
+                android:layout_weight="2.2"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:text="@string/crop"
                 android:onClick="cropButtonPressed"/>
+
+            <Button
+                android:id="@+id/button_rotate"
+                android:layout_weight="2.75"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:text="@string/rotate"
+                android:onClick="rotateButtonPressed"/>
+
+
         </LinearLayout>
 
 
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/record"
-        android:id="@+id/startPlaying"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textAppearance="?android:textAppearanceSmall"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/record"
+            android:id="@+id/startPlaying"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textAppearance="?android:textAppearanceSmall"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/done"
-        android:id="@+id/stopPlaying"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/startPlaying"
-        android:layout_toEndOf="@+id/startPlaying"
-        android:textAppearance="?android:textAppearanceSmall" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/done"
+            android:id="@+id/stopPlaying"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/startPlaying"
+            android:layout_toEndOf="@+id/startPlaying"
+            android:textAppearance="?android:textAppearanceSmall" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/listen"
-        android:id="@+id/pausePlaying"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/stopPlaying"
-        android:layout_toEndOf="@+id/stopPlaying" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/listen"
+            android:id="@+id/pausePlaying"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/stopPlaying"
+            android:layout_toEndOf="@+id/stopPlaying" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/retry"
-        android:id="@+id/retryRecording"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/pausePlaying"
-        android:layout_toEndOf="@+id/pausePlaying" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/retry"
+            android:id="@+id/retryRecording"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/pausePlaying"
+            android:layout_toEndOf="@+id/pausePlaying" />
 
         <SeekBar
             android:layout_width="wrap_content"
@@ -109,53 +120,53 @@
             android:layout_toStartOf="@+id/retryRecording"
             android:indeterminate="false" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imagePlaying"
-        android:layout_below="@id/button_panel_scaling"
-        android:layout_above="@+id/seekBar" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imagePlaying"
+            android:layout_below="@id/button_panel_scaling"
+            android:layout_above="@+id/seekBar" />
 
 
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progBar"
-        android:layout_above="@+id/startPlaying"
-        android:layout_toRightOf="@+id/startPlaying"
-        android:layout_toLeftOf="@+id/retryRecording"
-        android:layout_toStartOf="@+id/retryRecording"
-        android:visibility="gone"
-        />
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progBar"
+            android:layout_above="@+id/startPlaying"
+            android:layout_toRightOf="@+id/startPlaying"
+            android:layout_toLeftOf="@+id/retryRecording"
+            android:layout_toStartOf="@+id/retryRecording"
+            android:visibility="gone"
+            />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/current"
-        android:id="@+id/current"
-        android:layout_below="@+id/imagePlaying"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current"
+            android:id="@+id/current"
+            android:layout_below="@+id/imagePlaying"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/totallength"
-        android:id="@+id/total"
-        android:layout_below="@+id/imagePlaying"
-        android:layout_toRightOf="@id/seekBar" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/totallength"
+            android:id="@+id/total"
+            android:layout_below="@+id/imagePlaying"
+            android:layout_toRightOf="@id/seekBar" />
 
-    <Chronometer
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/chronometer"
-        android:layout_below="@+id/imagePlaying"
-        android:layout_alignStart="@+id/retryRecording"
-        android:layout_alignLeft="@+id/retryRecording"
-        android:layout_toRightOf="@+id/progBar"
-        android:visibility="gone"
-        />
+        <Chronometer
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/chronometer"
+            android:layout_below="@+id/imagePlaying"
+            android:layout_alignStart="@+id/retryRecording"
+            android:layout_alignLeft="@+id/retryRecording"
+            android:layout_toRightOf="@+id/progBar"
+            android:visibility="gone"
+            />
     </RelativeLayout>
     <Space
         android:layout_width="0dp"
