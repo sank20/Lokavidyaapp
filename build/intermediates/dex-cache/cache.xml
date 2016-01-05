@@ -2,6 +2,7 @@
 <items version="2" >
 
     <item
+<<<<<<< HEAD
         jar="/home/sanket/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger/1.2.2/e8f912ee19ad84958510883ea191135276b091f8/dagger-1.2.2.jar"
         jumboMode="false"
         revision="23.0.0"
@@ -112,6 +113,34 @@
         revision="23.0.0"
         sha1="daf5472b0df6dabaceb6ad755b3812535863965a">
         <dex dex="/home/sanket/lokavidyaapp/app/build/intermediates/pre-dexed/release/butterknife-5.1.2-b3d4f342f7177b4c045966065578a25e60c3253d.jar" />
+=======
+        jar="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-e33589088ecb582d6237288093259a33acf03d7f.jar" />
+    </item>
+    <item
+        jar="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-544e15207a8ba0ede2dc0b4cb25d3c101633e6ee.jar" />
+    </item>
+    <item
+        jar="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-2c8f2c8bcdcd91afb0479f759a6e4d673a53bb32.jar" />
+    </item>
+    <item
+        jar="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/home/lio/LV/fork-LV/lokavidyaapp/app/build/intermediates/pre-dexed/debug/classes-6fcfe2b3231073718bf85fe9fd07cba833ac885f.jar" />
+>>>>>>> 145c6b81ffa8befeea15af8a157cc7698e96af9c
     </item>
 
 </items>
