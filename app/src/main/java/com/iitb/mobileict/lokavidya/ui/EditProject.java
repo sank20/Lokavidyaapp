@@ -635,6 +635,16 @@ public class EditProject extends Activity {
 
         imwidth = width - padwidth;
         imheight = height - padheight;
+
+
+        System.out.println("...................................................dstHeight = "+dstHeight);
+        System.out.println("...................................................dstWidth = " + dstWidth);
+        System.out.println("...................................................padheight = "+padheight);
+        System.out.println("...................................................padwidth = "+padwidth);
+        System.out.println("...................................................imheight = "+imheight);
+        System.out.println("...................................................imwidth = "+imwidth);
+
+
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(unscaledBitmap, imwidth, imheight, true);
 
         Bitmap paddedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

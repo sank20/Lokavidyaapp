@@ -176,7 +176,25 @@ public class Projects extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_projects);
 
 
+        //------------------------------------------F---------------A---------------B--------------------------------------------------
 
+        fabadd= (FloatingActionButton) findViewById(R.id.fab_add);
+        fabimport= (FloatingActionButton) findViewById(R.id.fab_import);
+        fabmain = (FloatingActionButton) findViewById(R.id.fab_main);
+
+
+        fabmain.setOnClickListener(this);
+        fabadd.setOnClickListener(this);
+        fabimport.setOnClickListener(this);
+
+        fabAddButton=(Button)findViewById(R.id.fabAddbutton);
+        fabImportButton=(Button)findViewById(R.id.fabImportButton);
+
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
+//---------------------------------------------------------------------------------------------------------------------------
 
         mTitle = mDrawerTitle = getTitle();
         mPlanetTitles = getResources().getStringArray(R.array.drawer_list_array);
@@ -221,6 +239,9 @@ public class Projects extends Activity implements View.OnClickListener {
             public void onDrawerOpened(View drawerView) {
                 getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                if(isFabOpen)
+                    animations.animateFAB(isFabOpen, fabmain, fabadd, fabimport, rotate_forward, rotate_backward, fab_open, fab_close, fabAddButton, fabImportButton);
+
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -229,24 +250,6 @@ public class Projects extends Activity implements View.OnClickListener {
             selectItem(0);
         }
 
-        //------------------------------------------F---------------A---------------B--------------------------------------------------
-
-        fabadd= (FloatingActionButton) findViewById(R.id.fab_add);
-        fabimport= (FloatingActionButton) findViewById(R.id.fab_import);
-        fabmain = (FloatingActionButton) findViewById(R.id.fab_main);
-
-
-        fabmain.setOnClickListener(this);
-        fabadd.setOnClickListener(this);
-        fabimport.setOnClickListener(this);
-
-        fabAddButton=(Button)findViewById(R.id.fabAddbutton);
-        fabImportButton=(Button)findViewById(R.id.fabImportButton);
-
-        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.fab_close);
-        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_forward);
-        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_backward);
 
 
 
@@ -267,17 +270,28 @@ public class Projects extends Activity implements View.OnClickListener {
 
                 Log.d("FAB", "ADD");
                 addProjectCallBack(v);
+                animations.animateFAB(isFabOpen, fabmain, fabadd, fabimport, rotate_forward, rotate_backward, fab_open, fab_close, fabAddButton, fabImportButton);
+
                 break;
             case R.id.fab_import:
 
                 Log.d("FAB", "Import");
                 importProjectCallback(v);
+                animations.animateFAB(isFabOpen, fabmain, fabadd, fabimport, rotate_forward, rotate_backward, fab_open, fab_close, fabAddButton, fabImportButton);
+
                 break;
         }
 
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(isFabOpen)
+            animations.animateFAB(isFabOpen, fabmain, fabadd, fabimport, rotate_forward, rotate_backward, fab_open, fab_close, fabAddButton, fabImportButton);
+
+    }
 
     @Override
     protected void onStart() {
@@ -576,6 +590,7 @@ public class Projects extends Activity implements View.OnClickListener {
                     Toast.makeText(Projects.this, "Project name cannot contain '/'", Toast.LENGTH_LONG).show();
                 else {
                     addProject(input.getText().toString());
+
 
                 }
             }

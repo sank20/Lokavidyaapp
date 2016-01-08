@@ -588,6 +588,8 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        RESIZE_FACTOR = getScreenwidth();
+
         flag = 0;
         if(requestCode == EditProject.REQUEST_IMAGE){
             System.out.println("REQUEST_IMAGE passed");
@@ -610,7 +612,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                     //File changeImageFileNew= new File(changeImageFile.getParent()+"/"+image_file.getName());
 
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, EditProject.getImageContentUri(getApplicationContext(), path.get(0))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
-                    bitmap = EditProject.getResizedBitmap(bitmap, EditProject.RESIZE_FACTOR);
+                    bitmap = EditProject.getResizedBitmap(bitmap, RESIZE_FACTOR);
                     Projectfile f = new Projectfile(getApplicationContext());
 
 

@@ -536,10 +536,10 @@ public class Projectfile {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream_backup);
 
             outStream.flush();
-            outStream.close();
+            //outStream.close();
 
             outStream_backup.flush();
-            outStream_backup.close();
+           // outStream_backup.close();
 
 
         } catch (Exception e) {
@@ -549,6 +549,8 @@ public class Projectfile {
             try {
                 if (outStream != null) {
                     outStream.close();
+                }
+                if (outStream_backup != null) {
                     outStream_backup.close();
                 }
             } catch (IOException e) {
