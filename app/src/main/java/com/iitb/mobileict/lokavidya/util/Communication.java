@@ -17,7 +17,7 @@ public class Communication extends BroadcastReceiver {
 
     private static String seedpath=Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
     public static boolean isDownloadComplete = false;
-
+    public static boolean isSeedDownloadComplete = false;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -28,11 +28,14 @@ public class Communication extends BroadcastReceiver {
 
 
 
+
+
     }
 
 
    // @SuppressLint("NewApi")
     public static void downloadSampleProjects(Context context, String link,String zipname){
+        isDownloadComplete=false;
         String DownloadUrl = link; //"http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/odiyapump.zip";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(DownloadUrl));
         request.setDescription("Downloading your project");   //appears the same in Notification bar while downloading
@@ -51,6 +54,23 @@ public class Communication extends BroadcastReceiver {
 
 
         //Log.i("download seed", "download complete in " + seedpath);
+
+
+    }
+
+    public static void downloadseedList(Context context){
+        isDownloadComplete=false;
+        String DownloadUrl="http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/project.txt";
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(DownloadUrl));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            request.allowScanningByMediaScanner();
+         //  request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        }
+
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "projects.txt");
+        DownloadManager manager = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
+        manager.enqueue(request);
 
 
     }
