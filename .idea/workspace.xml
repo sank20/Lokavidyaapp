@@ -29,23 +29,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Share.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Share.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Share.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="291" column="69" selection-start-line="291" selection-start-column="69" selection-end-line="291" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.8691358">
+              <caret line="303" column="72" selection-start-line="303" selection-start-column="72" selection-end-line="303" selection-end-column="72" />
               <folding>
-                <element signature="e#11069#14118#0" expanded="true" />
-                <element signature="e#14117#14118#0" expanded="true" />
+                <element signature="e#11099#14457#0" expanded="true" />
+                <element signature="e#14456#14457#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Projectfile.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Projects.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/ui/Projects.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.3548386">
+              <caret line="794" column="72" selection-start-line="794" selection-start-column="72" selection-end-line="794" selection-end-column="72" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Projectfile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Projectfile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.25824177">
+            <state vertical-scroll-proportion="0.0">
               <caret line="418" column="35" selection-start-line="418" selection-start-column="35" selection-end-line="418" selection-end-column="35" />
               <folding />
             </state>
@@ -3629,8 +3641,9 @@
       <list>
         <option value="$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/ui/EditProject.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/ui/Recording.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Share.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Projectfile.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/ui/Projects.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Share.java" />
       </list>
     </option>
   </component>
@@ -3646,9 +3659,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="57" />
-    <option name="y" value="-4" />
+    <option name="y" value="24" />
     <option name="width" value="1309" />
-    <option name="height" value="772" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -3673,6 +3686,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -3691,30 +3706,10 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lokavidyaapp" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lokavidya" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
       <pane id="Scratches" />
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -3901,7 +3896,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="57" y="-4" width="1309" height="772" extended-state="6" />
+    <frame x="57" y="24" width="1309" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -3909,7 +3904,8 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.49722883" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36553946" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2190016" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29951692" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -3930,7 +3926,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32850242" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -3951,13 +3946,31 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Share.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="291" column="69" selection-start-line="291" selection-start-column="69" selection-end-line="291" selection-end-column="69" />
+          <folding>
+            <element signature="e#11099#14457#0" expanded="true" />
+            <element signature="e#14456#14457#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Projectfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="418" column="35" selection-start-line="418" selection-start-column="35" selection-end-line="418" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/ui/Projects.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="1088" column="25" selection-start-line="1088" selection-start-column="22" selection-end-line="1088" selection-end-column="25" />
           <folding>
-            <element signature="e#41322#42420#0" expanded="true" />
-            <element signature="e#42419#42420#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3967,8 +3980,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="264" column="90" selection-start-line="264" selection-start-column="90" selection-end-line="264" selection-end-column="90" />
           <folding>
-            <element signature="e#11069#14118#0" expanded="true" />
-            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="e#11099#14457#0" expanded="true" />
+            <element signature="e#14456#14457#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3994,8 +4007,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="546" column="27" selection-start-line="546" selection-start-column="27" selection-end-line="546" selection-end-column="27" />
           <folding>
-            <element signature="e#41322#42420#0" expanded="true" />
-            <element signature="e#42419#42420#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -4036,8 +4048,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="413" column="27" selection-start-line="413" selection-start-column="27" selection-end-line="413" selection-end-column="27" />
           <folding>
-            <element signature="e#41322#42420#0" expanded="true" />
-            <element signature="e#42419#42420#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -4071,8 +4082,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#41322#42420#0" expanded="true" />
-            <element signature="e#42419#42420#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -4100,33 +4110,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Projectfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="418" column="35" selection-start-line="418" selection-start-column="35" selection-end-line="418" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/ui/Projects.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10164835">
-          <caret line="1035" column="32" selection-start-line="1035" selection-start-column="32" selection-end-line="1035" selection-end-column="32" />
+        <state vertical-scroll-proportion="-2.3548386">
+          <caret line="794" column="72" selection-start-line="794" selection-start-column="72" selection-end-line="794" selection-end-column="72" />
           <folding>
-            <element signature="e#41322#42420#0" expanded="true" />
-            <element signature="e#42419#42420#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Share.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="291" column="69" selection-start-line="291" selection-start-column="69" selection-end-line="291" selection-end-column="69" />
+        <state vertical-scroll-proportion="0.8691358">
+          <caret line="303" column="72" selection-start-line="303" selection-start-column="72" selection-end-line="303" selection-end-column="72" />
           <folding>
-            <element signature="e#11069#14118#0" expanded="true" />
-            <element signature="e#14117#14118#0" expanded="true" />
+            <element signature="e#11099#14457#0" expanded="true" />
+            <element signature="e#14456#14457#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/iitb/mobileict/lokavidya/Projectfile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25824177">
-          <caret line="418" column="35" selection-start-line="418" selection-start-column="35" selection-end-line="418" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
