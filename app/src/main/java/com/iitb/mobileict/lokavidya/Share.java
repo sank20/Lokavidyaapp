@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -264,10 +265,9 @@ public class Share {
                 Log.i("Import", "uri: " + uri);
 
                 //Share.unzipuri(uri, path1, context); // check for / at the end of path1
-
+                String filename="";
                 try {
                     ZipFile seedzip = new ZipFile(zipPath);
-                    System.out.println("zippath = "+zipPath);
                     if (!new File(outputFile).isDirectory()) {
                         File f1 = new File(outputFile);
                         f1.mkdir();
@@ -278,6 +278,17 @@ public class Share {
                     e.printStackTrace();
                 }
 
+                //get the project name from zip file
+                try{
+                    ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipPath));
+                    ZipEntry entry = zipIn.getNextEntry();
+                    filename = entry.getName();
+                    filename = filename.substring(0,filename.length()-1);
+                }
+                catch(Exception e) {
+                    System.out.println(e);
+                }
+
                 File delTemp = new File(zipPath);
                 delTemp.delete();
                 delTemp.getParentFile().delete();
@@ -286,15 +297,11 @@ public class Share {
                 activity.finish();
                 activity.startActivity(intent);
 
-                String[] sec = zipPath.split("/");
-                int l = sec.length;
-                String filename = sec[l-1];
-                filename = filename.substring(0,filename.length()-4);
-
                 String mainFolder = "lokavidya";
                 File sdCard = Environment.getExternalStorageDirectory();
                 File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + filename + "/tmp_images");
 
+                //to create the tmp_images folder if not present already
                 try{
                     if(!toImagesdir.exists()){
                         toImagesdir.mkdirs();
