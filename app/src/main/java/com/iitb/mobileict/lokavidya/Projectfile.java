@@ -377,12 +377,14 @@ public class Projectfile {
         new Thread(new Runnable() {
             @Override
             public void run(){
+                System.out.println("..............Duplicating..............");
                 File sdCard = Environment.getExternalStorageDirectory();
                 File mainDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder);
                 File fromImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + pname + "/images");
                 File fromAudiodir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + pname + "/audio");
                 File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + newName + "/images");
                 File toAudiodir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + newName + "/audio");
+
                 String[] fromImages = fromImagesdir.list();
                 String[] fromAudio = fromAudiodir.list();
                 List<String> toImagesList = new ArrayList<String>();
@@ -403,14 +405,18 @@ public class Projectfile {
                     for (int i = 0; i < fromImagesdir.listFiles().length; i++) {
                         InputStream in = new FileInputStream(new File(fromImagesdir, fromImages[i]));
                         OutputStream out = new FileOutputStream(new File(toImagesdir, toImages[i]));
+
                         // Copy the bits from instream to outstream
                         byte[] buf = new byte[1024];
                         int len;
                         while ((len = in.read(buf)) > 0) {
                             out.write(buf, 0, len);
                         }
-                        in.close();
+
                         out.close();
+                        System.out.println("Images done..now doing tmp_images");
+                        System.out.println("tmp_images done!!");
+                        in.close();
                     }
                     for (int i = 0; i < fromAudiodir.listFiles().length; i++) {
                         InputStream in = new FileInputStream(new File(fromAudiodir, fromAudio[i]));

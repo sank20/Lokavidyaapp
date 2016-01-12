@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -260,18 +261,19 @@ public class Share {
                 //_dirChecker(outputFile + "/", proj);
                 //String path1= outputFile +"/" + proj + "/";
                 String path1= outputFile +"/";
-                Log.i("Import","uri: "+uri);
-
+                Log.i("Import", "uri: " + uri);
 
                 //Share.unzipuri(uri, path1, context); // check for / at the end of path1
 
                 try {
                     ZipFile seedzip = new ZipFile(zipPath);
+                    System.out.println("zippath = "+zipPath);
                     if (!new File(outputFile).isDirectory()) {
                         File f1 = new File(outputFile);
                         f1.mkdir();
                     }
                     seedzip.extractAll(outputFile);
+
                 } catch (ZipException e) {
                     e.printStackTrace();
                 }
@@ -283,6 +285,27 @@ public class Share {
                 Intent intent = activity.getIntent();
                 activity.finish();
                 activity.startActivity(intent);
+
+                String[] sec = zipPath.split("/");
+                int l = sec.length;
+                String filename = sec[l-1];
+                filename = filename.substring(0,filename.length()-4);
+
+                String mainFolder = "lokavidya";
+                File sdCard = Environment.getExternalStorageDirectory();
+                File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + filename + "/tmp_images");
+
+                try{
+                    if(!toImagesdir.exists()){
+                        toImagesdir.mkdirs();
+                        tmp_images_make(filename);
+                    }
+                }
+                catch(Exception e){
+
+                }
+
+
 //                _dirChecker(path1, "images");
 //                _dirChecker(path1, "audio");
 //                Share.unzip(path1 + "images.zip", path1 + "images/");
@@ -293,8 +316,7 @@ public class Share {
 
                 activity.runOnUiThread(new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         ringProgressDialog.dismiss();
                     }
                 });
@@ -344,6 +366,44 @@ public class Share {
 //
 //        return true;
 //    }
+
+    public static void tmp_images_make(String Name){
+        String mainFolder = "lokavidya";
+        File sdCard = Environment.getExternalStorageDirectory();
+
+        File fromImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + Name + "/images");
+        File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + Name + "/tmp_images");
+
+        String[] fromImages = fromImagesdir.list();
+        List<String> toImagesList = new ArrayList<String>();
+        for(int i=0;i<fromImages.length;i++){
+            String image = fromImages[i];
+            toImagesList.add(Name+image.substring(image.length()-6));
+        }
+        String[] toImages = new String[toImagesList.size()];
+        toImagesList.toArray(toImages);
+
+        try {
+            for (int i = 0; i < fromImagesdir.listFiles().length; i++) {
+
+                InputStream in = new FileInputStream(new File(fromImagesdir, fromImages[i]));
+                OutputStream out = new FileOutputStream(new File(toImagesdir, toImages[i]));
+
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+
+                out.close();
+                in.close();
+            }
+        }
+        catch (Exception exp){
+            System.out.print(exp);
+        }
+    }
+
     public static void unzipuri(Uri uri, String _location,Context context) {
         try  {
             InputStream fin=context.getContentResolver().openInputStream(uri);
