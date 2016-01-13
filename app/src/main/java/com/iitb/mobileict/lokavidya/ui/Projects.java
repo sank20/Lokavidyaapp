@@ -792,6 +792,7 @@ public class Projects extends Activity implements View.OnClickListener {
             String path = uri.getPath();
             System.out.println("FIle path ---------import> " + path);
 
+
             final String impProjectName = Share.pathToProjectname(path);
             String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/bluetooth/";
 //-----------------------------------------------------------------------------------------------------------

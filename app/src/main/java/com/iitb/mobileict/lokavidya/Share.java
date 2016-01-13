@@ -273,6 +273,7 @@ public class Share {
                         f1.mkdir();
                     }
                     seedzip.extractAll(outputFile);
+                    Log.i("import zip name",seedzip.getFile().getName());
 
                 } catch (ZipException e) {
                     e.printStackTrace();
@@ -283,11 +284,16 @@ public class Share {
                     ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipPath));
                     ZipEntry entry = zipIn.getNextEntry();
                     filename = entry.getName();
-                    filename = filename.substring(0,filename.length()-1);
+                    Log.i("import zipnam1 ravi,sai",filename);
+                    filename = filename.substring(0, filename.length() - 1);
+                    Log.i("import zipname ravi,sai",filename);
                 }
                 catch(Exception e) {
                     System.out.println(e);
                 }
+
+                String folderinzip= filename.split("/")[0];
+                Log.i("import folderinzip:",folderinzip);
 
                 File delTemp = new File(zipPath);
                 delTemp.delete();
@@ -306,13 +312,13 @@ public class Share {
 
                 String mainFolder = "lokavidya";
                 File sdCard = Environment.getExternalStorageDirectory();
-                File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + projname + "/tmp_images");
+                File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + folderinzip + "/tmp_images");
 
                 //to create the tmp_images folder if not present already
                 try{
                     if(!toImagesdir.exists()){
                         toImagesdir.mkdirs();
-                        tmp_images_make(projname);
+                        tmp_images_make(folderinzip);
                     }
                 }
                 catch(Exception e){
