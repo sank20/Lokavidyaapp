@@ -822,7 +822,7 @@ public class Projects extends Activity implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         Projectfile f = new Projectfile(getApplicationContext());
                         List<String> projects = f.DeleteProject(impProjectName);
-                        Share.importproject(uri, getThisActivity(), mContext,loktemp +impProjectName+".zip");
+                        Share.importproject(uri, getThisActivity(), mContext,loktemp +impProjectName+".zip",impProjectName);
                     }
                 })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -833,7 +833,7 @@ public class Projects extends Activity implements View.OnClickListener {
                         });
                 builder1.create().show();
             } else {
-                Share.importproject(uri, getThisActivity(), this,loktemp +impProjectName+".zip");
+                Share.importproject(uri, getThisActivity(), this,loktemp +impProjectName+".zip",impProjectName);
             }
 //            }
 //            catch (URISyntaxException e) {
@@ -1087,7 +1087,9 @@ public class Projects extends Activity implements View.OnClickListener {
 
     private void selectItem(int position) {
         // update the main content by replacing fragments
-        if(position==1){
+        switch(position){
+
+            case 1:
             System.out.println("------------------------------selectitem item click "+ position+"-------------------------------");
 
             //showSampleProjectPopup();
@@ -1097,8 +1099,9 @@ public class Projects extends Activity implements View.OnClickListener {
             else{
                 Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+             break;
+
+            case 0:
             Fragment fragment = new ProjectFragment();
             Bundle args = new Bundle();
             args.putInt("drawer_list_array", position);
@@ -1111,6 +1114,11 @@ public class Projects extends Activity implements View.OnClickListener {
             mDrawerList.setItemChecked(position, true);
             setTitle(mPlanetTitles[position]);
             mDrawerLayout.closeDrawer(drawerLinearLayout);
+                break;
+
+            case 2:
+                Intent viewVid= new Intent(this,BrowseAndViewVideos.class);
+                startActivity(viewVid);
         }
     }
 

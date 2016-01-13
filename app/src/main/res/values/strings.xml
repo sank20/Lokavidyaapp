@@ -78,6 +78,7 @@
     <string-array name="drawer_list_array">
         <item>My Projects</item>
         <item>Download Sample Projects</item>
+        <item>View Videos</item>
 
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>
@@ -93,5 +94,7 @@
         <item>asdas</item>
         <item>xyz</item>
     </string-array>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_veiw_videos">Pick a video to watch it</string>
 
 </resources>

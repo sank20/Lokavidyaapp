@@ -244,7 +244,7 @@ public class Share {
         return path.substring(j+1,path.length() - 4);
     }
 
-    public static void importproject(final Uri uri,final Activity activity,final Context context, final String zipPath){
+    public static void importproject(final Uri uri,final Activity activity,final Context context, final String zipPath, final String projname){
         final ProgressDialog ringProgressDialog = ProgressDialog.show(activity, "EXTRACTING...",
                 "extracting .zip to your app", true);
         ringProgressDialog.setCancelable(false);
@@ -297,15 +297,22 @@ public class Share {
                 activity.finish();
                 activity.startActivity(intent);
 
+
+                /*String[] sec = zipPath.split("/");
+                int l = sec.length;
+                String filename = sec[l-1];
+                filename = filename.substring(0,filename.length()-4);
+*/
+
                 String mainFolder = "lokavidya";
                 File sdCard = Environment.getExternalStorageDirectory();
-                File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + filename + "/tmp_images");
+                File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + projname + "/tmp_images");
 
                 //to create the tmp_images folder if not present already
                 try{
                     if(!toImagesdir.exists()){
                         toImagesdir.mkdirs();
-                        tmp_images_make(filename);
+                        tmp_images_make(projname);
                     }
                 }
                 catch(Exception e){
