@@ -744,6 +744,8 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     public void onBackPressed(){
         m.stop();
         if(changed){
+            RESIZE_FACTOR = getScreenwidth();
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.save);
 
@@ -765,7 +767,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
                         outStream_backup = new FileOutputStream(write_backup);
                         Bitmap tmp_image = scaledBitmap;
                         if(flag>0){
-                            scaledBitmap = EditProject.getResizedBitmap(scaledBitmap, EditProject.RESIZE_FACTOR);
+                            scaledBitmap = EditProject.getResizedBitmap(scaledBitmap, RESIZE_FACTOR);
                         }
                         scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
                         tmp_image.compress(Bitmap.CompressFormat.PNG, 100, outStream_backup);

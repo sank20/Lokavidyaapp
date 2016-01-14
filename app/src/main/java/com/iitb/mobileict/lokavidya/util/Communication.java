@@ -27,9 +27,6 @@ public class Communication extends BroadcastReceiver {
         Log.i("Downloaded? onreceive",String.valueOf(isDownloadComplete));
 
 
-
-
-
     }
 
 

@@ -126,10 +126,13 @@ public class CropImage extends Activity {
                         try {
                             if (out != null) {
                                 out.close();
-                                out2.close();
                                 Intent data = new Intent();
                                 setResult(RESULT_OK, data);
                                 finish();
+                            }
+                            if(out2!=null){
+                                out2.close();
+
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -148,8 +151,7 @@ public class CropImage extends Activity {
                 }
             });
             builder.show();
-        }
-        else{
+        } else {
             System.out.println("changed = false");
             Intent data = new Intent();
             setResult(RESULT_OK, data);

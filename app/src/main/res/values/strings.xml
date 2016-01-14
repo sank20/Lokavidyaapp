@@ -35,9 +35,10 @@
     <string name="importproject">Import Project</string>
     <string name="shareVideo">Share video</string>
     <string name="shareProject">Share project</string>
-    <string name="share">Share</string>
+    <string name="uploadVideo">Upload the video</string>
+    <string name="share">Share/Upload</string>
     <string name="shareDialog">Pick a project to share</string>
-    <string name="whatShareDialog">What would you like to share?</string>
+    <string name="whatShareDialog">Choose an option to share or Upload</string>
     <string name="forward">Let\'s make the project!</string>
     <string name="save">Do you want to save the changes made in the image?</string>
     <string name="bad">Stretch</string>
@@ -96,5 +97,16 @@
     </string-array>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_activity_veiw_videos">Pick a video to watch it</string>
+    <string name="author_name_edittext">Enter your name</string>
+    <string name="video_title_edittext">Name the video</string>
+    <string name="video_description">Description</string>
+    <string name="uploadvideotext">Please provide the following information before uploading your video:</string>
+    <string name="cannotupload">Please fill the required fields</string>
+    <string name="author_mail_edittext">Enter your Gmail id</string>
+    <string name="video_language_edittext">Language</string>
+    <string name="video_upload_category_spinner_textview">Category:</string>
+    <string name="category_spinner_title">Select Category</string>
+    <string name="input_keywords_edittext">Add keywords/tags(Comma separated values)</string>
+    <string name="app_slogan">Empowerment through Knowledge-Sharing</string>
 
 </resources>

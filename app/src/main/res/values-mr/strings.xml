@@ -69,6 +69,16 @@
     <string name="seedDownloadProgress">नमुना प्रकल्प डाउनलोड करत आहेत</string>
     <string name="fab_add_button">Add Project</string>
     <string name="fab_import_button">Import Project</string>
+    <string name="author_name_edittext">Enter your name</string>
+    <string name="video_title_edittext">Name the video</string>
+    <string name="video_description">Description</string>
+    <string name="uploadvideotext">Please provide the following information before uploading your video:</string>
+    <string name="cannotupload">Please fill the required fields</string>
+    <string name="author_mail_edittext">Enter your Gmail id</string>
+    <string name="video_language_edittext">Language</string>
+    <string name="video_upload_category_spinner_textview">Category:</string>
+    <string name="input_keywords_edittext">Add keywords/tags</string>
+    <string name="app_slogan">Empowerment through Knowledge-Sharing</string>
 
     <string-array name="nav_drawer_labels" />
 </resources>
