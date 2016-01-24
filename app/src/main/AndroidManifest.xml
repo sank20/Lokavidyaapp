@@ -23,7 +23,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name">
         <receiver
-            android:name=".util.Communication"
+            android:name=".Communication.Communication"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />

@@ -108,5 +108,21 @@
     <string name="category_spinner_title">Select Category</string>
     <string name="input_keywords_edittext">Add keywords/tags(Comma separated values)</string>
     <string name="app_slogan">Empowerment through Knowledge-Sharing</string>
+    <string name="browse_govt_schemes">Government Schemes and Initiatives</string>
+    <string name="browse_rural_innovation">Rural Innovations</string>
+    <string name="browse_category_primaryeducation">Primary Education</string>
+    <string name="browse_category_skilldevelopment">Skill development</string>
+    <string name="browse_category_farming">Farming and Agriculture</string>
+    <string name="browse_category_animal">Animal Husbandry</string>
+    <string name="browse_category_health">Health and Sanitation</string>
+    <string name="browse_swirler_hindi">Swirler Pack- hindi</string>
+    <string name="browse_swirler_marathi">Swirler Pack - marathi</string>
+    <string name="browse_pump_hindi">Treadle Pump- hindi</string>
+    <string name="browse_pump_oriya">Treadle pump- Oriya</string>
+    <string name="browse_pump_marathi">Treadle Pump - Marathi</string>
+    <string name="browse_biogas_finance">Finance for Biogas (Government Subsidies)</string>
+    <string name="long_press_duplicate_proj">Duplicate Project</string>
+    <string name="import_overwrite">Overwrite existing project with same name?</string>
+    <string name="download_video_progress_message">Downloading your video</string>
 
 </resources>

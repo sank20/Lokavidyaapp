@@ -4,13 +4,10 @@ package com.iitb.mobileict.lokavidya;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
-
-import com.iitb.mobileict.lokavidya.util.Communication;
 
 import java.io.File;
 import java.io.FileInputStream;
