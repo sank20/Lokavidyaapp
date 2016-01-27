@@ -66,6 +66,7 @@ public class BrowseAndViewVideos extends AppCompatActivity {
         new viewVideosTask(getApplicationContext()).execute("OK"); //the real data preparation happens here
 
 
+        System.out.println("asynctask running...");
 
 
         Log.i("Oncreate", "Preparelistdata complete");
