@@ -28,7 +28,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.0.0'
-
+    compile 'com.android.support:design:23.0.1'
     compile 'com.squareup.dagger:dagger-compiler:1.2.2'
     compile 'com.squareup.dagger:dagger:1.2.2'
     compile 'com.jakewharton:butterknife:5.1.2'
@@ -36,7 +36,7 @@ dependencies {
     compile project(':FFmpegAndroid')
     compile project(':MultipleImageSelection')
     compile files('libs/zip4j_1.3.2.jar')
-    compile 'com.android.support:design:23.0.1'
+
     compile 'com.edmodo:cropper:1.0.1'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.squareup.picasso:picasso:2.4.0'

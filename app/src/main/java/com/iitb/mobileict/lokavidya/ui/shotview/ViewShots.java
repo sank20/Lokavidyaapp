@@ -495,14 +495,11 @@ public class 																																																																			
                             public void onClick(DialogInterface dialogShare, int whichShare) {
                                 if (whichShare == 2) {
                                     File sdCard = Environment.getExternalStorageDirectory();
-                                    File final_file = new File(sdCard.getAbsolutePath() + "/lokavidya/" + project + "/tmp/final.mp4");
-                                    if (final_file.exists()) {
-										Intent upload= new Intent(getThisActivity(), UploadProject.class);
-                                        startActivity(upload);
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "Please stitch the project", Toast.LENGTH_SHORT).show();
 
-                                    }
+										Intent upload= new Intent(getThisActivity(), UploadProject.class);
+										upload.putExtra("PROJECT_NAME",project);
+                                        startActivity(upload);
+
 
                                 } else {
                                     System.out.println(project + whichShare);

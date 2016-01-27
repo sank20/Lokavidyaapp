@@ -88,7 +88,9 @@
             android:label="@string/title_activity_veiw_videos"
             android:theme="@style/Base.Theme.AppCompat.Light" />
         <activity android:name=".ui.UploadProject"
-            android:theme="@style/Base.Theme.AppCompat.Light"></activity>
+            android:theme="@style/Base.Theme.AppCompat.Light">
+
+        </activity>
     </application>
 
 </manifest>

@@ -26,59 +26,23 @@
         android:paddingTop="15dp"
         android:typeface="monospace"/>
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/upload_video_input_layout"
+
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Uploadvideoheading">
-
-        <EditText
-            android:id="@+id/authornameedittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/author_name_edittext" />
-
-
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/upload_video_input_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Uploadvideoheading">
-
-        <EditText
-            android:id="@+id/authormailedittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/author_mail_edittext"
-            android:inputType="textEmailAddress"/>
-
-
-
-    </android.support.design.widget.TextInputLayout>
-
-
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/upload_video_input_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/upload_video_input_layout">
-    <EditText
-        android:id="@+id/videonameedittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/video_title_edittext"
-        />
-    </android.support.design.widget.TextInputLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/upload_video_name_label"
+        android:layout_below="@+id/Uploadvideoheading"
+        android:padding="20sp"
+        android:textAllCaps="true"
+        android:textSize="22sp"
+        android:gravity="start" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/upload_video_input_lang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/upload_video_input_layout"
+        android:layout_below="@+id/upload_video_name_label"
         >
 
         <EditText
@@ -123,7 +87,7 @@
         android:id="@+id/upload_video_input_keywords"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/upload_video_input_lang">
+        android:layout_below="@+id/spinnerlinearlayout">
 
         <EditText
             android:id="@+id/keywordsedittext"
@@ -139,7 +103,7 @@
         android:id="@+id/upload_video_input_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/upload_video_input_2">
+        android:layout_below="@id/upload_video_input_keywords">
 
     <EditText
         android:id="@+id/videodescription"
