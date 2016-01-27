@@ -79,6 +79,8 @@
     <string name="video_upload_category_spinner_textview">Category:</string>
     <string name="input_keywords_edittext">Add keywords/tags</string>
     <string name="app_slogan">Empowerment through Knowledge-Sharing</string>
-
+    <string name="loading">Loading…</string>
+    <string name="auth_code_fmt">Auth Code: %s</string>
+    <string name="id_token_fmt">ID Token: %s</string>
     <string-array name="nav_drawer_labels" />
 </resources>

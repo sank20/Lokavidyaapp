@@ -1,15 +1,12 @@
 package com.iitb.mobileict.lokavidya.ui;
 
-import android.os.Bundle;
-import android.app.Activity;
-
-import com.iitb.mobileict.lokavidya.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
+
+import com.iitb.mobileict.lokavidya.R;
 
 public class SplashScreen extends Activity {
 
@@ -34,7 +31,7 @@ public class SplashScreen extends Activity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashScreen.this, Projects.class);
+                Intent i = new Intent(SplashScreen.this, IdTokenActivity.class);
                 startActivity(i);
 
                 // close this activity

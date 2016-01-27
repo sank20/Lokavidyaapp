@@ -87,8 +87,11 @@
             android:name=".ui.BrowseAndViewVideos"
             android:label="@string/title_activity_veiw_videos"
             android:theme="@style/Base.Theme.AppCompat.Light" />
-        <activity android:name=".ui.ProjectInfo"
-            android:theme="@style/Base.Theme.AppCompat.Light"></activity>
+        <activity
+            android:name=".ui.ProjectInfo"
+            android:theme="@style/Base.Theme.AppCompat.Light" />
+        <activity android:name=".ui.IdTokenActivity" >
+        </activity>
     </application>
 
 </manifest>

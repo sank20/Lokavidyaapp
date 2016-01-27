@@ -108,5 +108,5 @@
     <string name="category_spinner_title">Select Category</string>
     <string name="input_keywords_edittext">Add keywords/tags(Comma separated values)</string>
     <string name="app_slogan">Empowerment through Knowledge-Sharing</string>
-
+    <string name="server_client_id">868042865921-ekia1srn7fe8nkq5bb6m5iq3gk6tdrah.apps.googleusercontent.com</string>
 </resources>
