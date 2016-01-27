@@ -2,6 +2,20 @@ apply plugin: 'com.android.application'
 repositories {
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.0.0-alpha3'
+        classpath 'com.google.gms:google-services:2.0.0-alpha3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
 }
 android {
     compileSdkVersion 23
@@ -27,7 +41,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.0.0'
+    compile 'com.android.support:appcompat-v7:23.0.1'
 
     compile 'com.squareup.dagger:dagger-compiler:1.2.2'
     compile 'com.squareup.dagger:dagger:1.2.2'
@@ -43,8 +57,17 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
 
 
+    // Dependency for Google Sign-In
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
+
+    // UiAutomatorTesting
+    androidTestCompile 'com.android.support.test:runner:0.2'
+    androidTestCompile 'com.android.support.test:rules:0.2'
+    androidTestCompile 'com.android.support:support-annotations:23.0.1'
 
 }
+apply plugin: 'com.google.gms.google-services'
+
 android {
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'

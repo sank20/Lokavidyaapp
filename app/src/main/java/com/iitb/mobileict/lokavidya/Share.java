@@ -1,7 +1,6 @@
 package com.iitb.mobileict.lokavidya;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -11,18 +10,13 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
-
-import com.iitb.mobileict.lokavidya.ui.Projects;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
 import net.lingala.zip4j.util.Zip4jConstants;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,14 +24,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
-import static android.support.v4.app.ActivityCompat.startActivity;
-import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 /**
  * Created by saikiran on 1/10/15.
@@ -207,7 +197,7 @@ public class Share {
         i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
         activity.startActivity(Intent.createChooser(i, "Share Video Via"));
     }
-    private static void zipFolder(String inputFolderPath, String outZipPath) {
+    public static void zipFolder(String inputFolderPath, String outZipPath) {
         try {
             FileOutputStream fos = new FileOutputStream(outZipPath);
             ZipOutputStream zos = new ZipOutputStream(fos);
