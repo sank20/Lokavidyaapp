@@ -7,5 +7,6 @@
     <string name="DoneSelectionButton">चुनें</string>
     <string name="Pictures">चित्रों</string>
     <string name="images">चित्रों</string>
+    <string name="takePic">तस्वीर खींचे </string>
     
 </resources>

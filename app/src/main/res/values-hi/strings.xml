@@ -5,7 +5,7 @@
     <string name="title_activity_recording">रिकॉर्डिंग</string>
     <string name="title_activity_view_video">वीडियो देखें </string>
     <string name="delete">मिटायें</string>
-    <string name="myprojects">मेरे परियोजनाओं </string>
+    <string name="myprojects">मेरे परियोजनाएँ  </string>
     <string name="addProject">एक परियोजना जोड़ें</string>
     <string name="deleteProject">परियोजना हटाये</string>
     <string name="ffmpeg_cmd_hint">Enter command here. To run \"ffmpeg -version\" enter \"-version\"</string>
@@ -14,7 +14,7 @@
     <string name="run">चलाएँ।</string>
     <string name="empty_command_toast">आप खाली आदेश पर अमल नहीं कर सकते</string>
     <string name="title_activity_db">DBActivity</string>
-    <string name="takePic">एक तस्वीर करेे</string>
+    <string name="takePic">तस्वीर खींचे </string>
     <string name="gallery">गैलरी से चयन करेंे</string>
     <string name="start">प्रारंभ</string>
     <string name="pause">ठहराव</string>
@@ -56,6 +56,48 @@
     <string name="CancelButton">नहीं</string>
     <string name="NoFileManager">आयात करने के लिए एक फ़ाइल प्रबंधक एप्लिकेशन स्थापित करें</string>
     <string name="galleryImageProcessMessage">छवियों को लोड कर रहे हैं</string>
+    
+    <string name="seed_download">नमूना परियोजना डाउनलोड</string>
+    <string name="ChangeImage">चित्र को बदलें</string>
+    <string name="Biogas">बायोगैस के बारे में (हिंदी )</string>
+    <string name="TreadlePump">पावदान पम्प का कार्य(ओड़िया )</string>
+    <string name="offlineSeed">ST-Swirler-Marathi</string>
+    <string name="seedDownloadProgress">नमूना परियोजनाओं डाउनलोड कर रहा है</string>
+    <string name="fab_add_button">Add Project</string>
+    <string name="fab_import_button">Import Project</string>
+    <string name="author_name_edittext">अपना नाम दर्ज करें।</string>
+    <string name="video_title_edittext">वीडियो का नाम</string>
+    <string name="video_description">वर्णन</string>
+    <string name="uploadvideotext">अपने वीडियो अपलोड करने से पहले निम्न जानकारी प्रदान करें:</string>
+    <string name="cannotupload">आवश्यक फ़ील्ड भरें।</string>
+    <string name="author_mail_edittext"> अपने Gmail आईडी दर्ज करें।</string>
+    <string name="video_language_edittext">भाषा</string>
+    <string name="video_upload_category_spinner_textview">श्रेणी</string>
+    <string name="input_keywords_edittext">खोजशब्द / टैग जोड़ें</string>
+    <string name="app_slogan">Empowerment through Knowledge-Sharing</string>
+    <string name="browse_govt_schemes">सरकारी योजनाओं और पहल।</string>
+    <string name="browse_rural_innovation">ग्रामीण नवाचार</string>
+    <string name="browse_category_primaryeducation">प्राथमिक शिक्षा</string>
+    <string name="browse_category_skilldevelopment">कौशल विकास</string>
+    <string name="browse_category_farming">खेती और कृषि</string>
+    <string name="browse_category_animal">पशुपालन</string>
+    <string name="browse_category_health">स्वास्थ्य और स्वच्छता</string>
+    <string name="browse_swirler_hindi">स्वरलर पैकेज हिन्दी</string>
+    <string name="browse_swirler_marathi">स्वरलर पैक - मराठी</string>
+    <string name="browse_pump_hindi">पेच पंप- हिन्दी</string>
+    <string name="browse_pump_oriya">पेच पंप- ओरिया</string>
+    <string name="browse_pump_marathi">पेच पंप - मराठी</string>
+    <string name="browse_biogas_finance">बायोगैस के लिए वित्त (सरकारी सब्सिडी)</string>
+    <string name="long_press_duplicate_proj">डुप्लिकेट परियोजना</string>
+    <string name="import_overwrite">एक ही नाम के साथ मौजूदा परियोजना मिटाकर लिखें?</string>
+    <string name="title_activity_veiw_videos">एक वीडियो देखने के लिए उठाओ</string>
+    <string name="download_video_progress_message">Downloading your video</string>
 
 
+    <string-array name="drawer_list_array">
+        <item>मेरे परियोजनाएँ </item>
+        <item>नमूना परियोजना डाउनलोड</item>
+        <item>वीडियो देखें</item>
+
+    </string-array>
 </resources>

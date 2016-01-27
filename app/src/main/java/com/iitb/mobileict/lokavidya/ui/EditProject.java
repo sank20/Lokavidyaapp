@@ -11,13 +11,19 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +41,7 @@ import com.iitb.mobileict.lokavidya.ui.shotview.GalleryItem;
 import com.iitb.mobileict.lokavidya.ui.shotview.ViewShots;
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +50,17 @@ import java.util.List;
  * Created by saifur on 16/10/15.
  */
 
+/**
+ * Implementation of the Editing activity- contains all the supporting methods
+ *
+ */
 public class EditProject extends Activity {
 
     String projectName;
     ImageAdapter1 imageadapter;
     Button btnDelete;
-    public static int RESIZE_FACTOR = 400;
-    private static final int REQUEST_IMAGE = 1;
+    public static int RESIZE_FACTOR; // resize factor used for compression
+    public static final int REQUEST_IMAGE = 1; //just a constant
     int count=0;
 
     @Override
@@ -59,9 +70,14 @@ public class EditProject extends Activity {
         projectName = intent.getStringExtra("projectname");
         setContentView(R.layout.activity_edit_project);
         btnDelete = (Button) findViewById(R.id.btnDeleteImg);
-        loadImages();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        loadImages(true);  //goes to the project folder and loads all the images in the gridview
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,19 +96,25 @@ public class EditProject extends Activity {
 
     }
 
+    public Bitmap getImage(String path) throws IOException {
+        ContentResolver cr = this.getContentResolver();
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, getImageContentUri(getApplicationContext(), path));
+        return bitmap;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
+        RESIZE_FACTOR = getScreenwidth();
+
         switch (requestCode) {
-            case REQUEST_IMAGE:
+            case REQUEST_IMAGE: //when you tap on 'Choose from gallery'
                 if (resultCode == RESULT_OK) {
                     //Uri imageUri = imageReturnedIntent.getData();
-
-
-
                     final List<String> path = imageReturnedIntent.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                     Log.i("wth inside gallery case", path.get(0));
+
                     final ProgressDialog imageLoadingProgress = ProgressDialog.show(this, getString(R.string.stitchingProcessTitle), getString(R.string.galleryImageProcessMessage), true);
 
                     imageLoadingProgress.setCancelable(false);
@@ -103,16 +125,18 @@ public class EditProject extends Activity {
                         @Override
                         public void run() {
 
-
                             try {
-
                                 int i;
-
                                 for (i = 0; i < path.size(); i++) {
+                                    Log.i("image content URI",getImageContentUri(getApplicationContext(), path.get(i)).toString());
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, getImageContentUri(getApplicationContext(), path.get(i))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
                                     bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
+
                                     Projectfile f = new Projectfile(getApplicationContext());
                                     f.addImage(bitmap, projectName);
+
+                                    System.out.println("...........................??=="+ bitmap.getHeight());
+                                    System.out.println("...........................??==" + bitmap.getWidth());
                                 }
 
                             } catch (IOException fe) {
@@ -122,7 +146,7 @@ public class EditProject extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    loadImages();
+                                    loadImages(true);
                                     imageLoadingProgress.dismiss();
                                 }
                             });
@@ -134,7 +158,7 @@ public class EditProject extends Activity {
 
                 }
                 break;
-            case 2:
+            case 2: // when 'take a photo' is pressed
 
                 if (resultCode == Activity.RESULT_OK) {
                     Uri takenPhotoUri = getPhotoFileUri("temp.png");
@@ -143,9 +167,12 @@ public class EditProject extends Activity {
                     Bitmap photo = BitmapFactory.decodeFile(takenPhotoUri.getPath());
                     photo = getResizedBitmap(photo, RESIZE_FACTOR);
 
+                    System.out.println("...........................??" + photo.getHeight());
+                    System.out.println("...........................??"+photo.getWidth());
+
                     Projectfile f = new Projectfile(getApplicationContext());
                     f.addImage(photo, projectName);
-                    loadImages();
+                    loadImages(true);
                 } else {
                     Toast.makeText(this, "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
                 }
@@ -156,16 +183,32 @@ public class EditProject extends Activity {
         }
     }
 
+    /**
+     * make a toast!
+     * @param text string to put in the toast
+     */
     public void toast(String text) {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), text, duration);
         toast.show();
     }
 
+    public int getScreenwidth(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        return width;
+    }
+
+    /**
+     * called on click of 'Choose from gallery'
+     * @param v view
+     */
     public void gallery(View v) {
         /*Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(pickPhoto, 1);*/
-        Log.i("inside gallery method", "wth");
+        Log.i("inside gallery method", "ok");
 
         Intent intent = new Intent(getApplicationContext(), MultiImageSelectorActivity.class);
 
@@ -183,21 +226,41 @@ public class EditProject extends Activity {
 
     }
 
-    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+    /**
+     * resize the bitmap according to the given size
+     * @param image the bitmap
+     * @param maxSize Resize factor
+     * @return returns resized bitmap
+     */
+    public static Bitmap getResizedBitmap(Bitmap image, int maxSize) {
         int width = image.getWidth();
         int height = image.getHeight();
 
+        Log.i("getresizedbitmapInitial","width: "+Integer.toString(width) + " height: "+Integer.toString(height));
         float bitmapRatio = (float) width / (float) height;
-        if (bitmapRatio > 0) {
+
+        if (bitmapRatio >= 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
         } else {
             height = maxSize;
             width = (int) (height * bitmapRatio);
         }
-        return Bitmap.createScaledBitmap(image, width, height, true);
+        Log.i("getresizedbitmapChanged","width: "+Integer.toString(width) + " height: "+Integer.toString(height));
+
+
+        //return Bitmap.createScaledBitmap(image, width, height, true);
+
+        return addpaddingBitmap(image, width, height, maxSize);
+//        return Bitmap.createScaledBitmap(image, width, height, true);
+
+
     }
 
+    /**
+     * opens the recording activity of the given image in the project.
+     * @param position position of the image in the gridview
+     */
     public void ImageClickCallBack(int position) {
         Intent intent = new Intent(getApplicationContext(), Recording.class);
         intent.putExtra("projectname", projectName);
@@ -212,8 +275,11 @@ public class EditProject extends Activity {
     }
 
 
+    /**
+     * called when the button 'take picture is pressed
+     * @param v the View
+     */
     public void takePic(View v) {
-
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri("temp.png"));
@@ -222,6 +288,11 @@ public class EditProject extends Activity {
 
     }
 
+    /**
+     * returns the uri of the given file path
+     * @param fileName the image filename
+     * @return
+     */
     public Uri getPhotoFileUri(String fileName) {
 
 
@@ -242,6 +313,10 @@ public class EditProject extends Activity {
         return null;
     }
 
+    /**
+     * check if SD card is available
+     * @return true if available, false if not
+     */
     private boolean isExternalStorageAvailable() {
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
@@ -250,6 +325,10 @@ public class EditProject extends Activity {
         return false;
     }
 
+    /**
+     * When you press 'Let's make a project
+     * @param view
+     */
     public void proceed(View view) {
         //ImageAdapter1 ia = new ImageAdapter1();
         int check = imageadapter.getCount();
@@ -263,7 +342,10 @@ public class EditProject extends Activity {
 
     }
 
-    public void loadImages() {
+    /**
+     * Loads the images and displays them into the  gridview
+     */
+    public void loadImages(boolean isNew) {
         Projectfile f = new Projectfile(this);
         List<String> ImageNames = f.getImageNames(projectName);
 
@@ -290,11 +372,16 @@ public class EditProject extends Activity {
         for (int i = 0; i < galleryItemsList.size(); i++)
             System.out.println("loading image pos------->" + galleryItemsList.get(i).position + "---------" + galleryItemsList.get(i).imgFileName);
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        imageadapter = new ImageAdapter1(this, R.layout.galleryitem, galleryItemsList);
-        gridview.setAdapter(imageadapter);
+        if(isNew) {//this check was added to decide whether to add the images in the gridview, since if you need to call it from other method, this UI cannot be updated
+            GridView gridview = (GridView) findViewById(R.id.gridview);
+            imageadapter = new ImageAdapter1(this, R.layout.galleryitem, galleryItemsList);
+            gridview.setAdapter(imageadapter);
+        }
+
+
 
     }
+
 
     class ViewHolder {
         ImageView imageview;
@@ -327,7 +414,7 @@ public class EditProject extends Activity {
                     // imageadapter.removeTask();
                     imageadapter.notifyDataSetChanged();
                     // selectedFileInt.clear();
-                    loadImages();
+                    loadImages(true);
                 }
             })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -397,15 +484,20 @@ public class EditProject extends Activity {
 
             File imgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/images");
             File audDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/audio");
+            File tmpimgDir = new File(sdCard.getAbsolutePath() + "/lokavidya" + "/" + projectName + "/tmp_images");
 
             File image_file = new File(imgDir, imagefilename);
             File audio_file = new File(audDir, audioFilename);
+            File tmpimage_file = new File(tmpimgDir, imagefilename);
 
 
             if (image_file.delete()) {
 
             }
             if (audio_file.delete()) {
+
+            }
+            if (tmpimage_file.delete()) {
 
             }
             objects.remove(object);
@@ -507,6 +599,69 @@ public class EditProject extends Activity {
                 return null;
             }
         }
+    }
+
+    public static Bitmap addpaddingBitmap(Bitmap unscaledBitmap, int dstWidth, int dstHeight, int maxsize){
+        int width, height;
+        int padwidth, padheight;
+        int imwidth, imheight;
+
+        width = maxsize;
+        height = (int) maxsize*3/4;
+
+        if(dstWidth>=dstHeight) {
+            if (height > dstHeight) {
+                padheight = height - dstHeight;
+                padwidth = 0;
+            } else {
+                padheight = 0;
+                float ratio = (float) dstHeight / (float) height;
+                padwidth = (int) (width - width / ratio);
+            }
+        }
+        else{
+            dstHeight = (int)dstHeight*3/4;
+            dstWidth = (int)dstWidth*3/4;
+            if(width>dstWidth){
+                padheight = 0;
+                padwidth = width - dstWidth;
+            }
+            else{
+                padwidth = 0;
+                float ratio = (float) dstWidth / (float) width;
+                padheight = (int) (height - height/ratio);
+            }
+        }
+
+        imwidth = width - padwidth;
+        imheight = height - padheight;
+
+
+        System.out.println("...................................................dstHeight = "+dstHeight);
+        System.out.println("...................................................dstWidth = " + dstWidth);
+        System.out.println("...................................................padheight = "+padheight);
+        System.out.println("...................................................padwidth = "+padwidth);
+        System.out.println("...................................................imheight = "+imheight);
+        System.out.println("...................................................imwidth = "+imwidth);
+
+
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(unscaledBitmap, imwidth, imheight, true);
+
+        Bitmap paddedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(paddedBitmap);
+        canvas.drawARGB(0xFF, 0x00, 0x00, 0x00);
+        canvas.drawBitmap(scaledBitmap, padwidth / 2, padheight / 2, null);
+
+        System.out.println("...................................................dstHeight = "+dstHeight);
+        System.out.println("...................................................dstWidth = " + dstWidth);
+        System.out.println("...................................................padheight = "+padheight);
+        System.out.println("...................................................padwidth = "+padwidth);
+        System.out.println("...................................................imheight = "+imheight);
+        System.out.println("...................................................imwidth = "+imwidth);
+        System.out.println("...................................................canwidth = " + canvas.getWidth());
+        System.out.println("...................................................canheight = " + canvas.getHeight());
+
+        return paddedBitmap;
     }
 
 }

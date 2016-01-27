@@ -3,13 +3,13 @@
     <string name="app_name">लोकविद्या</string>
     <string name="action_settings">सेटींग्स   </string>
     <!--check this-->
-    <string name="title_activity_edit_project">प्रोजेक्ट संपादन</string>
+    <string name="title_activity_edit_project">प्रकल्प संपादन</string>
     <string name="title_activity_recording">रेकॉर्डिंग</string>
     <string name="title_activity_view_video">व्हिडिओ पहा</string>
     <string name="delete">हटवा</string>
-    <string name="myprojects">माझे प्रोजेक्ट </string>
-    <string name="addProject">नवीन प्रोजेक्ट जोडा</string>
-    <string name="deleteProject">प्रोजेक्ट हटवा </string>
+    <string name="myprojects">माझे प्रकल्प </string>
+    <string name="addProject">नवीन प्रकल्प जोडा</string>
+    <string name="deleteProject">प्रकल्प हटवा </string>
     <string name="ffmpeg_cmd_hint">Enter command here. To run \"ffmpeg -version\" enter \"-version\"</string>
     <string name="device_not_supported">डिव्हाइस समर्थित नाही</string>
     <string name="device_not_supported_message">FFmpeg is not supported on your device</string>
@@ -30,17 +30,17 @@
     <string name="shot">चित्रे</string>
     <string name="preview">व्हिडिओ पूर्वावलोकन</string>
     <!--verify this-->
-    <string name="edit">प्रोजेक्ट संपादन</string>
+    <string name="edit">प्रकल्प संपादन</string>
     <string name="stitch">एकत्र जोडा </string>
     <string name="viewvideo">व्हिडिओ पहा</string>
-    <string name="enterName">प्रोजेक्ट ला नाव द्या </string>
-    <string name="importproject">प्रोजेक्ट आयात करा (इम्पोर्ट )</string>
+    <string name="enterName">प्रकल्प ला नाव द्या </string>
+    <string name="importproject">प्रकल्प आयात करा (इम्पोर्ट )</string>
     <string name="shareVideo">व्हिडिओ सामायिक(शेअर) करा</string>
-    <string name="shareProject">प्रोजेक्ट सामायिक(शेअर)  करा </string>
+    <string name="shareProject">प्रकल्प सामायिक(शेअर)  करा </string>
     <string name="share">सामायिक करा (शेअर)</string>
-    <string name="shareDialog">शेअर करण्यासाठी एक प्रोजेक्ट निवडा</string>
+    <string name="shareDialog">शेअर करण्यासाठी एक प्रकल्प निवडा</string>
     <string name="whatShareDialog">आपण काय शेअर करू इच्छित आहात ?</string>
-    <string name="forward">प्रोजेक्ट बनवा </string>
+    <string name="forward">प्रकल्प बनवा </string>
     <string name="save">आपण चित्रा मध्ये केलेले बदल जतन करू इच्छिता का? </string>
     <string name="bad">ताणा </string>
     <string name="fit">फिट</string>
@@ -59,5 +59,42 @@
     <string name="CancelButton">रद्द करा</string>
     <string name="NoFileManager">आयात करण्यासाठी एक फाइल व्यवस्थापक स्थापित करा</string>
     <string name="galleryImageProcessMessage">चित्रे लोड होत आहेत.</string>
+    
+    
+    <string name="seed_download">नमुना प्रकल्प डाउनलोड</string>
+    <string name="ChangeImage">बदला प्रतिमा</string>
+    <string name="Biogas">बायोगॅस बद्दल(हिंदी )</string>
+    <string name="TreadlePump">चालवणे पंप कार्य(ओडिया )</string>
+    <string name="offlineSeed">ST-Swirler-Marathi</string>
+    <string name="seedDownloadProgress">नमुना प्रकल्प डाउनलोड करत आहेत</string>
+    <string name="fab_add_button">Add Project</string>
+    <string name="fab_import_button">Import Project</string>
+    <string name="author_name_edittext">Enter your name</string>
+    <string name="video_title_edittext">Name the video</string>
+    <string name="video_description">Description</string>
+    <string name="uploadvideotext">Please provide the following information before uploading your video:</string>
+    <string name="cannotupload">Please fill the required fields</string>
+    <string name="author_mail_edittext">Enter your Gmail id</string>
+    <string name="video_language_edittext">Language</string>
+    <string name="video_upload_category_spinner_textview">Category:</string>
+    <string name="input_keywords_edittext">Add keywords/tags</string>
+    <string name="app_slogan">Empowerment through Knowledge-Sharing</string>
+    <string name="browse_govt_schemes">Government Schemes and Initiatives</string>
+    <string name="browse_rural_innovation">Rural Innovations</string>
+    <string name="browse_category_primaryeducation">Primary Education</string>
+    <string name="browse_category_skilldevelopment">Skill development</string>
+    <string name="browse_category_farming">Farming and Agriculture</string>
+    <string name="browse_category_animal">Animal Husbandry</string>
+    <string name="browse_category_health">Health and Sanitation</string>
+    <string name="browse_swirler_hindi">Swirler Pack- hindi</string>
+    <string name="browse_swirler_marathi">Swirler Pack - marathi</string>
+    <string name="browse_pump_hindi">Treadle Pump- hindi</string>
+    <string name="browse_pump_oriya">Treadle pump- Oriya</string>
+    <string name="browse_pump_marathi">Treadle Pump - Marathi</string>
+    <string name="browse_biogas_finance">Finance for Biogas (Government Subsidies)</string>
+    <string name="long_press_duplicate_proj">Duplicate Project</string>
+    <string name="import_overwrite">Overwrite existing project with same name?</string>
+    <string name="download_video_progress_message">Downloading your video</string>
 
+    <string-array name="nav_drawer_labels" />
 </resources>

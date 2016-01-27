@@ -15,6 +15,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+/**
+ * the stitching activity- totally java based, no xml used
+ */
 public class Stitch extends Activity {
 
 
@@ -43,7 +46,7 @@ public class Stitch extends Activity {
 
         projectName= sharedPref.getString("projectname","");
 
-       count = sharedPref.getInt(projectName, 0);
+        count = sharedPref.getInt(projectName, 0);
 
         for(int i=0;i<count;i++)
         {
@@ -90,7 +93,11 @@ public class Stitch extends Activity {
                 } catch (Exception e) {
 
                 }finally {
-                   // Projectfile.deleteTempFiles(projectName);
+
+                   //
+
+                    // Projectfile.deleteTempFiles(projectName);
+
                 }
 
 
@@ -101,6 +108,7 @@ public class Stitch extends Activity {
                     {
                         setResult(0);
                         ringProgressDialog.dismiss();
+
                         finish();
                     }
                 });
@@ -111,6 +119,16 @@ public class Stitch extends Activity {
 
 
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+//        Projectfile.deleteTempFiles(projectName);
+
+        setVisible(true);
 
     }
 }

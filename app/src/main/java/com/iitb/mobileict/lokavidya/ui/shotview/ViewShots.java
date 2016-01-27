@@ -10,9 +10,6 @@ import java.util.List;
 import android.content.SharedPreferences;
 
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 //>>>>>>> ef2a05a3746ae3de8c8c5ab687be17fe59263157
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,6 +36,7 @@ import android.widget.Toast;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
 import com.iitb.mobileict.lokavidya.Stitch;
+import com.iitb.mobileict.lokavidya.ui.UploadProject;
 import com.iitb.mobileict.lokavidya.ui.ViewVideo;
 
 
@@ -149,6 +147,7 @@ public class 																																																																			
 		m_bToggleFavs.setId(idToggleFavs);
 		m_bToggleFavs.setOnClickListener((OnClickListener) this);
 		m_bToggleFavs.setText(R.string.stitch);
+
 		nTextH =  12;
 		m_bToggleFavs.setTextSize(nTextH);
         m_bToggleFavs.setTextColor(Color.WHITE);
@@ -451,7 +450,7 @@ public class 																																																																			
 				File file = new File(newVideoPath);
 				String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
 				String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-				myIntent.setDataAndType(Uri.fromFile(file),mimetype);
+				myIntent.setDataAndType(Uri.fromFile(file), mimetype);
 				startActivity(myIntent);
 
 			}
@@ -482,28 +481,42 @@ public class 																																																																			
 			if (check > 0) {
 				final String sharevid = getString(R.string.shareVideo);
 				final String shareproj = getString(R.string.shareProject);
+				final String uploadvid= getString(R.string.uploadVideo);
 
 				AlertDialog.Builder builderShare = new AlertDialog.Builder(ViewShots.this);
 				List<String> features = new ArrayList<String>();
 				//features.add(sharevid);
 				features.add(sharevid);
 				features.add(shareproj);
+                features.add(uploadvid);
 				final CharSequence[] y = features.toArray(new CharSequence[features.size()]);
 				builderShare.setTitle(R.string.whatShareDialog)
 						.setItems(y, new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialogShare, int whichShare) {
+                            public void onClick(DialogInterface dialogShare, int whichShare) {
+                                if (whichShare == 2) {
+                                    File sdCard = Environment.getExternalStorageDirectory();
+                                    File final_file = new File(sdCard.getAbsolutePath() + "/lokavidya/" + project + "/tmp/final.mp4");
+                                    if (final_file.exists()) {
+										Intent upload= new Intent(getThisActivity(), UploadProject.class);
+                                        startActivity(upload);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Please stitch the project", Toast.LENGTH_SHORT).show();
 
-								System.out.println(project + whichShare);
-								Share.SendOptions(whichShare, getThisActivity(), getApplicationContext(), project);
-							}
-						});
+                                    }
+
+                                } else {
+                                    System.out.println(project + whichShare);
+                                    Share.SendOptions(whichShare, getThisActivity(), getApplicationContext(), project);
+                                }
+                            }
+                        });
 				builderShare.create().show();
 			}
 			else{
 				Toast.makeText(this, "Empty Project", Toast.LENGTH_SHORT).show();
 			}
 		}
-		if (id == idToggleFavs) {
+	if (id == idToggleFavs) {
 
 			if (check > 0) {
 				String project;

@@ -4,6 +4,7 @@
     <string name="title_activity_edit_project">Edit Project</string>
     <string name="title_activity_recording">Recording</string>
     <string name="title_activity_view_video">View Video</string>
+    <string name="title_activity_crop_image">Crop</string>
     <string name="delete">Delete</string>
     <string name="myprojects">My Projects</string>
     <string name="addProject">Add project</string>
@@ -34,18 +35,20 @@
     <string name="importproject">Import Project</string>
     <string name="shareVideo">Share video</string>
     <string name="shareProject">Share project</string>
-    <string name="share">Share</string>
+    <string name="uploadVideo">Upload the video</string>
+    <string name="share">Share/Upload</string>
     <string name="shareDialog">Pick a project to share</string>
-    <string name="whatShareDialog">What would you like to share?</string>
+    <string name="whatShareDialog">Choose an option to share or Upload</string>
     <string name="forward">Let\'s make the project!</string>
     <string name="save">Do you want to save the changes made in the image?</string>
     <string name="bad">Stretch</string>
     <string name="fit">Fit</string>
     <string name="crop">Crop</string>
+    <string name="rotate">Rotate</string>
     <string name="deleteItembutton">Delete</string>
     <string name="deleteProjectPickerDialog">Pick a project to delete</string>
     <string name="deleteConfirmation">Are you sure you want to delete the file?</string>
-    <string name="projectNameSpace">Project name should not contain space</string>
+    <string name="projectNameSpace">Project name should not start or end with space</string>
     <string name="projectNameDot">Project name should not contain dot.</string>
     <string name="projectNameEmpty">Project name cannot be empty</string>
     <string name="projectExists">Another project exists with same name.</string>
@@ -57,5 +60,69 @@
     <string name="NoFileManager">Please install a File Manager to import</string>
     <string name="galleryImageProcessMessage">Loading Images</string>
     <string name="title_activity_tutorial_video">TutorialVideo</string>
+    <string name="seed_download">Download sample projects</string>
+    <string name="sampleproject1">sample1</string>
+    <string name="sampleproject2">sample2</string>
+    <string name="sampleproject3">sample3</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ChangeImage">Change Image</string>
+    <string name="Biogas">About Biogas(hindi)</string>
+    <string name="TreadlePump">Working of a Treadle Pump(odiya)</string>
+    <string name="offlineSeed">ST-Swirler-Marathi</string>
+    <string name="seedDownloadProgress">Downloading Sample Projects</string>
+    <string-array name="menu">
+        <item>Duplicate Project</item>
+        <item>Delete</item>
+    </string-array>
+    <string-array name="drawer_list_array">
+        <item>My Projects</item>
+        <item>Download Sample Projects</item>
+        <item>View Videos</item>
+
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_websearch">Web search</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="fab_add_button">Add Project</string>
+    <string name="fab_import_button">Import Project</string>
+
+    <string name="croppedImageDesc">The cropped image.</string>
+
+    <string-array name="dummy_list">
+        <item>asdas</item>
+        <item>xyz</item>
+    </string-array>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="title_activity_veiw_videos">Pick a video to watch it</string>
+    <string name="author_name_edittext">Enter your name</string>
+    <string name="video_title_edittext">Name the video</string>
+    <string name="video_description">Description</string>
+    <string name="uploadvideotext">Please provide the following information before uploading your video:</string>
+    <string name="cannotupload">Please fill the required fields</string>
+    <string name="author_mail_edittext">Enter your Gmail id</string>
+    <string name="video_language_edittext">Language</string>
+    <string name="video_upload_category_spinner_textview">Category:</string>
+    <string name="category_spinner_title">Select Category</string>
+    <string name="input_keywords_edittext">Add keywords/tags(Comma separated values)</string>
+    <string name="app_slogan">Empowerment through Knowledge-Sharing</string>
+    <string name="browse_govt_schemes">Government Schemes and Initiatives</string>
+    <string name="browse_rural_innovation">Rural Innovations</string>
+    <string name="browse_category_primaryeducation">Primary Education</string>
+    <string name="browse_category_skilldevelopment">Skill development</string>
+    <string name="browse_category_farming">Farming and Agriculture</string>
+    <string name="browse_category_animal">Animal Husbandry</string>
+    <string name="browse_category_health">Health and Sanitation</string>
+    <string name="browse_swirler_hindi">Swirler Pack- hindi</string>
+    <string name="browse_swirler_marathi">Swirler Pack - marathi</string>
+    <string name="browse_pump_hindi">Treadle Pump- hindi</string>
+    <string name="browse_pump_oriya">Treadle pump- Oriya</string>
+    <string name="browse_pump_marathi">Treadle Pump - Marathi</string>
+    <string name="browse_biogas_finance">Finance for Biogas (Government Subsidies)</string>
+    <string name="long_press_duplicate_proj">Duplicate Project</string>
+    <string name="import_overwrite">Overwrite existing project with same name?</string>
+    <string name="download_video_progress_message">Downloading your video</string>
 
 </resources>
