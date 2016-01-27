@@ -28,7 +28,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 
 
-import android.text.Layout;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Window;
@@ -62,7 +61,7 @@ import android.widget.Toast;
 import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
-import com.iitb.mobileict.lokavidya.util.Communication;
+import com.iitb.mobileict.lokavidya.Communication.Communication;
 import com.iitb.mobileict.lokavidya.util.animations;
 
 
@@ -469,8 +468,11 @@ public class Projects extends Activity implements View.OnClickListener {
                     String line = br.readLine();
 
                     while (line != null) {
+                        Log.i("Sample proj txt: ",line);
                         String name=line.split(":")[0];
+                        Log.i("Sample proj txt name",name);
                         String link=line.split(":")[1];
+                        Log.i("Samplr proj txt link:",link);
                         sampleprojectsHashmap.put(name, link);
                         Log.i("hashmap split 0 and 1", line.split(":")[0] + "," + line.split(":")[1]);
 
@@ -626,10 +628,10 @@ public class Projects extends Activity implements View.OnClickListener {
         String[] menuItems = getResources().getStringArray(R.array.menu);
         String menuItemName = menuItems[menuItemIndex];
         String listItemName = projectsList().get(info.position);
-        if(menuItemName.equals("Delete")){
+        if(menuItemName.equals(getString(R.string.delete))){
             deleteProject(listItemName);
         }
-        else if(menuItemName.equals("Duplicate Project")){
+        else if(menuItemName.equals(getString(R.string.long_press_duplicate_proj))){
             duplicateProject(listItemName);
         }
         else{
@@ -817,7 +819,7 @@ public class Projects extends Activity implements View.OnClickListener {
             Log.i("Import","after pathtoprojectname: "+ impProjectName);
             if (foundInProjectList(impProjectName)) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(Projects.this);
-                builder1.setTitle("Overwrite existing project with same name?");
+                builder1.setTitle(R.string.import_overwrite);
                 builder1.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -17,16 +17,17 @@ import com.iitb.mobileict.lokavidya.R;
  */
 public class TutorialVideo extends Activity {
 
-   /* @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial_video);
         Intent in= getIntent();
+        String videourl= in.getStringExtra("VIDEO_URL");
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
         VideoView HowToLokavidya= (VideoView) findViewById(R.id.TutorialVideo);
 
         HowToLokavidya.setMediaController(new MediaController(this));
-        Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.sample);
+        Uri video = Uri.parse(videourl);//add the URL here
         Log.i("HowToVideo", video.toString());
         HowToLokavidya.setVideoURI(video);
         HowToLokavidya.start();
@@ -36,5 +37,4 @@ public class TutorialVideo extends Activity {
 
 
     }
-*/
 }

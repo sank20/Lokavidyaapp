@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.iitb.mobileict.lokavidya"
+    android:installLocation="preferExternal">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name">
+        <receiver
+            android:name=".Communication.Communication"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".ui.Projects"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.shotview.ViewShots"
+            android:label="Shots"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.EditProject"
+            android:label="@string/title_activity_edit_project"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat.Light" />
+        <activity
+            android:name=".ui.Recording"
+            android:label="@string/title_activity_recording"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.ViewVideo"
+            android:label="@string/title_activity_view_video"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Stitch"
+            android:label="Stitch"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoDisplay" />
+        <activity
+            android:name=".ui.CropImage"
+            android:label="@string/title_activity_crop_image"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <!--
+        <activity
+            android:configChanges="orientation|screenSize"
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity">
+
+        </activity>
+        -->
+
+        <activity
+            android:name=".ui.TutorialVideo"
+            android:label="@string/title_activity_tutorial_video" />
+        <activity
+            android:name=".ui.SplashScreen"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.BrowseAndViewVideos"
+            android:label="@string/title_activity_veiw_videos"
+            android:theme="@style/Base.Theme.AppCompat.Light" />
+<<<<<<< HEAD
+        <activity
+            android:name=".ui.ProjectInfo"
+            android:theme="@style/Base.Theme.AppCompat.Light" />
+        <activity android:name=".ui.IdTokenActivity" >
+        </activity>
+=======
+        <activity android:name=".ui.UploadProject"
+            android:theme="@style/Base.Theme.AppCompat.Light"></activity>
+>>>>>>> cd4a2fc7f8b4c921645e9b6a8ddfb67ef9e82670
+    </application>
+
+</manifest>

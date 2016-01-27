@@ -19,7 +19,7 @@ import com.iitb.mobileict.lokavidya.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectInfo extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class UploadProject extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     EditText author;
     EditText videoName;

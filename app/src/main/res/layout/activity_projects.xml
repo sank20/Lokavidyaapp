@@ -199,7 +199,7 @@
         android:layout_height="48dp"
         android:layout_toLeftOf="@+id/fab_add"
         android:visibility="invisible"
-        android:text="@string/fab_add_button"
+        android:text="@string/addProject"
         android:layout_alignTop="@+id/fab_add"
 
 
@@ -210,7 +210,7 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:visibility="invisible"
-        android:text="@string/fab_import_button"
+        android:text="@string/importproject"
 
         android:layout_alignTop="@+id/fab_import"
         android:layout_toLeftOf="@+id/fab_import"

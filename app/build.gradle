@@ -29,6 +29,8 @@ android {
         versionName "1.4"
 
     }
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -50,6 +52,10 @@ dependencies {
     compile files('libs/zip4j_1.3.2.jar')
     compile 'com.android.support:design:23.0.1'
     compile 'com.edmodo:cropper:1.0.1'
+    compile 'com.squareup.okhttp:okhttp:2.3.0'
+    compile 'com.squareup.picasso:picasso:2.4.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+
 
     // Dependency for Google Sign-In
     compile 'com.google.android.gms:play-services-auth:8.4.0'
