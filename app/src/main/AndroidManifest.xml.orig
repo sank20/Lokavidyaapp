@@ -87,13 +87,16 @@
             android:name=".ui.BrowseAndViewVideos"
             android:label="@string/title_activity_veiw_videos"
             android:theme="@style/Base.Theme.AppCompat.Light" />
-
-        <activity android:name=".ui.UploadProject"
-            android:theme="@style/Base.Theme.AppCompat.Light">
-        </activity>
-
+<<<<<<< HEAD
+        <activity
+            android:name=".ui.ProjectInfo"
+            android:theme="@style/Base.Theme.AppCompat.Light" />
         <activity android:name=".ui.IdTokenActivity" >
         </activity>
+=======
+        <activity android:name=".ui.UploadProject"
+            android:theme="@style/Base.Theme.AppCompat.Light"></activity>
+>>>>>>> cd4a2fc7f8b4c921645e9b6a8ddfb67ef9e82670
     </application>
 
 </manifest>
