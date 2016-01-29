@@ -196,7 +196,10 @@ public class Projectfile {
                 try {
                     if (outStream!= null) {
                         outStream.close();
+                    }
+                    if(outStream_backup!=null){
                         outStream_backup.close();
+
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

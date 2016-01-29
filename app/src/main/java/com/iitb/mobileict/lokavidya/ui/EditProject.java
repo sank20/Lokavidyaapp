@@ -132,10 +132,10 @@ public class EditProject extends Activity {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(cr, getImageContentUri(getApplicationContext(), path.get(i))); //getbitmap() needs content uri as its parameter. for that see getimage content uri() method.
                                     bitmap = getResizedBitmap(bitmap, RESIZE_FACTOR);
 
-                                    Projectfile f = new Projectfile(getApplicationContext());
+                                    Projectfile f = new Projectfile(EditProject.this);
                                     f.addImage(bitmap, projectName);
 
-                                    System.out.println("...........................??=="+ bitmap.getHeight());
+                                    System.out.println("...........................??==" + bitmap.getHeight());
                                     System.out.println("...........................??==" + bitmap.getWidth());
                                 }
 
