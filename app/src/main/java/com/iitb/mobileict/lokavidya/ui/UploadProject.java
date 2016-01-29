@@ -1,7 +1,10 @@
 package com.iitb.mobileict.lokavidya.ui;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,9 +19,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UploadProject extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -29,6 +34,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     String projectname;
     TextView projnamelabel;
     Spinner category;
+    static String UPLOAD_URL=""; //TODO add the URL here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +81,21 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
                     Toast.makeText(getApplicationContext(),getString(R.string.cannotupload),Toast.LENGTH_SHORT).show();
                 }else{
                     Log.i("upload video","upload action button pressed");
+                    String desc= description.getText().toString();
+                    String lang= language.getText().toString();
+                    String tags= keywords.getText().toString();
+                    String projectname;//TODO get the name
+                    String categoryId;//TODO get this
+                    String projectZipFile;//TODO get this
+                    HashMap<String,String> info= new HashMap<String,String>();
+                   // info.put("name",projectname);
+                    info.put("description",desc);
+                    info.put("language",lang);
+                    info.put("keywords",tags);
+                    //info.put("categoryId",categoryId);
+                    //info.put("file",projectZipFile);
 
+                    new uploadTask(UploadProject.this).execute(info);
                 }
 
         }
@@ -90,5 +110,21 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    class uploadTask extends AsyncTask<HashMap<String,String> ,Void,Void>{
+
+        Context context;
+        ProgressDialog pd;
+        public uploadTask(Context context){
+            this.context=context;
+        }
+
+        @Override
+        protected Void doInBackground(HashMap<String, String>... params) {
+            postmanCommunication.okhttpUpload(params[0],UPLOAD_URL);
+
+            return null;
+        }
     }
 }

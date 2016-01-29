@@ -90,14 +90,14 @@ public class postmanCommunication {
         return JsonArray;
     }
 
-    public static void okhttpUpload(HashMap<String,String> info){
+    public static void okhttpUpload(HashMap<String,String> info,String URL){
         okhttpAuth();// authorize
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("multipart/form-data; boundary=---011000010111000001101001");
-        RequestBody body = RequestBody.create(mediaType, "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"tutorialName\"\r\n\r\nabc\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"tutorialDescription\"\r\n\r\ndesc\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"language\"\r\n\r\nSwahili\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"categoryId\"\r\n\r\n2\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"keywords\"\r\n\r\nhmm,ok,bye\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"file\"; filename=\"test_seed_project.zip\"\r\nContent-Type: application/zip\r\n\r\n\r\n-----011000010111000001101001--");
+        RequestBody body = RequestBody.create(mediaType, "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"tutorialName\"\r\n\r\n"+info.get("name")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"tutorialDescription\"\r\n\r\n"+info.get("description")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"language\"\r\n\r\n"+info.get("language")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"categoryId\"\r\n\r\n"+info.get("categoryId")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"keywords\"\r\n\r\n"+info.get("keywords")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"file\"; filename=\""+info.get("file")+"\"\r\nContent-Type: application/zip\r\n\r\n\r\n-----011000010111000001101001--");
         Request request = new Request.Builder()
-                .url("http://192.168.1.134:8080/api/tutorials/upload")
+                .url(URL) //http://192.168.1.134:8080/api/tutorials/upload
                 .post(body)
                 .addHeader("content-type", "multipart/form-data; boundary=---011000010111000001101001")
                 .addHeader("x-auth-token", xAUTH_TOKEN)
