@@ -157,14 +157,28 @@ public class Projects extends Activity implements View.OnClickListener {
         Projectfile f = new Projectfile(context);
         List<String> projectsList = f.DisplayProject_with_zips();
 
+
         for (int i = 0; i < projectsList.size(); i++) {
             System.out.println("--------------projects : " + projectsList.get(i));
+
+            if(new File(seedpath+projectsList.get(i)).isDirectory()) {
+                File tmp_images = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/" + projectsList.get(i) + "/tmp_images");
+                if (!tmp_images.exists()) {
+                    Log.i("projectlist", "tmp_images not found, making dir");
+                    tmp_images.mkdir();
+                    Log.i("tmp_images", "tmp_images folder created");
+                    Share.tmp_images_make(projectsList.get(i));
+                }
+            }
+
             if (projectsList.get(i).length() < 4) continue;
             if (projectsList.get(i).substring(projectsList.get(i).length() - 4).equals(".zip")) {
                 System.out.println("-" + projectsList.get(i).substring(projectsList.get(i).length() - 4) + ":inside");
                 File delete_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/" + projectsList.get(i));
                 delete_file.delete();
+
             }
+
         }
 
 

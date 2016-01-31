@@ -388,6 +388,7 @@ public class Share {
         List<String> toImagesList = new ArrayList<String>();
         for(int i=0;i<fromImages.length;i++){
             String image = fromImages[i];
+            Log.i("tmp_images_make","image:"+image);
             toImagesList.add(Name+image.substring(image.length()-6));
         }
         String[] toImages = new String[toImagesList.size()];
