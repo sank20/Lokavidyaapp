@@ -76,39 +76,39 @@ public class Share {
 //        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 //        Activity activity = (Activity) mContext;
         //   sai kiran and ravi
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SEND);
-            intent.setType("video/*");
-            String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + Share.projectname + "/tmp/" +  "final.mp4";
-            File f = new File(outputFile);
-            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("video/*");
+        String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + Share.projectname + "/tmp/" +  "final.mp4";
+        File f = new File(outputFile);
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
 
-            PackageManager pm = activity.getPackageManager();
-            List<ResolveInfo> appsList = pm.queryIntentActivities(intent, 0);
+        PackageManager pm = activity.getPackageManager();
+        List<ResolveInfo> appsList = pm.queryIntentActivities(intent, 0);
 
-            if(appsList.size() > 0) {
-                String packageName = null;
-                String className = null;
-                boolean found = false;
+        if(appsList.size() > 0) {
+            String packageName = null;
+            String className = null;
+            boolean found = false;
 
-                for (ResolveInfo info : appsList) {
-                    packageName = info.activityInfo.packageName;
-                    if (packageName.equals("com.android.bluetooth") || packageName.equals("com.mediatek.bluetooth")) {
-                        className = info.activityInfo.name;
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found) {
-                    Toast.makeText(mContext, "Bluetooth hasn't been found",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    intent.setClassName(packageName, className);
-                    //System.out.println("-------------------Share:sendVideo:- starting the activity");
-                    activity.startActivity(intent);
+            for (ResolveInfo info : appsList) {
+                packageName = info.activityInfo.packageName;
+                if (packageName.equals("com.android.bluetooth") || packageName.equals("com.mediatek.bluetooth")) {
+                    className = info.activityInfo.name;
+                    found = true;
+                    break;
                 }
             }
+
+            if (!found) {
+                Toast.makeText(mContext, "Bluetooth hasn't been found",
+                        Toast.LENGTH_LONG).show();
+            } else {
+                intent.setClassName(packageName, className);
+                //System.out.println("-------------------Share:sendVideo:- starting the activity");
+                activity.startActivity(intent);
+            }
+        }
     }
 
     public static  void shareProject(final Activity activity, Context mContext) {
@@ -188,7 +188,7 @@ public class Share {
         File f = new File(outputFile);
         i.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
         activity.startActivity(Intent.createChooser(i, "Share Project Via"));
-}
+    }
     public static void shareVia(Activity activity, Context mContext){
         String outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + Share.projectname + "/tmp/" +  "final.mp4";
         Intent i = new Intent(Intent.ACTION_SEND);
@@ -388,6 +388,7 @@ public class Share {
         List<String> toImagesList = new ArrayList<String>();
         for(int i=0;i<fromImages.length;i++){
             String image = fromImages[i];
+            Log.i("tmp_images_make","image:"+image);
             toImagesList.add(Name+image.substring(image.length()-6));
         }
         String[] toImages = new String[toImagesList.size()];

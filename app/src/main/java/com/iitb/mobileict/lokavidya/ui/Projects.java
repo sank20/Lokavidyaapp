@@ -157,14 +157,28 @@ public class Projects extends Activity implements View.OnClickListener {
         Projectfile f = new Projectfile(context);
         List<String> projectsList = f.DisplayProject_with_zips();
 
+
         for (int i = 0; i < projectsList.size(); i++) {
             System.out.println("--------------projects : " + projectsList.get(i));
+
+            if(new File(seedpath+projectsList.get(i)).isDirectory()) {
+                File tmp_images = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/" + projectsList.get(i) + "/tmp_images");
+                if (!tmp_images.exists()) {
+                    Log.i("projectlist", "tmp_images not found, making dir");
+                    tmp_images.mkdir();
+                    Log.i("tmp_images", "tmp_images folder created");
+                    Share.tmp_images_make(projectsList.get(i));
+                }
+            }
+
             if (projectsList.get(i).length() < 4) continue;
             if (projectsList.get(i).substring(projectsList.get(i).length() - 4).equals(".zip")) {
                 System.out.println("-" + projectsList.get(i).substring(projectsList.get(i).length() - 4) + ":inside");
                 File delete_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/" + projectsList.get(i));
                 delete_file.delete();
+
             }
+
         }
 
 
@@ -207,7 +221,7 @@ public class Projects extends Activity implements View.OnClickListener {
                 R.layout.drawer_list_item, mPlanetTitles));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-         //ImageView drawerImg = (ImageView) findViewById(R.id.drawer_image);
+        //ImageView drawerImg = (ImageView) findViewById(R.id.drawer_image);
         //drawerImg.setImageResource(R.drawable.fuckthat);
         // enable ActionBar app icon to behave as action to toggle nav drawer
         /*TextView drawertext=(TextView)findViewById(R.id.drawer_textview);
@@ -504,7 +518,7 @@ public class Projects extends Activity implements View.OnClickListener {
                     @Override
                     public void run() {
 
-                       // recreate();
+                        // recreate();
                         downloadSeed.dismiss();
 
                     }
@@ -529,7 +543,7 @@ public class Projects extends Activity implements View.OnClickListener {
 
 
 
-       // downloadSeed.dismiss();
+        // downloadSeed.dismiss();
 
     }
 
@@ -883,76 +897,76 @@ public class Projects extends Activity implements View.OnClickListener {
      * called for importing project after clicking on 'import'
      * @param v
      */
-        public void importProjectCallback(View v) {
-            importProjectName = "";
-            try {
-    //            //************************************************************************************************
-    //            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    //            builder.setTitle(R.string.enterName);
-    //            final EditText input = new EditText(this);
-    //            input.setInputType(InputType.TYPE_CLASS_TEXT);
-    //            builder.setView(input);
-    //            builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
-    //                @Override
-    //                public void onClick(DialogInterface dialog, int which) {
-    //                    Pattern pattern1 = Pattern.compile("\\s");
-    //                    Pattern pattern2 = Pattern.compile("\\.");
-    //                    // Pattern pattern3 = Pattern.compile("");
-    //
-    //                    Matcher matcher1 = pattern1.matcher(input.getText().toString());
-    //                    Matcher matcher2 = pattern2.matcher(input.getText().toString());
-    //                    // Matcher matcher3 = pattern3.matcher(input.getText().toString());
-    //
-    //                    //boolean found1 = matcher1.find();
-    //                    boolean found1 = false;
-    //                    boolean found2 = matcher2.find();
-    //                    // boolean found3 = matcher3.find();
-    //
-    //                    if(input.getText().toString().charAt(0) == ' ' || input.getText().toString().charAt(input.getText().toString().length() -1) == ' ' )
-    //                        found1 = true;
-    //
-    //                    if (found1)
-    //                        Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
-    //                    else if (found2)
-    //                        Toast.makeText(Projects.this, getString(R.string.projectNameDot), Toast.LENGTH_LONG).show();
-    //                    else {
-    //                        if (input.getText().toString().equals("")) {
-    //                            Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
-    //                        } else {
-    //                            if(foundInProjectList(input.getText().toString())){
-    //                                Toast.makeText(Projects.this, getString(R.string.projectExists), Toast.LENGTH_LONG).show();
-    //                            }
-    //                            else{
-    //                                importProjectName = input.getText().toString();
-    //                                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-    //                                i.setType("*/*");
-    //                                i.addCategory(Intent.CATEGORY_OPENABLE);
-    //                                startActivityForResult(
-    //                                        Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
-    //                                );
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //            });
-    //            builder.setNegativeButton(getString(R.string.CancelButton), new DialogInterface.OnClickListener() {
-    //                @Override
-    //                public void onClick(DialogInterface dialog, int which) {
-    //                    dialog.cancel();
-    //                }
-    //            });
-    //            builder.show();
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.setType("application/zip");
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(
-                        Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
-                );
-                //************************************************************************************************
-            } catch (android.content.ActivityNotFoundException ex) {
-                Toast.makeText(this, getString(R.string.NoFileManager), Toast.LENGTH_SHORT).show();
-            }
+    public void importProjectCallback(View v) {
+        importProjectName = "";
+        try {
+            //            //************************************************************************************************
+            //            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            //            builder.setTitle(R.string.enterName);
+            //            final EditText input = new EditText(this);
+            //            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            //            builder.setView(input);
+            //            builder.setPositiveButton(getString(R.string.OkButton), new DialogInterface.OnClickListener() {
+            //                @Override
+            //                public void onClick(DialogInterface dialog, int which) {
+            //                    Pattern pattern1 = Pattern.compile("\\s");
+            //                    Pattern pattern2 = Pattern.compile("\\.");
+            //                    // Pattern pattern3 = Pattern.compile("");
+            //
+            //                    Matcher matcher1 = pattern1.matcher(input.getText().toString());
+            //                    Matcher matcher2 = pattern2.matcher(input.getText().toString());
+            //                    // Matcher matcher3 = pattern3.matcher(input.getText().toString());
+            //
+            //                    //boolean found1 = matcher1.find();
+            //                    boolean found1 = false;
+            //                    boolean found2 = matcher2.find();
+            //                    // boolean found3 = matcher3.find();
+            //
+            //                    if(input.getText().toString().charAt(0) == ' ' || input.getText().toString().charAt(input.getText().toString().length() -1) == ' ' )
+            //                        found1 = true;
+            //
+            //                    if (found1)
+            //                        Toast.makeText(Projects.this, getString(R.string.projectNameSpace), Toast.LENGTH_LONG).show();
+            //                    else if (found2)
+            //                        Toast.makeText(Projects.this, getString(R.string.projectNameDot), Toast.LENGTH_LONG).show();
+            //                    else {
+            //                        if (input.getText().toString().equals("")) {
+            //                            Toast.makeText(Projects.this, getString(R.string.projectNameEmpty), Toast.LENGTH_LONG).show();
+            //                        } else {
+            //                            if(foundInProjectList(input.getText().toString())){
+            //                                Toast.makeText(Projects.this, getString(R.string.projectExists), Toast.LENGTH_LONG).show();
+            //                            }
+            //                            else{
+            //                                importProjectName = input.getText().toString();
+            //                                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+            //                                i.setType("*/*");
+            //                                i.addCategory(Intent.CATEGORY_OPENABLE);
+            //                                startActivityForResult(
+            //                                        Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
+            //                                );
+            //                            }
+            //                        }
+            //                    }
+            //                }
+            //            });
+            //            builder.setNegativeButton(getString(R.string.CancelButton), new DialogInterface.OnClickListener() {
+            //                @Override
+            //                public void onClick(DialogInterface dialog, int which) {
+            //                    dialog.cancel();
+            //                }
+            //            });
+            //            builder.show();
+            Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+            i.setType("application/zip");
+            i.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(
+                    Intent.createChooser(i, getString(R.string.selectProjectToImport)), FILE_SELECT_CODE
+            );
+            //************************************************************************************************
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, getString(R.string.NoFileManager), Toast.LENGTH_SHORT).show();
         }
+    }
 
     public Activity getThisActivity() {
         return this;
@@ -1093,30 +1107,30 @@ public class Projects extends Activity implements View.OnClickListener {
         switch(position){
 
             case 1:
-            System.out.println("------------------------------selectitem item click "+ position+"-------------------------------");
+                System.out.println("------------------------------selectitem item click "+ position+"-------------------------------");
 
-            //showSampleProjectPopup();
-            if(isNetworkAvailable()) {
-                openDialog();
-            }
-            else{
-                Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
-            }
-             break;
+                //showSampleProjectPopup();
+                if(isNetworkAvailable()) {
+                    openDialog();
+                }
+                else{
+                    Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
+                }
+                break;
 
             case 0:
-            Fragment fragment = new ProjectFragment();
-            Bundle args = new Bundle();
-            args.putInt("drawer_list_array", position);
-            fragment.setArguments(args);
+                Fragment fragment = new ProjectFragment();
+                Bundle args = new Bundle();
+                args.putInt("drawer_list_array", position);
+                fragment.setArguments(args);
 
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-            // update selected item and title, then close the drawer
-            mDrawerList.setItemChecked(position, true);
-            setTitle(mPlanetTitles[position]);
-            mDrawerLayout.closeDrawer(drawerLinearLayout);
+                // update selected item and title, then close the drawer
+                mDrawerList.setItemChecked(position, true);
+                setTitle(mPlanetTitles[position]);
+                mDrawerLayout.closeDrawer(drawerLinearLayout);
                 break;
 
             case 2:
@@ -1195,7 +1209,7 @@ public class Projects extends Activity implements View.OnClickListener {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-           // Toast.makeText(getActivity(),"YAY",Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getActivity(),"YAY",Toast.LENGTH_SHORT).show();
             int i = getArguments().getInt("drawer_list_array");
             String option = getResources().getStringArray(R.array.drawer_list_array)[i];
             Log.i("ProjectFragment", option + " at position " + Integer.toString(i) + " selected");
