@@ -67,7 +67,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
 
-    Button play, stop, record, retry,badButton, cropButton,fitButton;
+    Button play, stop, record, retry,badButton, cropButton,fitButton,linkbutton;
 //    Button replaceImage= (Button) findViewById(R.id.imageChangeButton);
 
     private SeekBar audioProgressBar;
@@ -127,8 +127,9 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         projectName = intent.getStringExtra("projectname");
         final Chronometer myChronometer = (Chronometer)findViewById(R.id.chronometer);
         badButton=(Button)findViewById(R.id.button_scaling_bad);
-        fitButton=(Button)findViewById(R.id.button_scaling_fit);
+        //fitButton=(Button)findViewById(R.id.button_scaling_fit);
         cropButton=(Button)findViewById(R.id.button_scaling_crop);
+        linkbutton=(Button)findViewById(R.id.linkButton);
         mDstWidth = getResources().getDimensionPixelSize(R.dimen.destination_width);
         mDstHeight = getResources().getDimensionPixelSize(R.dimen.destination_height);
 

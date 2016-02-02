@@ -5,6 +5,7 @@ package com.iitb.mobileict.lokavidya.Communication;
 import android.util.Log;
 
 import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
@@ -14,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -24,7 +26,7 @@ import java.util.HashMap;
 public class postmanCommunication {
 
 
-    public static final String JSON_AUTH_URL= "http://192.168.1.134:8080/api/authenticate?username=admin&password=admin&google=false&idTokenString=sadjasjdh";
+    public static final String JSON_AUTH_URL= "http://192.168.1.134:8080/api/authenticate?username=admin&password=admin&google=false&idTokenString=sadjasjdh&gcmToken=qwe&affiliation=ert&googlePlaceId=place";
 
     public static String xAUTH_TOKEN;
     private static JSONArray JsonArray;
@@ -32,19 +34,19 @@ public class postmanCommunication {
     private static void okhttpAuth(){
 
         Log.i("OKHTTP AUTH", "inside Auth");
-            OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient();
 
-            Request request = new Request.Builder()
-                    .url(JSON_AUTH_URL)
-                    .post(null)
-                    .addHeader("cache-control", "no-cache")
-                    .addHeader("postman-token", "164e22d7-22ee-68a7-8e95-0d354064a9d1")
-                    .build();
+        Request request = new Request.Builder()
+                .url(JSON_AUTH_URL)
+                .post(null)
+                .addHeader("cache-control", "no-cache")
+                .addHeader("postman-token", "164e22d7-22ee-68a7-8e95-0d354064a9d1")
+                .build();
 
         Log.i("OKHTTP AUTH", "req assigned");
 
         try {
-                    Response response = client.newCall(request).execute();
+            Response response = client.newCall(request).execute();
             Log.i("OKHTTP AUTH", "execute finished");
 
             String json= response.body().string();
@@ -90,12 +92,13 @@ public class postmanCommunication {
         return JsonArray;
     }
 
-    public static void okhttpUpload(HashMap<String,String> info,String URL){
+   /* public static void okhttpUpload(HashMap<String,String> info,String URL){
         okhttpAuth();// authorize
         OkHttpClient client = new OkHttpClient();
 
+        File zip= new File (info.get("file"));
         MediaType mediaType = MediaType.parse("multipart/form-data; boundary=---011000010111000001101001");
-        RequestBody body = RequestBody.create(mediaType, "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"tutorialName\"\r\n\r\n"+info.get("name")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"tutorialDescription\"\r\n\r\n"+info.get("description")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"language\"\r\n\r\n"+info.get("language")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"categoryId\"\r\n\r\n"+info.get("categoryId")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"keywords\"\r\n\r\n"+info.get("keywords")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"file\"; filename=\""+info.get("file")+"\"\r\nContent-Type: application/zip\r\n\r\n\r\n-----011000010111000001101001--");
+        RequestBody body = RequestBody.create(mediaType, "-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"tutorialName\"\r\n\r\n"+info.get("name")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"tutorialDescription\"\r\n\r\n"+info.get("description")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"language\"\r\n\r\n"+info.get("language")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"categoryId\"\r\n\r\n"+info.get("categoryId")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"keywords\"\r\n\r\n"+info.get("keywords")+"\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"file\"; filename=\""+ zip +"\"\r\nContent-Type: application/zip\r\n\r\n\r\n-----011000010111000001101001--");
         Request request = new Request.Builder()
                 .url(URL) //http://192.168.1.134:8080/api/tutorials/upload
                 .post(body)
@@ -110,6 +113,40 @@ public class postmanCommunication {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+*/
+
+    public static Boolean okhttpUpload( HashMap<String,String> info, String serverURL) {
+        okhttpAuth();// authorize
+        OkHttpClient client = new OkHttpClient();
+        File file= new File (info.get("file"));
+
+        try {
+
+            RequestBody requestBody = new MultipartBuilder()
+                    .type(MultipartBuilder.FORM)
+                    .addFormDataPart("file", file.getName(),
+                            RequestBody.create(MediaType.parse("application/zip"), file))
+                    .addFormDataPart("tutorialName", info.get("name"))
+                    .addFormDataPart("tutorialDescription", info.get("description"))
+                    .addFormDataPart("language", info.get("language"))
+                    .addFormDataPart("categoryId", info.get("categoryId"))
+                    .addFormDataPart("keywords", info.get("keywords"))
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(serverURL)
+                    .post(requestBody)
+                    .addHeader("x-auth-token", xAUTH_TOKEN)
+                    .build();
+
+            client.newCall(request).execute();
+
+            return true;
+        } catch (Exception ex) {
+            // Handle the error
+        }
+        return false;
     }
 
 

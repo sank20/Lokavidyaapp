@@ -92,6 +92,10 @@
     <string name="import_overwrite">एक ही नाम के साथ मौजूदा परियोजना मिटाकर लिखें?</string>
     <string name="title_activity_veiw_videos">एक वीडियो देखने के लिए उठाओ</string>
     <string name="download_video_progress_message">Downloading your video</string>
+    <string name="upload_success_toast">Your project upload is in process, you will be able to download and view your video in some time.</string>
+    <string name="upload_fail_toast">Upload Failed, please try again</string>
+    <string name="upload_progressdialog_message">Uploading, please wait</string>
+    <string name="link_button">link</string>
 
 
     <string-array name="drawer_list_array">
