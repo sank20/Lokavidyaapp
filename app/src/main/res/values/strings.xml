@@ -127,5 +127,8 @@
     <string name="import_overwrite">Overwrite existing project with same name?</string>
     <string name="download_video_progress_message">Downloading your video</string>
 
+    <string name="contact_number">Enter you Contact No.</string>
+    <string name="organization_affiliation">Affiliated to which Organization?</string>
+    <string name="button_done">Done</string>
 
 </resources>
