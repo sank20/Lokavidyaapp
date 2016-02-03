@@ -86,14 +86,23 @@
         <activity
             android:name=".ui.BrowseAndViewVideos"
             android:label="@string/title_activity_veiw_videos"
-            android:theme="@style/Base.Theme.AppCompat.Light" />
-
-        <activity android:name=".ui.UploadProject"
-            android:theme="@style/Base.Theme.AppCompat.Light">
-        </activity>
-
-        <activity android:name=".ui.IdTokenActivity" >
-        </activity>
+            android:theme="@style/Base.Theme.AppCompat.Light"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.UploadProject"
+            android:theme="@style/Base.Theme.AppCompat.Light"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.IdTokenActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".ui.LinkVideos"
+            android:theme="@style/Base.Theme.AppCompat.Light"
+            android:label="@string/title_activity_link_videos"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

@@ -50,7 +50,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_project_info);
+        setContentView(R.layout.activity_upload_video);
         Intent in = getIntent();
         projectname = in.getStringExtra("PROJECT_NAME");
         Log.i("UPLOAD-proj name", projectname);

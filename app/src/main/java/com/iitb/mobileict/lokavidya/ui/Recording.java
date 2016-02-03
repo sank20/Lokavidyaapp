@@ -142,6 +142,13 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             editor.commit();
         }
 
+        linkbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(Recording.this,LinkVideos.class);
+                startActivity(in);
+            }
+        });
 
 
 

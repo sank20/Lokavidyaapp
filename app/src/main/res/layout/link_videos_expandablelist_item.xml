@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="fill_parent"
+    android:layout_height="90dp"
+    >
+
+    <TextView
+        android:id="@+id/linkVidListItem"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:textColor="#000000"
+        />
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:id="@+id/linkvideoCheckbox"
+        android:layout_alignBottom="@+id/linkVidListItem"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:theme="@style/Widget.AppCompat.CompoundButton.CheckBox"
+        android:checked="false" />
+
+
+
+        <EditText
+            android:id="@+id/uploadvideolanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/video_description"
+            android:layout_below="@+id/linkVidListItem"/>
+
+
+
+
+
+</RelativeLayout>
