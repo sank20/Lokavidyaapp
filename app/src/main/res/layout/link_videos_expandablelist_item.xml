@@ -11,8 +11,8 @@
         android:textSize="17sp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:textColor="#000000"
+        android:gravity="start"
         />
     <CheckBox
         android:layout_width="wrap_content"
@@ -22,17 +22,18 @@
         android:layout_alignBottom="@+id/linkVidListItem"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:theme="@style/Widget.AppCompat.CompoundButton.CheckBox"
         android:checked="false" />
 
 
 
-        <EditText
-            android:id="@+id/uploadvideolanguage"
+
+      <!--  <EditText
+            android:id="@+id/link_video_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/video_description"
-            android:layout_below="@+id/linkVidListItem"/>
+            android:layout_below="@+id/linkVidListItem"
+            android:editable="true"/>-->
 
 
 

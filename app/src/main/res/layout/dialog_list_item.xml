@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="fill_parent"
+
+    android:layout_height="fill_parent"
+
+     >
+
+    <TextView
+
+        android:id="@+id/vidname"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:textSize="20sp"
+
+        android:paddingTop="5dp"/>
+
+    <EditText
+
+        android:id="@+id/edit_video_description"
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vidname"
+        android:hint="@string/video_description"
+
+        android:focusable="true"
+
+
+        />
+
+</RelativeLayout>

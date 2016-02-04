@@ -73,7 +73,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.project_info_actionbar_buttons, menu);
+        inflater.inflate(R.menu.upload_video_actionbar_button, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

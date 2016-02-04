@@ -86,5 +86,6 @@
     <string name="upload_success_toast">Your project upload is in process, you will be able to download and view your video in some time.</string>
     <string name="upload_fail_toast">Upload Failed, please try again</string>
     <string name="link_button">Link</string>
+    <string name="link_videos">Link the selected videos</string>
     <string-array name="nav_drawer_labels" />
 </resources>

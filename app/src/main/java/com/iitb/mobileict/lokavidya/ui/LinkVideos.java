@@ -2,19 +2,29 @@ package com.iitb.mobileict.lokavidya.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -32,12 +42,13 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LinkVideos extends AppCompatActivity {
 
-    LVExpandableListAdapter listAdapter;
+    ExpListViewAdapterWithCheckBox listAdapter;
     ExpandableListView expListView;
-    public static List<String> listDataHeader;
+    public static ArrayList<String> listDataHeader;
     public static HashMap<String, List<String>> listDataChild;
 
     public static List<String> listLinkHeader;
@@ -79,6 +90,61 @@ public class LinkVideos extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actionbutton_next, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.link_video_done:
+                Log.i("Link Video", "Done tick pressed");
+
+                for (int i = 0; i <ExpListViewAdapterWithCheckBox.mChildCheckStates.size() ; i++) {
+
+                    if(ExpListViewAdapterWithCheckBox.mChildCheckStates.containsKey(i)) {
+                        boolean checkedVideos[] = ExpListViewAdapterWithCheckBox.mChildCheckStates.get(i);
+                    }
+                    //TODO Complete this shit
+
+                }
+
+
+                Intent in = new Intent(LinkVideos.this,VideoLinkDescriptionActivity.class);
+                in.putStringArrayListExtra("LINKED_VIDEOS",listDataHeader);
+                startActivity(in);
+               /* AlertDialog.Builder builderSingle = new AlertDialog.Builder(LinkVideos.this);
+                builderSingle.setIcon(R.drawable.ic_launcher);
+                builderSingle.setTitle("Enter Details of the links:");
+
+
+                builderSingle.setPositiveButton(
+                        getString(R.string.OkButton),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                builderSingle.setAdapter(dialoglistAdapter, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("Dialog", "Dialog onclick");
+                    }
+                });
+                builderSingle.show();
+
+               // builderSingle.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+
+*/
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 
     private class viewVideosTask extends AsyncTask<String,Void,String> {
@@ -88,8 +154,8 @@ public class LinkVideos extends AppCompatActivity {
         JSONArray vidArray;
         JSONArray catArray;
 
-        public viewVideosTask(Context context){
-            this.context=context;
+        public viewVideosTask(Context context) {
+            this.context = context;
         }
 
         @Override
@@ -109,30 +175,30 @@ public class LinkVideos extends AppCompatActivity {
             Log.i("categ jsonarray", catArray.toString());*/
 
 
-            browseVideoElement tempVidObj= new browseVideoElement();
-            videoObjList= new ArrayList<browseVideoElement>();
-            int i,catId;
+            browseVideoElement tempVidObj = new browseVideoElement();
+            videoObjList = new ArrayList<browseVideoElement>();
+            int i, catId;
 
             try {
-                vidArray= new JSONArray(loadJSONFromAsset("vids.json"));
-                catArray= new JSONArray(loadJSONFromAsset("cats.json"));
+                vidArray = new JSONArray(loadJSONFromAsset("vids.json"));
+                catArray = new JSONArray(loadJSONFromAsset("cats.json"));
                 for (i = 0; i < vidArray.length(); i++) {
                     tempVidObj = new browseVideoElement();
                     tempVidObj.setVideoName(vidArray.getJSONObject(i).getString("name"));
-                    Log.i("setvideo name",vidArray.getJSONObject(i).getString("name"));
+                    Log.i("setvideo name", vidArray.getJSONObject(i).getString("name"));
                     catId = vidArray.getJSONObject(i).getJSONObject("categoryMembership").getInt("categoryId");
                     tempVidObj.setCategoryID(catId);
                     tempVidObj.setCategoryName(catArray.getJSONObject(catId - 1).getString("name"));
-                    if (!vidArray.getJSONObject(i).isNull("externalVideo")){
+                    if (!vidArray.getJSONObject(i).isNull("externalVideo")) {
                         tempVidObj.setVideoUrl(vidArray.getJSONObject(i).getJSONObject("externalVideo").getString("httpurl"));
-                    }else{
+                    } else {
                         tempVidObj.setVideoUrl("no URL");
                     }
                     videoObjList.add(tempVidObj);
 
                 }
-                Log.i("asynctask","data preparation successful");
-            }catch (JSONException j){
+                Log.i("asynctask", "data preparation successful");
+            } catch (JSONException j) {
                 j.printStackTrace();
             }
 
@@ -140,11 +206,11 @@ public class LinkVideos extends AppCompatActivity {
             while(it.hasNext()){
                 System.out.println("-----------------videoobj list ka attribute--------:" + it.next().getVideoName());
             }*/
-            for(browseVideoElement b : videoObjList){
-                if(listDataChild.containsKey(b.getCategoryName())){
+            for (browseVideoElement b : videoObjList) {
+                if (listDataChild.containsKey(b.getCategoryName())) {
                     Log.i("Asynctask", "category existing");
 
-                    Log.i("video name",b.getVideoName());
+                    Log.i("video name", b.getVideoName());
 
                     listDataChild.get(b.getCategoryName()).add(b.getVideoName());
                     // if(b.getVideoUrl()!=null) {
@@ -152,12 +218,12 @@ public class LinkVideos extends AppCompatActivity {
                     //}
                     Log.i("Asynctask", "videoname mapped");
 
-                }else{
+                } else {
                     Log.i("Asynctask", "new category");
 
-                    List<String> vidtemp= new ArrayList<String>();
-                    List<String> linktemp= new ArrayList<String>();
-                    Log.i("video name",b.getVideoName());
+                    List<String> vidtemp = new ArrayList<String>();
+                    List<String> linktemp = new ArrayList<String>();
+                    Log.i("video name", b.getVideoName());
                     vidtemp.add(b.getVideoName());
 
                     // if(b.getVideoUrl()!=null){
@@ -167,12 +233,11 @@ public class LinkVideos extends AppCompatActivity {
                     listLinkChild.put(b.getCategoryName(), linktemp);
                     listDataHeader.add(b.getCategoryName());
                     listLinkHeader.add(b.getCategoryName());
-                    Log.i("Asynctask new catg","new category data mapped");
+                    Log.i("Asynctask new catg", "new category data mapped");
                 }
             }
 
-            Log.i("Asynctask","Phew, over!");
-
+            Log.i("Asynctask", "Phew, over!");
 
 
             return "YAY";
@@ -181,15 +246,14 @@ public class LinkVideos extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
 
-            Log.i("AsyncTask",s);
+            Log.i("AsyncTask", s);
 
-            listAdapter = new LVExpandableListAdapter(context, listDataHeader, listDataChild);
+            listAdapter = new ExpListViewAdapterWithCheckBox(context, listDataHeader, listDataChild);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
-
             // Listview on child click listener
-            expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            /*expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v,
@@ -198,10 +262,11 @@ public class LinkVideos extends AppCompatActivity {
                     return false;
                 }
             });
-
+*/
             // pd.dismiss();
         }
     }
+
 
 
 
@@ -224,106 +289,4 @@ public class LinkVideos extends AppCompatActivity {
 }
 
 
-///-----------------------------------------------------------------------------------------------------
-class LVExpandableListAdapter extends BaseExpandableListAdapter {
 
-
-
-
-    private Context _context;
-    private List<String> _listDataHeader; // header titles
-    // child data in format of header title, child title
-    private HashMap<String, List<String>> _listDataChild;
-
-    public LVExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
-        this._context = context;
-        this._listDataHeader = listDataHeader;
-        this._listDataChild = listChildData;
-    }
-
-    @Override
-    public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
-    }
-
-    @Override
-    public long getChildId(int groupPosition, int childPosition) {
-        return childPosition;
-    }
-
-    @Override
-    public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
-
-        final String childText = (String) getChild(groupPosition, childPosition);
-
-
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.link_videos_expandablelist_item, null);
-        }
-        CheckBox linkvideocheckbox= (CheckBox)convertView.findViewById(R.id.linkvideoCheckbox);
-
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.linkVidListItem);
-
-        txtListChild.setText(childText);
-        return convertView;
-    }
-
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
-    }
-
-    @Override
-    public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
-    }
-
-    @Override
-    public int getGroupCount() {
-        return this._listDataHeader.size();
-    }
-
-    @Override
-    public long getGroupId(int groupPosition) {
-        return groupPosition;
-    }
-
-    @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
-        if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.link_videos_expandablelist_group, null);
-        }
-
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.LinkVidListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
-
-        return convertView;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return false;
-    }
-
-    @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return true;
-    }
-//TODO add the onclick method for checkbox and execute an asynctask.
-//TODO add asynctask which will be executed onclick of the checkbox. the asynctask will add the videoname in the properties and .link file and remove if checkbox unchecked.
-
-
-}
