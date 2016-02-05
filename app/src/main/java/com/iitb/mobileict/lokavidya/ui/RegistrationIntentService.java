@@ -9,27 +9,26 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.iitb.mobileict.lokavidya.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import com.iitb.mobileict.lokavidya.R;
 
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
     String gcmToken, placeId, args;
-    String serverURL = "http://192.168.1.134:8080";
-    static String SURVEY_INTENT = "Survey";
-    static String SPLASH_INTENT = "Splash";
+    String serverURL = "http://192.168.1.2:8080";
+    static String SURVEY_INTENT = "com.iitb.mobileict.lokavidya.ui.SurveyActivity";
+    static String SPLASH_INTENT = "com.iitb.mobileict.lokavidya.ui.SplashScreen";
 
     Context context;
 
@@ -40,9 +39,12 @@ public class RegistrationIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.d(TAG,"Inside Registration Service");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         placeId = intent.getStringExtra("placeId");
+
         args = intent.getStringExtra("flag");
+        Log.d(TAG,"Args are :"+args);
         try {
             InstanceID instanceID = InstanceID.getInstance(this);
             gcmToken= instanceID.getToken(getString(R.string.gcm_defaultSenderId),
@@ -86,28 +88,28 @@ public class RegistrationIntentService extends IntentService {
     }
 
 
-    class AsyncT extends AsyncTask<JSONObject, String, Void> {
+    class AsyncT extends AsyncTask<JSONObject, String, String> {
         Context context;
 
         AsyncT(Context context) {
             this.context = context;
         }
 
-        protected Void doInBackground(JSONObject... params) {
+        protected String doInBackground(JSONObject... params) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             GetJSON getJson = new GetJSON();
-            Log.e("Place ID", placeId);
+            Log.d(TAG,"Printing idToken: "+sharedPreferences.getString("idToken", ""));
+            Log.e("Place ID", "PlaceId :"+placeId);
             Log.e("id Token", sharedPreferences.getString("idToken", "id token"));
             Log.e("gcm Token", gcmToken);
-            serverURL += "/app/authenticate?google=true&username=admin&password=admin&googlePlaceId="
+            serverURL += "/api/authenticate?google=true&username=admin&password=admin&googlePlaceId="
                     + placeId + "&affiliation=IITB&idTokenString="
-                    + sharedPreferences.getString("idToken", "token")
+                    + sharedPreferences.getString("idToken", "")
                     + "&gcmToken=" + gcmToken;
-
-            Log.e("RegisterIntentServ url", serverURL);
-            String response = getJson.getJSONFromUrl(serverURL, null, "POST", false, null, null);
+            Log.e("RegisterIntentServerUrl", serverURL);
+            String response = getJson.getJSONFromUrl(serverURL, new JSONObject(), "POST", false, null, null);
             Log.d(TAG, response);
-            return null;
+            return response;
 
         }
 
@@ -128,13 +130,15 @@ public class RegistrationIntentService extends IntentService {
                     {
                         i.putExtra("arg", "failure");
                     }
-                    if(args == "survey")
+                    if(args.equals( "survey"))
                     {
+                        Log.d(TAG,"Making a Survey Intent");
                         i.setAction(SURVEY_INTENT);
                         context.sendBroadcast(i);
                     }
                     else
                     {
+                        Log.d(TAG,"Making a Splash Intent");
                         i.setAction(SPLASH_INTENT);
                         context.sendBroadcast(i);
                     }

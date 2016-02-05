@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iitb.mobileict.lokavidya"
-    android:installLocation="preferExternal">
+    android:installLocation="preferExternal" >
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,20 +21,22 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name">
+        android:label="@string/app_name" >
         <receiver
             android:name=".Communication.Communication"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBqlf9Zk7DcT_tF2pUxEcCDc775sbsnnuA" />
+            android:value="AIzaSyDuAF58Zk3TtEbG_HOvbJHLO1gEs6vlh9s" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".ui.Projects"
             android:label="@string/app_name"
@@ -81,7 +83,7 @@
             android:label="@string/title_activity_tutorial_video" />
         <activity
             android:name=".ui.SplashScreen"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -92,14 +94,29 @@
             android:name=".ui.BrowseAndViewVideos"
             android:label="@string/title_activity_veiw_videos"
             android:theme="@style/Base.Theme.AppCompat.Light" />
+        <activity
+            android:name=".ui.UploadProject"
+            android:theme="@style/Base.Theme.AppCompat.Light" >
+        </activity>
+        <activity
+            android:name=".ui.IdTokenActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light" >
+        </activity>
+        <activity
+            android:name=".ui.SurveyActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light" >
+        </activity>
 
-        <activity android:name=".ui.UploadProject"
+        <service android:name=".ui.RegistrationIntentService" />
+
+        <service
+            android:name=".ui.CustomAlarmService"
+            android:exported="false" >
+        </service>
+
+        <activity android:name=".ui.VideoPlayerActivity"
             android:theme="@style/Base.Theme.AppCompat.Light">
-        </activity>
 
-        <activity android:name=".ui.IdTokenActivity" >
-        </activity>
-        <activity android:name=".ui.SurveyActivity" >
         </activity>
     </application>
 

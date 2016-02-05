@@ -1,6 +1,5 @@
 package com.iitb.mobileict.lokavidya.ui;
 
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,8 +8,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +29,10 @@ import com.iitb.mobileict.lokavidya.R;
 
 
 
-public class SurveyActivity extends FragmentActivity implements PlaceSelectionListener, OnConnectionFailedListener {
+public class SurveyActivity extends AppCompatActivity implements PlaceSelectionListener, OnConnectionFailedListener {
+
+    private static final String TAG = "SurveyActivity";
+
     private GoogleApiClient mGoogleApiClient;
     PlaceAutocompleteFragment autocompleteFragment;
     EditText contactNumber;
@@ -45,15 +47,18 @@ public class SurveyActivity extends FragmentActivity implements PlaceSelectionLi
     private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d(TAG,"Inside Broadcast Reciever Survey");
             if(intent.getAction().equals(RegistrationIntentService.SURVEY_INTENT)) {
                 progressDialog.dismiss();
                 if(intent.getStringExtra("arg").equals("success"))
                 {
                     startActivity(new Intent(SurveyActivity.this, Projects.class));
+                    finish();
                 }
                 else
                 {
                     startActivity(new Intent(SurveyActivity.this, IdTokenActivity.class));
+                    finish();
                 }
                 finish();
             }
@@ -63,8 +68,7 @@ public class SurveyActivity extends FragmentActivity implements PlaceSelectionLi
     @Override
     protected void onResume() {
         super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mIntentReceiver,
-                new IntentFilter(RegistrationIntentService.SURVEY_INTENT));
+
     }
 
     @Override
@@ -72,7 +76,7 @@ public class SurveyActivity extends FragmentActivity implements PlaceSelectionLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey);
 
-        actionBar = getActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(survey);
         actionBar.show();
@@ -85,6 +89,15 @@ public class SurveyActivity extends FragmentActivity implements PlaceSelectionLi
         autocompleteFragment.setOnPlaceSelectedListener(this);
         autocompleteFragment.setHint("Where are you from?");
 
+
+        IntentFilter intentFilter = new IntentFilter(RegistrationIntentService.SURVEY_INTENT);
+        registerReceiver(mIntentReceiver,intentFilter );
+
+
+
+        
+//        LocalBroadcastManager.getInstance(this).registerReceiver(mIntentReceiver,
+//                new IntentFilter(RegistrationIntentService.SURVEY_INTENT));
         //Variable Definitions
         contactNumber = (EditText) findViewById(R.id.edit_contact);
         affiliation = (EditText) findViewById(R.id.edit_affiliation);
@@ -92,6 +105,7 @@ public class SurveyActivity extends FragmentActivity implements PlaceSelectionLi
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d(TAG,"Inside Done On Click");
                 if(true) //TODO validation
                 {
                     progressDialog = new ProgressDialog(SurveyActivity.this);
@@ -102,6 +116,7 @@ public class SurveyActivity extends FragmentActivity implements PlaceSelectionLi
                     intent.putExtra("flag", "survey");
                     if (checkPlayServices())
                     {
+                        Log.d(TAG,"Starting Intent to the Service.");
                         startService(intent);
                     }
                 }
@@ -116,6 +131,7 @@ public class SurveyActivity extends FragmentActivity implements PlaceSelectionLi
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
                 .addApi(AppIndex.API).build();
+
     }
 
     private boolean checkPlayServices()
@@ -174,41 +190,18 @@ public class SurveyActivity extends FragmentActivity implements PlaceSelectionLi
     @Override
     public void onStart() {
         super.onStart();
-
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        mGoogleApiClient.connect();
-//        Action viewAction = Action.newAction(
-//                Action.TYPE_VIEW, // TODO: choose an action type.
-//                "Survey Page", // TODO: Define a title for the content shown.
-//                // TODO: If you have web page content that matches this app activity's content,
-//                // make sure this auto-generated web page URL is correct.
-//                // Otherwise, set the URL to null.
-//                Uri.parse("http://host/path"),
-//                // TODO: Make sure this auto-generated app deep link URI is correct.
-//                Uri.parse("android-app://com.iitb.mobileict.lokavidya.ui.survey/http/host/path")
-//        );
-//        AppIndex.AppIndexApi.start(mGoogleApiClient, viewAction);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+    }
 
-//        // ATTENTION: This was auto-generated to implement the App Indexing API.
-//        // See https://g.co/AppIndexing/AndroidStudio for more information.
-//        Action viewAction = Action.newAction(
-//                Action.TYPE_VIEW, // TODO: choose an action type.
-//                "Survey Page", // TODO: Define a title for the content shown.
-//                // TODO: If you have web page content that matches this app activity's content,
-//                // make sure this auto-generated web page URL is correct.
-//                // Otherwise, set the URL to null.
-//                Uri.parse("http://host/path"),
-//                // TODO: Make sure this auto-generated app deep link URI is correct.
-//                Uri.parse("android-app://com.example.melroy.survey/http/host/path")
-//        );
-//        AppIndex.AppIndexApi.end(mGoogleApiClient, viewAction);
-//        mGoogleApiClient.disconnect();
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        unregisterReceiver(mIntentReceiver);
     }
 
 }

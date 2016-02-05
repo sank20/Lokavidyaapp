@@ -27,7 +27,7 @@ public class IdTokenActivity  extends FragmentActivity implements
         View.OnClickListener{
     private static final String TAG = "IdTokenActivity";
     private static final int RC_GET_TOKEN = 9002;
-
+    String flow;
     private GoogleApiClient mGoogleApiClient;
     private TextView mIdTokenTextView;
     ProgressDialog progressDialog;
@@ -35,6 +35,9 @@ public class IdTokenActivity  extends FragmentActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         sharedPref.edit().remove("token");
         sharedPref.edit().remove("timeout");
@@ -113,32 +116,18 @@ public class IdTokenActivity  extends FragmentActivity implements
             Log.d(TAG, "onActivityResult:GET_TOKEN:success:" + result.getStatus().isSuccess());
 
             if (result.isSuccess()) {
-
                 GoogleSignInAccount acct = result.getSignInAccount();
                 String idToken = acct.getIdToken();
-
-
                 // Show signed-in UI.
                 Context context = this.getApplicationContext();
                 Log.d(TAG, "idToken:" + idToken);
                 //updateUI(true);
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(IdTokenActivity.this);
-                sharedPreferences.edit().putString("idToken", idToken);
-
-//                LokaAuthenticationTask lokaAuthenticationTask = new LokaAuthenticationTask(context);
-//                JSONObject authParams = new JSONObject();
-//                try {
-//                    authParams.put("google", true);
-//                    authParams.put("username", "admin");
-//                    authParams.put("password", "admin");
-//                    authParams.put("userIdToken", idToken);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                String url = "http://192.168.1.134:8080/api/authenticate?google=true&username=admin&password=admin&idTokenString="+idToken;
-//                lokaAuthenticationTask.execute(new String[]{url});
+                sharedPreferences.edit().putString("idToken", idToken).commit();
+                Log.d(TAG,"Inside Token Activity"+sharedPreferences.getString("idToken",""));
                 progressDialog.dismiss();
                 startActivity(new Intent(IdTokenActivity.this, SurveyActivity.class));
+                finish();
                 // TODO(user): send token to server and validate server-side
             } else {
                 // Show signed-out UI.
