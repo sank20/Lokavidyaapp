@@ -42,8 +42,8 @@ public class BrowseAndViewVideos extends AppCompatActivity {
     public static List<String> listLinkHeader;
     public static HashMap<String, List<String>> listLinkChild;
 
-    private final String VID_JSONARRAY_URL = "http://192.168.1.134:8080/api/tutorials";
-    private final String VID_CAT_JSONARRAY_URL = "http://192.168.1.134:8080/api/categorys";
+    public static final String VID_JSONARRAY_URL = "http://192.168.1.134:8080/api/tutorials";
+    public static final String VID_CAT_JSONARRAY_URL = "http://192.168.1.134:8080/api/categorys";
 
     public List<browseVideoElement> videoObjList;
 
@@ -78,17 +78,7 @@ public class BrowseAndViewVideos extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-
-
-                // start time consuming background process here
-
-
-
-    }
 
     private class viewVideosTask extends AsyncTask<String,Void,String>{
 
@@ -130,7 +120,7 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                     tempVidObj.setCategoryID(catId);
                     tempVidObj.setCategoryName(catArray.getJSONObject(catId - 1).getString("name"));
                     if (!vidArray.getJSONObject(i).isNull("externalVideo")){
-                        tempVidObj.setVideoUrl(vidArray.getJSONObject(i).getJSONObject("externalVideo").getString("url"));
+                        tempVidObj.setVideoUrl(vidArray.getJSONObject(i).getJSONObject("externalVideo").getString("httpurl"));
                 }else{
                         tempVidObj.setVideoUrl("no URL");
                     }

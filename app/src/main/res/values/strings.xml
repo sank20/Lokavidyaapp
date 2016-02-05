@@ -126,6 +126,13 @@
     <string name="long_press_duplicate_proj">Duplicate Project</string>
     <string name="import_overwrite">Overwrite existing project with same name?</string>
     <string name="download_video_progress_message">Downloading your video</string>
+    <string name="upload_progressdialog_message">Uploading, please wait</string>
+    <string name="upload_success_toast">Your project upload is in process, you will be able to download and view your video in some time.</string>
+    <string name="upload_fail_toast">Upload Failed, please try again</string>
+    <string name="link_button">Link</string>
+    <string name="title_activity_link_videos">LinkVideos</string>
+    <string name="title_activity_okbye">okbye</string>
+    <string name="link_videos">Link the selected videos</string>
 
     <string name="contact_number">Enter you Contact No.</string>
     <string name="organization_affiliation">Affiliated to which Organization?</string>

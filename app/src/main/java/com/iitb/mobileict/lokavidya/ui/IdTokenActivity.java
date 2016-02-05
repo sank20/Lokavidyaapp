@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,11 @@ public class IdTokenActivity  extends FragmentActivity implements
     String flow;
     private GoogleApiClient mGoogleApiClient;
     private TextView mIdTokenTextView;
+
     ProgressDialog progressDialog;
+
+    private Button skipButton;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,13 +51,18 @@ public class IdTokenActivity  extends FragmentActivity implements
         // Views
         mIdTokenTextView = (TextView) findViewById(R.id.detail);
 
+
         progressDialog = new ProgressDialog(IdTokenActivity.this);
         progressDialog.setCancelable(false);
+
+        skipButton= (Button) findViewById(R.id.skipbutton);
+
 
         // Button click listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.disconnect_button).setOnClickListener(this);
+        skipButton.setOnClickListener(this);
 
         // For sample only: make sure there is a valid server client ID.
         validateServerClientID();
@@ -74,6 +84,9 @@ public class IdTokenActivity  extends FragmentActivity implements
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
     }
+
+
+
 
     private void getIdToken() {
         // Show an account picker to let the user choose a Google account from the device.
@@ -188,6 +201,9 @@ public class IdTokenActivity  extends FragmentActivity implements
             case R.id.disconnect_button:
                 revokeAccess();
                 break;
+            case R.id.skipbutton:
+                Intent i= new Intent(this,Projects.class);
+                startActivity(i);
         }
     }
 }

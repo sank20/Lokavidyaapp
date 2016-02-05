@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "name": "Agriculture",
+    "description": "Agriculture",
+    "origin": null,
+    "parentCatId": null,
+    "levelFromRoot": null,
+    "image": null
+  },
+  {
+    "id": 2,
+    "name": "Farming",
+    "description": "Farming",
+    "origin": null,
+    "parentCatId": null,
+    "levelFromRoot": null,
+    "image": null
+  }
+]

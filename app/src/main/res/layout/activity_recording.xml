@@ -33,13 +33,20 @@
                 android:onClick="badButtonPressed"
                 android:text="@string/bad"
                 android:visibility="gone"/>
-            <Button
+            <!--<Button
                 android:id="@+id/button_scaling_fit"
                 android:layout_weight="2.10"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:text="@string/fit"
-                android:onClick="fitButtonPressed"/>
+                android:onClick="fitButtonPressed"/>-->
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/link_button"
+                android:id="@+id/linkButton" />
 
             <Button
                 android:id="@+id/imageChangeButton"
