@@ -1,9 +1,9 @@
 package com.iitb.mobileict.lokavidya.ui;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
@@ -23,22 +23,26 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.iitb.mobileict.lokavidya.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class IdTokenActivity  extends FragmentActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener{
     private static final String TAG = "IdTokenActivity";
     private static final int RC_GET_TOKEN = 9002;
-
+    String flow;
     private GoogleApiClient mGoogleApiClient;
     private TextView mIdTokenTextView;
+
+    ProgressDialog progressDialog;
+
     private Button skipButton;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         sharedPref.edit().remove("token");
         sharedPref.edit().remove("timeout");
@@ -47,7 +51,12 @@ public class IdTokenActivity  extends FragmentActivity implements
         // Views
         mIdTokenTextView = (TextView) findViewById(R.id.detail);
 
+
+        progressDialog = new ProgressDialog(IdTokenActivity.this);
+        progressDialog.setCancelable(false);
+
         skipButton= (Button) findViewById(R.id.skipbutton);
+
 
         // Button click listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
@@ -113,6 +122,7 @@ public class IdTokenActivity  extends FragmentActivity implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if (requestCode == RC_GET_TOKEN) {
             // [START get_id_token]
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -121,27 +131,21 @@ public class IdTokenActivity  extends FragmentActivity implements
             if (result.isSuccess()) {
                 GoogleSignInAccount acct = result.getSignInAccount();
                 String idToken = acct.getIdToken();
-
                 // Show signed-in UI.
                 Context context = this.getApplicationContext();
                 Log.d(TAG, "idToken:" + idToken);
-                updateUI(true);
-                LokaAuthenticationTask lokaAuthenticationTask = new LokaAuthenticationTask(context);
-                JSONObject authParams = new JSONObject();
-                try {
-                    authParams.put("google", true);
-                    authParams.put("username", "admin");
-                    authParams.put("password", "admin");
-                    authParams.put("userIdToken", idToken);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                String url = "http://192.168.1.134:8080/api/authenticate?google=true&username=admin&password=admin&idTokenString="+idToken;
-                lokaAuthenticationTask.execute(new String[]{url});
+                //updateUI(true);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(IdTokenActivity.this);
+                sharedPreferences.edit().putString("idToken", idToken).commit();
+                Log.d(TAG,"Inside Token Activity"+sharedPreferences.getString("idToken",""));
+                progressDialog.dismiss();
+                startActivity(new Intent(IdTokenActivity.this, SurveyActivity.class));
+                finish();
                 // TODO(user): send token to server and validate server-side
             } else {
                 // Show signed-out UI.
                 updateUI(false);
+                progressDialog.dismiss();
             }
             // [END get_id_token]
         }
@@ -188,6 +192,7 @@ public class IdTokenActivity  extends FragmentActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
+                progressDialog.show();
                 getIdToken();
                 break;
             case R.id.sign_out_button:
@@ -200,58 +205,6 @@ public class IdTokenActivity  extends FragmentActivity implements
                 Intent i= new Intent(this,Projects.class);
                 startActivity(i);
         }
-    }
-}
-
-//---------------------------------------------------------------------------------------------
-
-//-----------------------Class for Authenticating -------------------------------------
-
-/****************
-
- ***************************************************/
-class LokaAuthenticationTask extends AsyncTask<String, String, String> {
-    String response;
-
-    Context context;
-    LokaAuthenticationTask(Context context) {
-        this.context = context;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        Log.e("Lokavidya Auth", "Pre execute");
-
-    }
-
-    @Override
-    protected String doInBackground(String... kurl) {
-        GetJSON getJSON = new GetJSON();
-        Log.d("Async Task ", kurl[0]);
-        response = getJSON.getJSONFromUrl(kurl[0], new JSONObject(), "POST", false, "", "");
-        Log.d("Lokavidya Auth", "Token is " + response);
-        return response;
-    }
-
-    @Override
-    protected void onPostExecute(String message) {
-        Log.d("LokaAuthenticationTask", "PostExecute response message:" + message);
-        Intent i = new Intent( context,Projects.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        SharedPreferences sharedPref;
-        JSONObject jsonObject= null;
-        try {
-            jsonObject = new JSONObject(message);
-            sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            if(jsonObject!=null) {
-                sharedPref.edit().putString("expires",jsonObject.getString("expires")).putString("token", jsonObject.getString("token")).commit();
-            }
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        context.startActivity(i);
     }
 }
 //---------------------------------------------------------------------------------------------

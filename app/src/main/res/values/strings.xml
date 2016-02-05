@@ -134,5 +134,8 @@
     <string name="title_activity_okbye">okbye</string>
     <string name="link_videos">Link the selected videos</string>
 
+    <string name="contact_number">Enter you Contact No.</string>
+    <string name="organization_affiliation">Affiliated to which Organization?</string>
+    <string name="button_done">Done</string>
 
 </resources>

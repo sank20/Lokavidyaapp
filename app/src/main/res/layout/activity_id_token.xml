@@ -29,7 +29,7 @@
             android:layout_marginBottom="10dp"
             android:text="Title Text"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="36sp" />
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Signed Out"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="14sp" />
 
         <TextView
@@ -49,7 +49,7 @@
             android:maxLines="5"
             android:padding="10dp"
             android:scrollbars="vertical"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="14sp" />
 
         <Button
