@@ -1,0 +1,553 @@
+[
+  {
+    "id": 1,
+    "name": "kjnjhh",
+    "description": "jkhkkjhjk",
+    "createdAt": "2016-01-31",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 1,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/kjnjhhh9keo1v.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/kjnjhhh9keo1v.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 1,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/xmr7scx.zip",
+      "createdAt": "2016-01-31",
+      "updatedAt": "2016-01-31",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 1,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 2,
+    "name": "Poshanvatika",
+    "description": "asjljasljasljdal",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 2,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Poshanvatika702jerw.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Poshanvatika702jerw.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 2,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/sjllope.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 2,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 3,
+    "name": "asdjak",
+    "description": "asdas",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 3,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/asdjakh14x3w0.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/asdjakh14x3w0.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 3,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/u0wbrff.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 3,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 4,
+    "name": "upload",
+    "description": "test",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 4,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/upload2t5lns4.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/upload2t5lns4.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 4,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/mjmeevx.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 4,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 5,
+    "name": "deadpool",
+    "description": "new guy in the class of marvel superheroes ",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 5,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/deadpooliqa5kmu.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/deadpooliqa5kmu.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 5,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/uc2ohyo.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 5,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 6,
+    "name": "deadpool",
+    "description": "new guy in the class of marvel superheroes ",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 6,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/deadpoole797imj.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/deadpoole797imj.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 6,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/mdhtizp.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 6,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 7,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 7,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiya5hi16yj.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiya5hi16yj.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 7,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/nq9oaj0.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 7,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 8,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 8,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiya2h5727x.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiya2h5727x.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 8,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/ffqphll.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 8,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 9,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 9,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiyaquixv06.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiyaquixv06.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 9,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/ald0y3z.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 9,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 10,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 10,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiya6ov37qn.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiya6ov37qn.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 10,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/4ib3t0u.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 10,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 11,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 11,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiya7c7gp20.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiya7c7gp20.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 11,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/wq7nca0.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 11,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 12,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 12,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiyalszr9yd.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiyalszr9yd.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 12,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/xavy21e.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 12,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 13,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 13,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiyae8w8big.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiyae8w8big.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 13,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/v4q363t.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 13,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 14,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 14,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiyacph2ybq.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiyacph2ybq.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 14,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/ixia15h.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 14,
+      "categoryId": 2,
+      "type": null
+    }
+  },
+  {
+    "id": 15,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 15,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiyafpqxxw6.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiyafpqxxw6.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 15,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/o03qp13.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 15,
+      "categoryId": 2,
+      "type": null
+    }
+  },
+  {
+    "id": 16,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 16,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiyadn0n8sy.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiyadn0n8sy.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 16,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/ke8ax5l.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 16,
+      "categoryId": 2,
+      "type": null
+    }
+  },
+  {
+    "id": 17,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 17,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiya0s182xv.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiya0s182xv.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 17,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/mx632fn.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 17,
+      "categoryId": 2,
+      "type": null
+    }
+  },
+  {
+    "id": 18,
+    "name": "Pump-Odiya",
+    "description": "this is tredle pump",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 18,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/Pump-Odiya8zv5xr7.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/Pump-Odiya8zv5xr7.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 18,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/xuryumj.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 18,
+      "categoryId": 1,
+      "type": null
+    }
+  },
+  {
+    "id": 19,
+    "name": "deadpool",
+    "description": "the best marvel comic character",
+    "createdAt": "2016-02-01",
+    "updatedAt": null,
+    "userLogin": "admin",
+    "externalVideo": {
+      "id": 19,
+      "httpurl": "127.0.0.1:8080/Downloads/lokavidya/videos/deadpoolw3od201.mp4",
+      "serverftpurl": "/home/sanket/development/githubrepos/springexperiments/final/lokavidyatemp/src/main/webapp/webapps/Downloads/lokavidya/videos/deadpoolw3od201.mp4",
+      "isYoutube": false,
+      "createdAt": null,
+      "updatedAt": null
+    },
+    "segmentVideo": {
+      "id": 19,
+      "zipurl": "127.0.0.1:8080/webapps/Downloads/lokavidya/zip/sjosl7r.zip",
+      "createdAt": "2016-02-01",
+      "updatedAt": "2016-02-01",
+      "noOfSegments": null,
+      "sync": true
+    },
+    "categoryMembership": {
+      "id": 19,
+      "categoryId": 1,
+      "type": null
+    }
+  }
+]

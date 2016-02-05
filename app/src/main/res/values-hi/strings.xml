@@ -96,8 +96,7 @@
     <string name="upload_fail_toast">Upload Failed, please try again</string>
     <string name="upload_progressdialog_message">Uploading, please wait</string>
     <string name="link_button">link</string>
-
-
+    <string name="link_videos">Link the selected videos</string>
     <string-array name="drawer_list_array">
         <item>मेरे परियोजनाएँ </item>
         <item>नमूना परियोजना डाउनलोड</item>

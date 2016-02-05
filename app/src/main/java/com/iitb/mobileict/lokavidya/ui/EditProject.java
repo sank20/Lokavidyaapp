@@ -133,7 +133,7 @@ public class EditProject extends Activity {
                                     Projectfile f = new Projectfile(EditProject.this);
                                     f.addImage(bitmap, projectName);
 
-                                    System.out.println("...........................??=="+ bitmap.getHeight());
+                                    System.out.println("...........................??==" + bitmap.getHeight());
                                     System.out.println("...........................??==" + bitmap.getWidth());
                                 }
 

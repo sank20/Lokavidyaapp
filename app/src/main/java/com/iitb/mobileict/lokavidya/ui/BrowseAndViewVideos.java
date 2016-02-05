@@ -78,17 +78,7 @@ public class BrowseAndViewVideos extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-
-
-                // start time consuming background process here
-
-
-
-    }
 
     private class viewVideosTask extends AsyncTask<String,Void,String>{
 

@@ -118,8 +118,8 @@
     <orderEntry type="library" exported="" scope="TEST" name="rules-0.2" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-basement-8.3.0" level="project" />
-    <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.0.0" level="project" />
+    <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
     <orderEntry type="module" module-name="FFmpegAndroid" exported="" />
     <orderEntry type="module" module-name="MultipleImageSelection" exported="" />
   </component>
