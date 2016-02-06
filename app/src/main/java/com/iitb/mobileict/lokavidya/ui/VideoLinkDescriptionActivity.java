@@ -1,9 +1,9 @@
 package com.iitb.mobileict.lokavidya.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,26 +18,35 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.iitb.mobileict.lokavidya.R;
+import com.iitb.mobileict.lokavidya.data.Link;
+import com.iitb.mobileict.lokavidya.util.ExtraImageHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The last step of linking
+ */
 public class VideoLinkDescriptionActivity extends AppCompatActivity {
 
+    HashMap<String,String> nameToDescription;
     ListView customDescriptionList;
+    Bundle extras;
 
     List<String> videolist= new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        extras= new Bundle();
         Intent in= getIntent();
-        videolist= in.getStringArrayListExtra("LINKED_VIDEOS");
+        extras=in.getExtras();
+        videolist= extras.getStringArrayList("LINKED_VIDEOS");
         setContentView(R.layout.activity_video_link_description);
         customDescriptionList= (ListView) findViewById(R.id.descListView);
-        DialoglistAdapter listadapter= new DialoglistAdapter(VideoLinkDescriptionActivity.this,R.layout.dialog_list_item,R.id.vidname,videolist);
+        VideoDescriptionlistAdapter listadapter= new VideoDescriptionlistAdapter(VideoLinkDescriptionActivity.this,R.layout.dialog_list_item,R.id.vidname,videolist);
         customDescriptionList.setAdapter(listadapter);
+        nameToDescription= new HashMap<String,String>();
 
     }
 
@@ -52,19 +61,36 @@ public class VideoLinkDescriptionActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.link_video_done:
+                ExtraImageHandler heartOfLinking= new ExtraImageHandler(Environment.getExternalStorageDirectory().getAbsolutePath()+"/lokavidya/",extras.getString("PROJECT_NAME"),extras.getString("IMAGE_FILE_NAME"));
                 Log.i("Link Video", "Done tick pressed");
+                for(int i=0;i<videolist.size();i++){
+                    Link tempLink= new Link();
+                    tempLink.setVideoId(LinkVideos.nameToId.get(videolist.get(i)));
+                    tempLink.setDescription(nameToDescription.get(videolist.get(i)));
+                    tempLink.setUrl(LinkVideos.idToURL.get(tempLink.getVideoId()));
+                    tempLink.setName(videolist.get(i));
+                    System.out.println("id:"+tempLink.getVideoId()+",Desc:"+tempLink.getDescription()+",url:"+tempLink.getUrl());
+
+                    heartOfLinking.addLink(tempLink);
+
+                }
+
+                /*Intent backtoRecording = new Intent(VideoLinkDescriptionActivity.this,Recording.class);
+                backtoRecording.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(backtoRecording);*/
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    class DialoglistAdapter extends ArrayAdapter {
+    class VideoDescriptionlistAdapter extends ArrayAdapter {
 
         Context c;
         String itemNames[];
         HashMap<Integer,String> selItems= new HashMap<Integer,String>();
         List<String> vidnames= new ArrayList<String>();
-        public DialoglistAdapter(Context context, int resource, int textViewResourceId, List objects) {
+        public VideoDescriptionlistAdapter(Context context, int resource, int textViewResourceId, List objects) {
             super(context, resource, textViewResourceId, objects);
             this.c=context;
             this.vidnames=objects;
@@ -91,7 +117,7 @@ public class VideoLinkDescriptionActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
 
             ListViewHolder viewHolder;
 
@@ -161,6 +187,7 @@ public class VideoLinkDescriptionActivity extends AppCompatActivity {
                                         .toString();
 
                                 selItems.put(itemIndex, enteredPrice);
+                                nameToDescription.put(vidnames.get(position),enteredPrice);
 
                             }
 

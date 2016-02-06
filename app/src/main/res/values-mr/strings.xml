@@ -87,5 +87,6 @@
     <string name="upload_fail_toast">Upload Failed, please try again</string>
     <string name="link_button">Link</string>
     <string name="link_videos">Link the selected videos</string>
+    <string name="remove_link_button">Remove Link</string>
     <string-array name="nav_drawer_labels" />
 </resources>

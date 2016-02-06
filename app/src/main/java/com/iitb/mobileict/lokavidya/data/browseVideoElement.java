@@ -8,6 +8,15 @@ public class browseVideoElement {
     String categoryName;
     int categoryID;
     String videoUrl;
+    String videoId;
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
+    }
 
     public String getVideoName() {
         return videoName;
