@@ -52,6 +52,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_upload_video);
         Intent in = getIntent();
         projectname = in.getStringExtra("PROJECT_NAME");
@@ -75,6 +76,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+
         inflater.inflate(R.menu.upload_video_actionbar_button, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -195,6 +197,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
                 try {
                     name = categoriesJSONArray.getJSONObject(i).getString("name");
                     id = Integer.parseInt(categoriesJSONArray.getJSONObject(i).getString("id"));
+
 
                 categories.add(name);
                 name2Id.put(name, id);
