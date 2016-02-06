@@ -127,6 +127,7 @@ public class LinkVideos extends AppCompatActivity {
 
 
 
+
                 Intent in = new Intent(LinkVideos.this,VideoLinkDescriptionActivity.class);
                 extras.putStringArrayList("LINKED_VIDEOS",checkedVideosList);
                 in.putExtras(extras);

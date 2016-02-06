@@ -77,6 +77,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ import java.util.regex.Pattern;
 public class Projects extends Activity implements View.OnClickListener {
 
 
-
+    private static final int PREFERENCE_MODE_PRIVATE = 0;
     private String importProjectName;
     private String seedpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
 
@@ -1136,6 +1137,21 @@ public class Projects extends Activity implements View.OnClickListener {
             case 2:
                 Intent viewVid= new Intent(this,BrowseAndViewVideos.class);
                 startActivity(viewVid);
+                break;
+
+            case 3:
+
+                Intent k= new Intent(this,VideoPlayerActivity.class);
+                SharedPreferences sharepref= getPreferences(PREFERENCE_MODE_PRIVATE);
+                SharedPreferences.Editor editor= sharepref.edit();
+                editor.putString("playVideoName","blah");
+                editor.putString("playVideoURL", "https://www.youtube.com/watch?v=REhOKUs_2wM");
+                editor.putString("playVideoDesc", "blah blah");
+                editor.commit();
+
+
+                startActivity(k);
+
         }
     }
 

@@ -31,10 +31,14 @@ import java.util.List;
 
 public class BrowseAndViewVideos extends AppCompatActivity {
 
+    private static final int PREFERENCE_MODE_PRIVATE = 0;
+
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     public static List<String> listDataHeader;
     public static HashMap<String, List<String>> listDataChild;
+
+    public HashMap<String,String> nameToId;
 
     public static List<String> listLinkHeader;
     public static HashMap<String, List<String>> listLinkChild;
@@ -98,6 +102,7 @@ public class BrowseAndViewVideos extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
+            nameToId= new HashMap<String,String>();
             Log.i("AsyncTask", "inside doinbackgrnd");
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             vidArray = postmanCommunication.okhttpgetVideoJsonArray(VID_JSONARRAY_URL,sharedPreferences.getString("token",""));
@@ -113,7 +118,8 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                 for (i = 0; i < vidArray.length(); i++) {
                     tempVidObj = new browseVideoElement();
                     tempVidObj.setVideoName(vidArray.getJSONObject(i).getString("name"));
-                    Log.i("setvideo name",vidArray.getJSONObject(i).getString("name"));
+                    Log.i("setvideo name", vidArray.getJSONObject(i).getString("name"));
+                    tempVidObj.setVideoId(vidArray.getJSONObject(i).getString("id"));
                     catId = vidArray.getJSONObject(i).getJSONObject("categoryMembership").getInt("categoryId");
                     tempVidObj.setCategoryID(catId);
                     tempVidObj.setCategoryName(catArray.getJSONObject(catId - 1).getString("name"));
@@ -122,6 +128,9 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                 }else{
                         tempVidObj.setVideoUrl("no URL");
                     }
+
+                    nameToId.put(tempVidObj.getVideoName(),tempVidObj.getVideoId());
+
                     videoObjList.add(tempVidObj);
 
                 }
@@ -214,6 +223,19 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                     playVideo.putExtra("tutorialName",listDataChild.get(
                             listDataHeader.get(groupPosition)).get(
                             childPosition));
+                    playVideo.putExtra("VIDEO_ID", nameToId.get(listDataChild.get(
+                            listDataHeader.get(groupPosition)).get(
+                            childPosition)));
+
+                    SharedPreferences sharepref= getPreferences(PREFERENCE_MODE_PRIVATE);
+                    SharedPreferences.Editor editor= sharepref.edit();
+                    editor.putString("playVideoName",listDataChild.get(
+                            listDataHeader.get(groupPosition)).get(
+                            childPosition));
+                    editor.putString("playVideoURL", url);
+                    editor.putString("playVideoDesc", ""); //TODO add description if possible
+                    editor.commit();
+
                     startActivity(playVideo);
 
 //                    final ProgressDialog downloadvid = ProgressDialog.show(context, getString(R.string.stitchingProcessTitle), getString(R.string.download_video_progress_message));

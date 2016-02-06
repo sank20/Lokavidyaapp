@@ -80,6 +80,7 @@
         <item>My Projects</item>
         <item>Download Sample Projects</item>
         <item>View Videos</item>
+        <item>temp_open the videoplayer</item>
 
     </string-array>
     <string name="drawer_open">Open navigation drawer</string>

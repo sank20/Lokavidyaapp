@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,6 +27,8 @@ public class VideoPlayerActivity extends Activity {
 
     private static final String TAG = "VideoPlayerActivity";
 
+    private static final int PREFERENCE_MODE_PRIVATE = 0;
+
     VideoView mVideoView;
     ListView listView;
     ArrayAdapter<String> arrayAdapter;
@@ -32,7 +36,8 @@ public class VideoPlayerActivity extends Activity {
     TextView videoTitlePlaying;
     ImageView downloadVideo;
     ProgressDialog progressDialog;
-    //TODO Think about a code for linkedVideosArray that would return list of videos to populate the ListView
+    String videoId;
+
 
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -46,8 +51,15 @@ public class VideoPlayerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
         final String videoURL=getIntent().getStringExtra("VIDEO_URL");
+        videoId= getIntent().getStringExtra("VIDEO_ID");
+        SharedPreferences sharedpref= getPreferences(PREFERENCE_MODE_PRIVATE);
+
+        String playURL= sharedpref.getString("playVideoURL", "NA");
+        String playName= sharedpref.getString("playVideoName","NA");
+        String playDescrip= sharedpref.getString("playVideoDesc","NA");
+
         //Code for the Video Player
-        Uri uri = Uri.parse("http://"+videoURL); //Declare your url here.
+        Uri uri = Uri.parse("http://" + playURL); //Declare your url here.
         mVideoView  = (VideoView)findViewById(R.id.video_view);
         mVideoView.setMediaController(new MediaController(this));
         mVideoView.setVideoURI(uri);
@@ -65,34 +77,120 @@ public class VideoPlayerActivity extends Activity {
                 Communication.downloadBrowseVideo(getApplicationContext(), "http://" + videoURL, filename, Environment.DIRECTORY_DOWNLOADS+"/Lokavidya Videos/",TAG);
             }
         });*/
-        //TODO find a code for getting the Video Title while calling recreate()
+
         videoTitlePlaying = (TextView) findViewById(R.id.textView_playing_video);
-        videoTitlePlaying.setText(getIntent().getStringExtra("tutorialName"));
+        //videoTitlePlaying.setText(getIntent().getStringExtra("tutorialName"));
+        videoTitlePlaying.setText(playName);
         //Code for the Linked Videos ListView
         listView = (ListView) findViewById(R.id.listView_hyperlink);
-        arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_video_player_content, R.id.textView_video_title, linkedVideos());
-        listView.setAdapter(arrayAdapter);
+
+
+        //--------- THE LISTVIEW IS POPULATED USING THIS ASYNCTASK
+        new getHyperlinkListTask(VideoPlayerActivity.this).execute(videoId);
+
+
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapter, View v, int position, long id) {
-                //TODO Add the logic for inflating the dynamic list of videos and handle the recreate() accordingly
                 String item = (String) adapter.getItemAtPosition(position);
-                recreate();
+
+// THIS ASYNCTASK CONTAINS CODE TO POPULATE THE LIST AND TAKE CARE OF OTHER THINGS
+                new getHyperlinkJson(VideoPlayerActivity.this).execute(videoId);
+
             }
         });
         //registerReceiver(broadcastReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
     }
 
-    public List<String> linkedVideos() {
+   /* public List<String> linkedVideos() { -------------------------------taken care of in the get hyperlinklistTask asynctask
         Context context = getApplicationContext();
         linkedVideosArray= new ArrayList<String>();
-        //TODO Add the list of linked videos for hyperlinking
+
+        SharedPreferences sharedpref= getPreferences(PREFERENCE_MODE_PRIVATE);
+
+        String playURL= sharedpref.getStringSet("linkedVideoSet", "NA");
+
         linkedVideosArray.add("Agriculture");
         linkedVideosArray.add("Farming");
         linkedVideosArray.add("Fishing");
         linkedVideosArray.add("Pottery");
         linkedVideosArray.add("Animal Husbandry");
         return linkedVideosArray;
-        //TODO also might need to find a way to parse the thumbnail placeholder as ArrayList
+        //TODO also might need to find a way to parse the thumbnail placeholder as ArrayList.- ---(NOT NOW)
+    }*/
+
+
+    //TODO-------------------------------------------------------CHECK THE ASYNCTASKS AND YOU HAVE TO DO ALMOST SAME THING TWICE IN BOTH----------------------------------------------------
+    class getHyperlinkJson extends AsyncTask<String,Void,String>{
+
+
+        Context context;
+
+        public getHyperlinkJson(Context context){
+            this.context=context;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String videoId= params[0];
+            String json="";
+
+            //TODO do the network calls and get the json
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String json) {
+            super.onPostExecute(json);
+
+
+
+            //TODO parse the name url and description from json and add in the value fields of editor.putString()
+
+            SharedPreferences sharepref= getPreferences(PREFERENCE_MODE_PRIVATE);
+            SharedPreferences.Editor editor= sharepref.edit();
+            editor.putString("playVideoName","blah2");
+            editor.putString("playVideoURL", "https://www.youtube.com/watch?v=uFsV0ieoU-w");
+            editor.putString("playVideoDesc", "blah blah");
+            editor.commit();
+            recreate();
+
+
+
+        }
     }
+
+
+    class getHyperlinkListTask extends AsyncTask<String,Void,String>{
+        Context context;
+
+        public getHyperlinkListTask(Context context){
+            this.context=context;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String videoId= params[0];
+            String json="";
+
+            //TODO do the network calls and get the json
+
+            return json;
+        }
+
+        @Override
+        protected void onPostExecute(String json) {
+            super.onPostExecute(json);
+
+            linkedVideosArray= /*get this list from the json*/ null; //TODO : see the comment
+
+            arrayAdapter = new ArrayAdapter<String>(context, R.layout.activity_video_player_content, R.id.textView_video_title, linkedVideosArray);
+            listView.setAdapter(arrayAdapter);
+
+
+        }
+
+        }
 }
