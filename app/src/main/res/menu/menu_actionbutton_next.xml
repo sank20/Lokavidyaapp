@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/link_video_done"
+        android:id="@+id/link_video_next"
         android:title="@string/link_videos"
         android:icon="@drawable/ic_navigate_next_black_48dp"
         app:showAsAction="always|withText"

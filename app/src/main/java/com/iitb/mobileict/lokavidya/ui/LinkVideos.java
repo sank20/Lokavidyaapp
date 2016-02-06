@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.iitb.mobileict.lokavidya.Communication.Communication;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
+import com.iitb.mobileict.lokavidya.data.Link;
 import com.iitb.mobileict.lokavidya.data.browseVideoElement;
 
 import org.json.JSONArray;
@@ -41,6 +42,7 @@ import java.io.InputStream;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -49,23 +51,29 @@ public class LinkVideos extends AppCompatActivity {
     ExpListViewAdapterWithCheckBox listAdapter;
     ExpandableListView expListView;
     public static ArrayList<String> listDataHeader;
+    public static ArrayList<String> checkedVideosList;
     public static HashMap<String, List<String>> listDataChild;
 
     public static List<String> listLinkHeader;
     public static HashMap<String, List<String>> listLinkChild;
-
+    public static HashMap<String,String> nameToId;
+    public static HashMap<String,String> idToName;
+    public  static HashMap<String,String> idToURL;
     public static final String VID_JSONARRAY_URL = "http://192.168.1.134:8080/api/tutorials";
     public static final String VID_CAT_JSONARRAY_URL = "http://192.168.1.134:8080/api/categorys";
+    Bundle extras;
+
 
     public List<browseVideoElement> videoObjList;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_videos);
-
+        extras= new Bundle();
+        Intent intent;
+        intent= getIntent();
+        extras= intent.getExtras();
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.LinkVideosExpList );
 
@@ -86,7 +94,6 @@ public class LinkVideos extends AppCompatActivity {
 
         Log.i("Oncreate", "Preparelistdata complete");
 
-        Log.i("Oncreate over","all listeners set");
     }
 
 
@@ -100,21 +107,29 @@ public class LinkVideos extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.link_video_done:
-                Log.i("Link Video", "Done tick pressed");
+            case R.id.link_video_next:
+                Log.i("Link Video", "Done next pressed");
+                checkedVideosList= new ArrayList<String>();
+                Iterator iterator= ExpListViewAdapterWithCheckBox.mChildCheckStates.entrySet().iterator();
+                while(iterator.hasNext()){
+                    Map.Entry checkmap= (Map.Entry) iterator.next();
+                    boolean checkedVideos[]= (boolean[])checkmap.getValue();
+                    System.out.println("For group no."+ (Integer)checkmap.getKey()+" ,values:");
+                    for(int i=0;i<checkedVideos.length;i++){
+                        System.out.println("  "+checkedVideos[i]);
+                        if(checkedVideos[i]){
+                            System.out.println("\tChecked video:" + listAdapter.getChild((Integer) checkmap.getKey(), i).toString());
+                            checkedVideosList.add(listAdapter.getChild((Integer) checkmap.getKey(), i).toString());
 
-                for (int i = 0; i <ExpListViewAdapterWithCheckBox.mChildCheckStates.size() ; i++) {
-
-                    if(ExpListViewAdapterWithCheckBox.mChildCheckStates.containsKey(i)) {
-                        boolean checkedVideos[] = ExpListViewAdapterWithCheckBox.mChildCheckStates.get(i);
+                        }
                     }
-                    //TODO Complete this shit
-
                 }
 
 
+
                 Intent in = new Intent(LinkVideos.this,VideoLinkDescriptionActivity.class);
-                in.putStringArrayListExtra("LINKED_VIDEOS",listDataHeader);
+                extras.putStringArrayList("LINKED_VIDEOS",checkedVideosList);
+                in.putExtras(extras);
                 startActivity(in);
                /* AlertDialog.Builder builderSingle = new AlertDialog.Builder(LinkVideos.this);
                 builderSingle.setIcon(R.drawable.ic_launcher);
@@ -178,25 +193,34 @@ public class LinkVideos extends AppCompatActivity {
             browseVideoElement tempVidObj = new browseVideoElement();
             videoObjList = new ArrayList<browseVideoElement>();
             int i, catId;
-
+            nameToId= new HashMap<String,String>();
+            idToName= new HashMap<String,String>();
+            idToURL= new HashMap<String,String>();
             try {
                 vidArray = new JSONArray(loadJSONFromAsset("vids.json"));
                 catArray = new JSONArray(loadJSONFromAsset("cats.json"));
                 for (i = 0; i < vidArray.length(); i++) {
                     tempVidObj = new browseVideoElement();
                     tempVidObj.setVideoName(vidArray.getJSONObject(i).getString("name"));
+                    tempVidObj.setVideoId(vidArray.getJSONObject(i).getString("id"));
                     Log.i("setvideo name", vidArray.getJSONObject(i).getString("name"));
                     catId = vidArray.getJSONObject(i).getJSONObject("categoryMembership").getInt("categoryId");
                     tempVidObj.setCategoryID(catId);
                     tempVidObj.setCategoryName(catArray.getJSONObject(catId - 1).getString("name"));
                     if (!vidArray.getJSONObject(i).isNull("externalVideo")) {
                         tempVidObj.setVideoUrl(vidArray.getJSONObject(i).getJSONObject("externalVideo").getString("httpurl"));
+                        idToURL.put(tempVidObj.getVideoId(),tempVidObj.getVideoUrl());
                     } else {
                         tempVidObj.setVideoUrl("no URL");
+                        idToURL.put(tempVidObj.getVideoId(), null);
+
                     }
+                    nameToId.put(tempVidObj.getVideoName(),tempVidObj.getVideoId());
+                    idToName.put(tempVidObj.getVideoId(),tempVidObj.getVideoName());
                     videoObjList.add(tempVidObj);
 
                 }
+                Recording.idToName=idToName;
                 Log.i("asynctask", "data preparation successful");
             } catch (JSONException j) {
                 j.printStackTrace();

@@ -3,6 +3,7 @@ package com.iitb.mobileict.lokavidya.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,18 +23,17 @@ import android.preference.PreferenceManager;
 import android.os.Bundle;
 
 import android.provider.MediaStore;
-import android.support.v7.widget.PopupMenu;
-import android.text.InputType;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Display;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Chronometer;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -47,14 +47,19 @@ import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.util.Utilities;
 import com.iitb.mobileict.lokavidya.util.ScalingUtilities;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
 
@@ -66,8 +71,9 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     public String imagefileName,projectName;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
-
-    Button play, stop, record, retry,badButton, cropButton,fitButton,linkbutton;
+    public static HashMap<String,String> idToName = new HashMap<String,String>();
+    ArrayList<String> linked_videos;
+    Button play, stop, record, retry,badButton, cropButton,fitButton,linkbutton,removeLinkbutton;
 //    Button replaceImage= (Button) findViewById(R.id.imageChangeButton);
 
     private SeekBar audioProgressBar;
@@ -109,6 +115,8 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
 
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +138,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         //fitButton=(Button)findViewById(R.id.button_scaling_fit);
         cropButton=(Button)findViewById(R.id.button_scaling_crop);
         linkbutton=(Button)findViewById(R.id.linkButton);
+        removeLinkbutton=(Button)findViewById(R.id.removeLinkButton);
         mDstWidth = getResources().getDimensionPixelSize(R.dimen.destination_width);
         mDstHeight = getResources().getDimensionPixelSize(R.dimen.destination_height);
 
@@ -142,19 +151,42 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             editor.commit();
         }
 
-        linkbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(Recording.this,LinkVideos.class);
-                startActivity(in);
-            }
-        });
 
 
 
         image_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/images", imagefileName + ".png");
         tmp_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/tmp_images", imagefileName + ".png");
 
+
+        linkbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(Recording.this,LinkVideos.class);
+                Bundle extras= new Bundle();
+                extras.putString("PROJECT_NAME",projectName);
+                extras.putString("IMAGE_FILE_NAME",image_file.getName());
+                in.putExtras(extras);
+                startActivity(in);
+            }
+        });
+
+        removeLinkbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // if(!idToName.isEmpty()) {
+                   // System.out.println("number of videos:" + idToName.size());
+
+                Intent in = new Intent(Recording.this,RemoveLinksActivity.class);
+                Bundle extras = new Bundle();
+                extras.putString("PROJECT_NAME",projectName);
+                extras.putString("IMAGE_FILENAME",imagefileName);
+                in.putExtras(extras);
+                startActivity(in);
+
+
+                //}
+            }
+        });
 
         Bitmap myBitmap = BitmapFactory.decodeFile(image_file.getAbsolutePath());
         imageView = (ImageView) findViewById(R.id.imagePlaying);
@@ -855,4 +887,9 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         }
 
     }
+
+
+
+
+
 }

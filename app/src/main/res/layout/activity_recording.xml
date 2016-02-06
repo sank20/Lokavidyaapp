@@ -40,13 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/fit"
                 android:onClick="fitButtonPressed"/>-->
-
-            <Button
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/link_button"
-                android:id="@+id/linkButton" />
+            
 
             <Button
                 android:id="@+id/imageChangeButton"
@@ -73,6 +67,29 @@
                 android:onClick="rotateButtonPressed"/>
 
 
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linkControlLayout"
+            android:layout_below="@+id/button_panel_scaling">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/link_button"
+                android:id="@+id/linkButton"
+                android:layout_gravity="center"/>
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remove_link_button"
+                android:id="@+id/removeLinkButton"
+                android:layout_gravity="center"/>
         </LinearLayout>
 
 
