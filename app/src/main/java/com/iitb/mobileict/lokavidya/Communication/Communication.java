@@ -9,13 +9,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.io.IOException;
 
 
 /**
@@ -82,7 +76,7 @@ public class Communication extends BroadcastReceiver {
     }
 
 
-    public static void downloadBrowseVideo(Context context, String link, String vidName) {
+    public static void downloadBrowseVideo(Context context, String link, String vidName,String destinationName,String broadcastName) {
         isDownloadComplete = false;
         String DownloadUrl = link;
 
@@ -95,7 +89,7 @@ public class Communication extends BroadcastReceiver {
         }
         //Uri downloadDestination= Uri.parse(seedpath+ "odiya-pump.zip");
         //request.setDestinationUri(downloadDestination);
-        String destination= Environment.DIRECTORY_DOWNLOADS+"/Lokavidya Videos/";
+        String destination= destinationName;
         File destfile= new File(destination);
         if(!destfile.exists()){
             destfile.mkdir();

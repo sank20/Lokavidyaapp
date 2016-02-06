@@ -1,8 +1,10 @@
 package com.iitb.mobileict.lokavidya.ui;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -31,10 +34,32 @@ public class IdTokenActivity  extends FragmentActivity implements
     String flow;
     private GoogleApiClient mGoogleApiClient;
     private TextView mIdTokenTextView;
-
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     ProgressDialog progressDialog;
 
     private Button skipButton;
+
+    int signUpFlag=0;
+
+    private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG,"Inside Broadcast Reciever IdToken");
+            if(intent.getAction().equals(RegistrationIntentService.ID_TOKEN_INTENT)) {
+                if(intent.getBooleanExtra("registered", false))
+                {
+                    Intent projectsIntent= new Intent(IdTokenActivity.this,Projects.class);
+                    startActivity(projectsIntent);
+                }
+                else {
+                    Intent projectsIntent= new Intent(IdTokenActivity.this,SurveyActivity.class);
+                    startActivity(projectsIntent);
+                }
+                finish();
+            }
+        }
+    };
+
 
 
     @Override
@@ -83,6 +108,8 @@ public class IdTokenActivity  extends FragmentActivity implements
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        IntentFilter intentFilter = new IntentFilter(RegistrationIntentService.ID_TOKEN_INTENT);
+        registerReceiver(mIntentReceiver,intentFilter );
     }
 
 
@@ -137,9 +164,16 @@ public class IdTokenActivity  extends FragmentActivity implements
                 //updateUI(true);
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(IdTokenActivity.this);
                 sharedPreferences.edit().putString("idToken", idToken).commit();
-                Log.d(TAG,"Inside Token Activity"+sharedPreferences.getString("idToken",""));
+                Log.d(TAG, "Inside Token Activity" + sharedPreferences.getString("idToken", ""));
                 progressDialog.dismiss();
-                startActivity(new Intent(IdTokenActivity.this, SurveyActivity.class));
+                Intent intent = new Intent(IdTokenActivity.this, RegistrationIntentService.class);
+                intent.putExtra("flag", "idToken");
+                if (checkPlayServices())
+                {
+                    Log.d(TAG,"Starting Intent to the Service.");
+                    startService(intent);
+                }
+                //startActivity(new Intent(IdTokenActivity.this, SurveyActivity.class));
                 finish();
                 // TODO(user): send token to server and validate server-side
             } else {
@@ -188,6 +222,27 @@ public class IdTokenActivity  extends FragmentActivity implements
         }
     }
 
+
+    private boolean checkPlayServices()
+    {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS)
+        {
+            if (apiAvailability.isUserResolvableError(resultCode))
+            {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            }
+            else
+            {
+                Log.i("Splash screen", "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -205,6 +260,12 @@ public class IdTokenActivity  extends FragmentActivity implements
                 Intent i= new Intent(this,Projects.class);
                 startActivity(i);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mIntentReceiver);
     }
 }
 //---------------------------------------------------------------------------------------------

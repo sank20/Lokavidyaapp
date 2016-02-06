@@ -3,11 +3,11 @@ package com.iitb.mobileict.lokavidya.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,8 +17,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-
-import com.iitb.mobileict.lokavidya.Communication.Communication;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.data.browseVideoElement;
@@ -29,7 +27,6 @@ import org.json.JSONException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class BrowseAndViewVideos extends AppCompatActivity {
@@ -42,8 +39,8 @@ public class BrowseAndViewVideos extends AppCompatActivity {
     public static List<String> listLinkHeader;
     public static HashMap<String, List<String>> listLinkChild;
 
-    public static final String VID_JSONARRAY_URL = "http://192.168.1.134:8080/api/tutorials";
-    public static final String VID_CAT_JSONARRAY_URL = "http://192.168.1.134:8080/api/categorys";
+    public static final String VID_JSONARRAY_URL = "http://ruralict.cse.iitb.ac.in/lokavidya/api/tutorials";
+    public static final String VID_CAT_JSONARRAY_URL = "http://ruralict.cse.iitb.ac.in/lokavidya/api/categorys";
 
     public List<browseVideoElement> videoObjList;
 
@@ -102,9 +99,10 @@ public class BrowseAndViewVideos extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             Log.i("AsyncTask", "inside doinbackgrnd");
-            vidArray = postmanCommunication.okhttpgetVideoJsonArray(VID_JSONARRAY_URL);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            vidArray = postmanCommunication.okhttpgetVideoJsonArray(VID_JSONARRAY_URL,sharedPreferences.getString("token",""));
             Log.i("videos jsonarray",vidArray.toString());
-            catArray = postmanCommunication.okhttpgetVideoJsonArray(VID_CAT_JSONARRAY_URL);
+            catArray = postmanCommunication.okhttpgetVideoJsonArray(VID_CAT_JSONARRAY_URL,sharedPreferences.getString("token",""));
             Log.i("categ jsonarray", catArray.toString());
 
             browseVideoElement tempVidObj= new browseVideoElement();
@@ -204,37 +202,41 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                             listLinkHeader.get(groupPosition)).get(
                             childPosition));
 
-                    String url= listLinkChild.get(
+                    final String url= listLinkChild.get(
                             listLinkHeader.get(groupPosition)).get(
                             childPosition);
 
                     final String filename= URLDecoder.decode(url.substring(url.lastIndexOf("/")));
-                    Communication.downloadBrowseVideo(context, "http://" + url, filename);
+                   // Communication.downloadBrowseVideo(context, "http://" + url, filename);
 
+                    Intent playVideo = new Intent(context, VideoPlayerActivity.class);
+                    playVideo.putExtra("VIDEO_URL", url);
+                    playVideo.putExtra("tutorialName",listDataChild.get(
+                            listDataHeader.get(groupPosition)).get(
+                            childPosition));
+                    startActivity(playVideo);
 
-                    final ProgressDialog downloadvid = ProgressDialog.show(context, getString(R.string.stitchingProcessTitle), getString(R.string.download_video_progress_message));
-
-                    downloadvid.setCanceledOnTouchOutside(false);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            Boolean down=false;
-
-                            while (!down) {/*wait till download hasn't completed */
-                                down = Communication.isDownloadComplete;
-                            //Log.i("Downloaded?",String.valueOf(down));
-                            }
-
-                            downloadvid.dismiss();
-
-                            Intent playVideo = new Intent(context, TutorialVideo.class);
-                            playVideo.putExtra("VIDEO_URL", Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + "/Lokavidya Videos/" + filename);
-                            startActivity(playVideo);
-
-
-                        }
-                    }).start();
+//                    final ProgressDialog downloadvid = ProgressDialog.show(context, getString(R.string.stitchingProcessTitle), getString(R.string.download_video_progress_message));
+//
+//                    downloadvid.setCanceledOnTouchOutside(false);
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//
+//                            Boolean down=false;
+//
+//                            while (!down) {/*wait till download hasn't completed */
+//                                down = Communication.isDownloadComplete;
+//                            //Log.i("Downloaded?",String.valueOf(down));
+//                            }
+//
+//                            downloadvid.dismiss();
+//
+//
+//
+//
+//                        }
+//                    }).start();
 
 
 

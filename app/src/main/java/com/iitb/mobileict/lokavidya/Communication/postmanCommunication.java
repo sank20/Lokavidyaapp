@@ -26,18 +26,26 @@ import java.util.HashMap;
 public class postmanCommunication {
 
 
-    public static final String JSON_AUTH_URL= "http://192.168.1.134:8080/api/authenticate?username=admin&password=admin&google=false&idTokenString=sadjasjdh&gcmToken=qwe&affiliation=ert&googlePlaceId=place";
+    public static String idTokenString;
+    public static final String JSON_AUTH_URL= "http://ruralict.cse.iitb.ac.in/lokavidya/api/authenticate?username=admin&password=admin&google=true&idTokenString=";
 
     public static String xAUTH_TOKEN;
     private static JSONArray JsonArray;
 
     private static void okhttpAuth(){
 
+        if(xAUTH_TOKEN!=null)
+        {
+            return;
+        }
+
         Log.i("OKHTTP AUTH", "inside Auth");
-            OkHttpClient client = new OkHttpClient();
+        Log.i("OKHTTP AUTH", "inside Auth" +JSON_AUTH_URL+idTokenString);
+
+        OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                    .url(JSON_AUTH_URL)
+                    .url(JSON_AUTH_URL+idTokenString)
                     .post(null)
                     .addHeader("cache-control", "no-cache")
                     .addHeader("postman-token", "164e22d7-22ee-68a7-8e95-0d354064a9d1")
@@ -64,11 +72,11 @@ public class postmanCommunication {
 
     }
 
-    public static JSONArray okhttpgetVideoJsonArray(String URL){
+    public static JSONArray okhttpgetVideoJsonArray(String URL,String xtoken){
 
-        okhttpAuth();
-        Log.i("OKHTTP","auth done inside getjson");
-
+       //okhttpAuth();
+        Log.i("OKHTTP","auth done inside getjson"+URL);
+        xAUTH_TOKEN = xtoken;
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -116,11 +124,12 @@ public class postmanCommunication {
     }
 */
 
-    public static Boolean okhttpUpload( HashMap<String,String> info, String serverURL) {
-        okhttpAuth();// authorize
+    public static Boolean okhttpUpload( HashMap<String,String> info, String serverURL,String xtoken) {
+        //okhttpAuth();// authorize
+        xAUTH_TOKEN=xtoken;
         OkHttpClient client = new OkHttpClient();
         File file= new File (info.get("file"));
-
+        Log.d("Http upload XAUTH",xAUTH_TOKEN);
         try {
 
             RequestBody requestBody = new MultipartBuilder()
@@ -148,7 +157,5 @@ public class postmanCommunication {
         }
         return false;
     }
-
-
 
 }

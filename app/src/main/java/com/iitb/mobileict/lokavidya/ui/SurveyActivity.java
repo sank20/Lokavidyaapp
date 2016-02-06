@@ -28,8 +28,8 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.iitb.mobileict.lokavidya.R;
 
 
-
 public class SurveyActivity extends AppCompatActivity implements PlaceSelectionListener, OnConnectionFailedListener {
+
 
     private static final String TAG = "SurveyActivity";
 

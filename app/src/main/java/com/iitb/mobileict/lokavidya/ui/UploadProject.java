@@ -3,9 +3,11 @@ package com.iitb.mobileict.lokavidya.ui;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -45,7 +47,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     Spinner category;
     JSONArray categoriesJSONArray;
     Map<String,Integer> name2Id= new HashMap<String,Integer>();
-    static String UPLOAD_URL = "http://192.168.1.134:8080/api/tutorials/upload"; //TODO add the URL here
+    static String UPLOAD_URL = "http://10.196.100.175:8080/api/tutorials/upload"; //TODO add the URL here
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +112,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
                     info.put("categoryId", categoryId);
                     //info.put("categoryId",categoryId);
                     //info.put("file",projectZipFile);
-
+                    Log.d("Upload Project","Launching Async Task.");
                     new uploadTask(UploadProject.this).execute(info);
                 }
                 break;
@@ -176,7 +178,10 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
 
         @Override
         protected Void doInBackground(Void... params) {
-            categoriesJSONArray = postmanCommunication.okhttpgetVideoJsonArray(BrowseAndViewVideos.VID_CAT_JSONARRAY_URL);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            postmanCommunication.idTokenString= sharedPreferences.getString("idToken", "id token");
+            categoriesJSONArray = postmanCommunication.okhttpgetVideoJsonArray(BrowseAndViewVideos.VID_CAT_JSONARRAY_URL,sharedPreferences.getString("token",""));
+            Log.d("UploadProject", categoriesJSONArray.toString());
             return null;
         }
 
@@ -189,7 +194,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
             for(int i=0;i< categoriesJSONArray.length();i++){
                 try {
                     name = categoriesJSONArray.getJSONObject(i).getString("name");
-                    id = categoriesJSONArray.getJSONObject(i).getJSONObject("categoryMembership").getInt("categoryId");
+                    id = Integer.parseInt(categoriesJSONArray.getJSONObject(i).getString("id"));
 
                 categories.add(name);
                 name2Id.put(name, id);
@@ -224,11 +229,13 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
 
         @Override
         protected Void doInBackground(HashMap<String, String>... params) {
-            isUpload= postmanCommunication.okhttpUpload(params[0],UPLOAD_URL);
-
-
-
-
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            Log.d("Upload Project","Inside Async Task.");
+            Log.d("Upload Project","Completed Async Task Before. Value of X-AUTH-Token="+sharedPreferences.getString("token",""));
+            postmanCommunication.idTokenString= sharedPreferences.getString("idToken", "id token");
+            Log.d("Upload Project","Completed Async Task. Value of X-AUTH-Token="+postmanCommunication.xAUTH_TOKEN);
+            isUpload= postmanCommunication.okhttpUpload(params[0],UPLOAD_URL,sharedPreferences.getString("token",""));
+            Log.d("Upload Project","Completed Async Task. Value of isUpload="+isUpload);
             return null;
         }
 

@@ -41,14 +41,27 @@ public class SplashScreen extends Activity {
         IntentFilter intentFilter = new IntentFilter(RegistrationIntentService.SPLASH_INTENT);
         registerReceiver(mIntentReceiver, intentFilter);
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-
-        if(!sharedPreferences.contains("idToken")) {
+        Boolean b=  sharedPreferences.contains("idToken");
+        Log.d("Splash Screen", b.toString());
+        if(!b) {
+            Log.d("Splash Screen", "Calling IdToken Activity");
+            Intent intent = new Intent(SplashScreen.this,IdTokenActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            Log.d("Splash Screen", "Calling Projects Activity");
+            Intent registrationintent = new Intent(SplashScreen.this, RegistrationIntentService.class);
+            registrationintent.putExtra("flag", "splash");
+            startService(registrationintent);
             Intent intent = new Intent(SplashScreen.this,IdTokenActivity.class);
             startActivity(intent);
             finish();
         }
         if(isNetworkAvailable())
         {
+            Log.d("Splash Screen", "Calling RegistrationIntentService Activity");
             Intent intent = new Intent(SplashScreen.this, RegistrationIntentService.class);
             intent.putExtra("flag", "splash");
             startService(intent);

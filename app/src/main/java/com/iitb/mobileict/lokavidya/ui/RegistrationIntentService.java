@@ -26,9 +26,10 @@ public class RegistrationIntentService extends IntentService {
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
     String gcmToken, placeId, args;
-    String serverURL = "http://192.168.1.2:8080";
+    String serverURL = "http://ruralict.cse.iitb.ac.in/lokavidya";
     static String SURVEY_INTENT = "com.iitb.mobileict.lokavidya.ui.SurveyActivity";
     static String SPLASH_INTENT = "com.iitb.mobileict.lokavidya.ui.SplashScreen";
+    static String ID_TOKEN_INTENT="com.iitb.mobileict.lokavidya.ui.IdTokenActivity";
 
     Context context;
 
@@ -119,11 +120,16 @@ public class RegistrationIntentService extends IntentService {
             JSONObject jsonObject = null;
             try {
                 jsonObject = new JSONObject(message);
+
                 sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
                 if (jsonObject != null) {
                     Intent i = new Intent();
                     if (jsonObject.has("token"))
                     {
+                        Log.d(TAG,jsonObject.getString("token"));
+                        Log.d(TAG,"Storing token in shared Preferences : "+jsonObject.getString("token"));
+                        sharedPref.edit().putString("token",jsonObject.getString("token")).commit();
+                        Log.d(TAG,sharedPref.getString("idToken", ""));
                         i.putExtra("arg", "success");
                     }
                     else
@@ -136,10 +142,24 @@ public class RegistrationIntentService extends IntentService {
                         i.setAction(SURVEY_INTENT);
                         context.sendBroadcast(i);
                     }
-                    else
+                    else if (args.equals( "splash"))
                     {
                         Log.d(TAG,"Making a Splash Intent");
                         i.setAction(SPLASH_INTENT);
+                        context.sendBroadcast(i);
+                    }
+                    else if (args.equals( "idToken"))
+                    {
+                        Log.d(TAG,"Making a Token Intent with Registered False");
+                        i.setAction(ID_TOKEN_INTENT);
+                        i.putExtra("registered",false);
+
+                        context.sendBroadcast(i);
+                    }
+                    else {
+                        Log.d(TAG,"Making a Splash Intent Registered true");
+                        i.setAction(ID_TOKEN_INTENT);
+                        i.putExtra("registered",true);
                         context.sendBroadcast(i);
                     }
                 }

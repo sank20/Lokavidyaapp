@@ -22,116 +22,117 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name" >
-			<receiver
-			    android:name=".Communication.Communication"
-			    android:exported="true" >
-			    <intent-filter>
-				<action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
-			    </intent-filter>
-			</receiver>
+        <receiver
+            android:name=".Communication.Communication"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
 
-			<meta-data
-			    android:name="com.google.android.geo.API_KEY"
-			    android:value="AIzaSyDuAF58Zk3TtEbG_HOvbJHLO1gEs6vlh9s" />
-			<meta-data
-			    android:name="com.google.android.gms.version"
-			    android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDuAF58Zk3TtEbG_HOvbJHLO1gEs6vlh9s" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
-			<activity
-			    android:name=".ui.Projects"
-			    android:label="@string/app_name"
-			    android:screenOrientation="portrait"
-			    android:theme="@style/AppTheme" />
-			<activity
-			    android:name=".ui.shotview.ViewShots"
-			    android:label="Shots"
-			    android:screenOrientation="portrait" />
-			<activity
-			    android:name=".ui.EditProject"
-			    android:label="@string/title_activity_edit_project"
-			    android:screenOrientation="portrait"
-			    android:theme="@style/Base.Theme.AppCompat.Light" />
-			<activity
-			    android:name=".ui.Recording"
-			    android:label="@string/title_activity_recording"
-			    android:screenOrientation="portrait"
-			    android:theme="@style/AppTheme" />
-			<activity
-			    android:name=".ui.ViewVideo"
-			    android:label="@string/title_activity_view_video"
-			    android:screenOrientation="portrait" />
-			<activity
-			    android:name=".Stitch"
-			    android:label="Stitch"
-			    android:screenOrientation="portrait"
-			    android:theme="@android:style/Theme.NoDisplay" />
-			<activity
-			    android:name=".ui.CropImage"
-			    android:label="@string/title_activity_crop_image"
-			    android:screenOrientation="portrait"
-			    android:theme="@style/AppTheme" />
-			<!--
+        <activity
+            android:name=".ui.Projects"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.shotview.ViewShots"
+            android:label="Shots"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.EditProject"
+            android:label="@string/title_activity_edit_project"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat.Light" />
+        <activity
+            android:name=".ui.Recording"
+            android:label="@string/title_activity_recording"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.ViewVideo"
+            android:label="@string/title_activity_view_video"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Stitch"
+            android:label="Stitch"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoDisplay" />
+        <activity
+            android:name=".ui.CropImage"
+            android:label="@string/title_activity_crop_image"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <!--
 			<activity
 			    android:configChanges="orientation|screenSize"
 			    android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity">
 
 			</activity>
-			-->
+        -->
 
-			<activity
-			    android:name=".ui.TutorialVideo"
-			    android:label="@string/title_activity_tutorial_video" />
-			<activity
-			    android:name=".ui.SplashScreen"
-			    android:label="@string/app_name" >
-			    <intent-filter>
-				<action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".ui.TutorialVideo"
+            android:label="@string/title_activity_tutorial_video" />
+        <activity
+            android:name=".ui.SplashScreen"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-				<category android:name="android.intent.category.LAUNCHER" />
-			    </intent-filter>
-			</activity>
-			<activity
-			    android:name=".ui.BrowseAndViewVideos"
-			    android:label="@string/title_activity_veiw_videos"
-			    android:screenOrientation="portrait"
-			    android:theme="@style/Base.Theme.AppCompat.Light" />
-			<activity
-			    android:name=".ui.UploadProject"
-			    android:theme="@style/Base.Theme.AppCompat.Light" 
-				android:screenOrientation="portrait" >
-			</activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.BrowseAndViewVideos"
+            android:label="@string/title_activity_veiw_videos"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat.Light" />
+        <activity
+            android:name=".ui.UploadProject"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat.Light" >
+        </activity>
+        <activity
+            android:name=".ui.IdTokenActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light" >
+        </activity>
+        <activity
+            android:name=".ui.SurveyActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light" >
+        </activity>
 
-			<activity
-			    android:name=".ui.IdTokenActivity"
-			    android:theme="@style/Base.Theme.AppCompat.Light" >
-			</activity>
-			<activity
-			    android:name=".ui.SurveyActivity"
-			    android:theme="@style/Base.Theme.AppCompat.Light" >
-			</activity>
+        <service android:name=".ui.RegistrationIntentService" />
+        <service
+            android:name=".ui.CustomAlarmService"
+            android:exported="false" >
+        </service>
 
-			<service android:name=".ui.RegistrationIntentService" />
+        <activity
+            android:name=".ui.VideoPlayerActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light" >
+        </activity>
+        <activity
+            android:name=".ui.LinkVideos"
+            android:screenOrientation="portrait"
+            android:theme="@style/Base.Theme.AppCompat.Light"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.VideoLinkDescriptionActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light"
+            android:windowSoftInputMode="adjustPan" />
 
-			<service
-			    android:name=".ui.CustomAlarmService"
-			    android:exported="false" >
-			</service>
-
-			<activity android:name=".ui.VideoPlayerActivity"
-			    android:theme="@style/Base.Theme.AppCompat.Light">
-
-			</activity>
-
-			   
-			<activity
-			    android:name=".ui.LinkVideos"
-			    android:screenOrientation="portrait"
-			    android:theme="@style/Base.Theme.AppCompat.Light"
-			    android:windowSoftInputMode="adjustPan" />
-			<activity android:name=".ui.VideoLinkDescriptionActivity"
-			    android:theme="@style/Base.Theme.AppCompat.Light"
-			    android:windowSoftInputMode="adjustPan"/>
-
+        <service
+            android:name=".ui.AuthenticationService"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>
