@@ -39,8 +39,7 @@ public class postmanCommunication {
             return;
         }
 
-        Log.i("OKHTTP AUTH", "inside Auth");
-<<<<<<< HEAD
+
         Log.i("OKHTTP AUTH", "inside Auth" +JSON_AUTH_URL+idTokenString);
 
         OkHttpClient client = new OkHttpClient();
@@ -51,16 +50,6 @@ public class postmanCommunication {
                     .addHeader("cache-control", "no-cache")
                     .addHeader("postman-token", "164e22d7-22ee-68a7-8e95-0d354064a9d1")
                     .build();
-=======
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(JSON_AUTH_URL)
-                .post(null)
-                .addHeader("cache-control", "no-cache")
-                .addHeader("postman-token", "164e22d7-22ee-68a7-8e95-0d354064a9d1")
-                .build();
->>>>>>> ed1351c2606c00e1c3fb4069fbc2290ed2e67642
 
         Log.i("OKHTTP AUTH", "req assigned");
 
