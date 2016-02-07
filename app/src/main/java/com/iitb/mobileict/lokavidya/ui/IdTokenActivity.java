@@ -50,12 +50,14 @@ public class IdTokenActivity  extends FragmentActivity implements
                 {
                     Intent projectsIntent= new Intent(IdTokenActivity.this,Projects.class);
                     startActivity(projectsIntent);
+                    finish();
                 }
                 else {
                     Intent projectsIntent= new Intent(IdTokenActivity.this,SurveyActivity.class);
                     startActivity(projectsIntent);
+                    finish();
                 }
-                finish();
+
             }
         }
     };
@@ -259,6 +261,7 @@ public class IdTokenActivity  extends FragmentActivity implements
             case R.id.skipbutton:
                 Intent i= new Intent(this,Projects.class);
                 startActivity(i);
+                finish();
         }
     }
 

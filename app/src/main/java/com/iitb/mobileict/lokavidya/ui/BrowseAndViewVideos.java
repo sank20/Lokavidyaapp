@@ -17,6 +17,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.data.browseVideoElement;
@@ -43,8 +44,8 @@ public class BrowseAndViewVideos extends AppCompatActivity {
     public static List<String> listLinkHeader;
     public static HashMap<String, List<String>> listLinkChild;
 
-    public static final String VID_JSONARRAY_URL = "http://ruralict.cse.iitb.ac.in/lokavidya/api/tutorials";
-    public static final String VID_CAT_JSONARRAY_URL = "http://ruralict.cse.iitb.ac.in/lokavidya/api/categorys";
+    public static final String VID_JSONARRAY_URL = "http://"+ Settings.serverURL+"/api/tutorials";
+    public static final String VID_CAT_JSONARRAY_URL = "http://"+Settings.serverURL+"/api/categorys";
 
     public List<browseVideoElement> videoObjList;
 
@@ -215,25 +216,30 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                             listLinkHeader.get(groupPosition)).get(
                             childPosition);
 
+
                     final String filename= URLDecoder.decode(url.substring(url.lastIndexOf("/")));
                    // Communication.downloadBrowseVideo(context, "http://" + url, filename);
 
                     Intent playVideo = new Intent(context, VideoPlayerActivity.class);
-                    playVideo.putExtra("VIDEO_URL", url);
-                    playVideo.putExtra("tutorialName",listDataChild.get(
-                            listDataHeader.get(groupPosition)).get(
-                            childPosition));
+
                     playVideo.putExtra("VIDEO_ID", nameToId.get(listDataChild.get(
                             listDataHeader.get(groupPosition)).get(
                             childPosition)));
-
-                    SharedPreferences sharepref= getPreferences(PREFERENCE_MODE_PRIVATE);
+                    Log.d("BrowseAndViewVideos","Calling Video Player");
+                    SharedPreferences sharepref= PreferenceManager.getDefaultSharedPreferences(context);
                     SharedPreferences.Editor editor= sharepref.edit();
-                    editor.putString("playVideoName",listDataChild.get(
+                    editor.remove("playVideoName");
+                    editor.remove("playVideoURL");
+                    editor.remove("playVideoDesc");
+                    editor.putString("playVideoName", listDataChild.get(
                             listDataHeader.get(groupPosition)).get(
                             childPosition));
                     editor.putString("playVideoURL", url);
                     editor.putString("playVideoDesc", ""); //TODO add description if possible
+
+                    Log.d("BrowseAndViewVideos", "Logging URL:+" + sharepref.getString("playVideoURL", "NA"));
+                    Log.d("BrowseAndViewVideos", "Logging URL:+"+sharepref.getString("playVideoName", "NA"));
+                    Log.d("BrowseAndViewVideos", "Logging URL:+"+sharepref.getString("playVideoDesc", "NA"));
                     editor.commit();
 
                     startActivity(playVideo);

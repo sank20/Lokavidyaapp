@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iitb.mobileict.lokavidya"
-    android:installLocation="preferExternal">
+    android:installLocation="preferExternal" >
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -21,12 +21,10 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-
         android:label="@string/app_name" >
         <receiver
             android:name=".Communication.Communication"
-            android:exported="true">
-
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
@@ -85,13 +83,7 @@
             android:label="@string/title_activity_tutorial_video" />
         <activity
             android:name=".ui.SplashScreen"
-
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".ui.BrowseAndViewVideos"
@@ -115,7 +107,6 @@
         <service android:name=".ui.RegistrationIntentService" />
         <service
             android:name=".ui.CustomAlarmService"
-
             android:exported="false" >
         </service>
 
@@ -123,15 +114,12 @@
             android:name=".ui.VideoPlayerActivity"
             android:theme="@style/Base.Theme.AppCompat.Light" >
         </activity>
-
         <activity
             android:name=".ui.LinkVideos"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat.Light"
-
-            android:windowSoftInputMode="adjustPan"
-            android:noHistory="true"/>
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.VideoLinkDescriptionActivity"
             android:theme="@style/Base.Theme.AppCompat.Light"
@@ -144,8 +132,27 @@
 
         <activity
             android:name=".ui.RemoveLinksActivity"
-            android:label="@string/title_activity_remove_links"></activity>
+            android:label="@string/title_activity_remove_links" />
+        <activity
+            android:name=".ui.LokavidyaAuthenticationActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".services.SignInService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+        <service
+            android:name=".services.RegistrationService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>
