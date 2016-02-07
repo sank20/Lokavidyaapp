@@ -1,8 +1,5 @@
-package com.iitb.mobileict.lokavidya.ui;
+package com.iitb.mobileict.lokavidya.services;
 
-/**
- * Created by SidRama on 15/01/16.
- */
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -14,30 +11,30 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.R;
+import com.iitb.mobileict.lokavidya.ui.GetJSON;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class RegistrationIntentService extends IntentService {
+public class SignInService extends IntentService {
 
-    private static final String TAG = "RegIntentService";
+    public SignInService() {
+        super("SignInService");
+
+    }
+
+    private static final String TAG = "SignInService";
     private static final String[] TOPICS = {"global"};
     String gcmToken, placeId, args;
-    String serverURL = "http://"+ Settings.serverURL;
+    String serverURL = "http://192.168.1.2:8080";
     static String SURVEY_INTENT = "com.iitb.mobileict.lokavidya.ui.SurveyActivity";
     static String SPLASH_INTENT = "com.iitb.mobileict.lokavidya.ui.SplashScreen";
     static String ID_TOKEN_INTENT="com.iitb.mobileict.lokavidya.ui.IdTokenActivity";
 
     Context context;
-
-    public RegistrationIntentService() {
-        super(TAG);
-        Log.e("RIS", "In RegistrationIntentService");
-    }
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -104,10 +101,8 @@ public class RegistrationIntentService extends IntentService {
             Log.e("Place ID", "PlaceId :"+placeId);
             Log.e("id Token", sharedPreferences.getString("idToken", "id token"));
             Log.e("gcm Token", gcmToken);
-            serverURL += "/api/authenticate?google=true&username=admin&password=admin&googlePlaceId="
-                    + placeId + "&affiliation=IITB&idTokenString="
-                    + sharedPreferences.getString("idToken", "")
-                    + "&gcmToken=" + gcmToken;
+            serverURL += "/api/authenticate?google=true&username=admin&password=admin&idTokenString="
+                    + sharedPreferences.getString("idToken", "");
             Log.e("RegisterIntentServerUrl", serverURL);
             String response = getJson.getJSONFromUrl(serverURL, new JSONObject(), "POST", false, null, null);
             Log.d(TAG, response);
@@ -137,32 +132,10 @@ public class RegistrationIntentService extends IntentService {
                     {
                         i.putExtra("arg", "failure");
                     }
-                    if(args.equals( "survey"))
-                    {
-                        Log.d(TAG,"Making a Survey Intent");
-                        i.setAction(SURVEY_INTENT);
-                        context.sendBroadcast(i);
-                    }
-                    else if (args.equals( "splash"))
-                    {
-                        Log.d(TAG,"Making a Splash Intent");
-                        i.setAction(SPLASH_INTENT);
-                        context.sendBroadcast(i);
-                    }
-                    else if (args.equals( "idToken"))
-                    {
-                        Log.d(TAG,"Making a Token Intent with Registered False");
-                        i.setAction(ID_TOKEN_INTENT);
-                        i.putExtra("registered",false);
+                    i.setAction("LokavidyaAuthenticationActivity");
+                    i.putExtra("registered",true);
+                    context.sendBroadcast(i);
 
-                        context.sendBroadcast(i);
-                    }
-                    else {
-                        Log.d(TAG,"Making a Splash Intent Registered true");
-                        i.setAction(ID_TOKEN_INTENT);
-                        i.putExtra("registered",true);
-                        context.sendBroadcast(i);
-                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

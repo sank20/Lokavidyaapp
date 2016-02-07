@@ -27,7 +27,7 @@ public class postmanCommunication {
 
 
     public static String idTokenString;
-    public static final String JSON_AUTH_URL= "http://ruralict.cse.iitb.ac.in/lokavidya/api/authenticate?username=admin&password=admin&google=true&idTokenString=";
+    public static final String JSON_AUTH_URL= "http://"+Settings.serverURL+"/api/authenticate?username=admin&password=admin&google=true&idTokenString=";
 
     public static String xAUTH_TOKEN;
     private static JSONArray JsonArray;
@@ -45,7 +45,7 @@ public class postmanCommunication {
         OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                    .url(JSON_AUTH_URL+idTokenString)
+                    .url(JSON_AUTH_URL + idTokenString)
                     .post(null)
                     .addHeader("cache-control", "no-cache")
                     .addHeader("postman-token", "164e22d7-22ee-68a7-8e95-0d354064a9d1")
@@ -99,6 +99,36 @@ public class postmanCommunication {
         }
         return JsonArray;
     }
+
+
+    public static JSONObject okhttpgetTutorial(String URL,String id,String xtoken){
+        //okhttpAuth();
+        Log.i("OKHTTP","auth done inside getjson"+URL);
+        xAUTH_TOKEN = xtoken;
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(URL+"/"+id)
+                .get()
+                .addHeader("x-auth-token", xAUTH_TOKEN)
+                .addHeader("cache-control", "no-cache")
+                .addHeader("postman-token", "7397dcc6-b813-bae2-9157-64c796b02427")
+                .build();
+        JSONObject jsonObject=null;
+        Log.i("Okhttp request", "done");
+        try {
+            Response response = client.newCall(request).execute();
+
+            jsonObject = new JSONObject(response.body().string());
+            //JsonArray = new JSONArray(response.body().string());
+            Log.i("OKHTTP", "jsonarray received");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }catch (JSONException j){
+            j.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 
    /* public static void okhttpUpload(HashMap<String,String> info,String URL){
         okhttpAuth();// authorize
@@ -157,5 +187,7 @@ public class postmanCommunication {
         }
         return false;
     }
+
+
 
 }

@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
 
@@ -47,7 +48,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     Spinner category;
     JSONArray categoriesJSONArray;
     Map<String,Integer> name2Id= new HashMap<String,Integer>();
-    static String UPLOAD_URL = "http://10.196.100.175:8080/api/tutorials/upload"; //TODO add the URL here
+    static String UPLOAD_URL = "http://"+ Settings.serverURL+"/api/tutorials/upload"; //TODO add the URL here
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

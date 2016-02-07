@@ -2,36 +2,20 @@ package com.iitb.mobileict.lokavidya.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
-import android.os.Environment;
-import android.support.v7.app.AlertDialog;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
-import com.iitb.mobileict.lokavidya.Communication.Communication;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
-import com.iitb.mobileict.lokavidya.data.Link;
 import com.iitb.mobileict.lokavidya.data.browseVideoElement;
 
 import org.json.JSONArray;
@@ -39,7 +23,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -59,8 +42,8 @@ public class LinkVideos extends AppCompatActivity {
     public static HashMap<String,String> nameToId;
     public static HashMap<String,String> idToName;
     public  static HashMap<String,String> idToURL;
-    public static final String VID_JSONARRAY_URL = "http://192.168.1.134:8080/api/tutorials";
-    public static final String VID_CAT_JSONARRAY_URL = "http://192.168.1.134:8080/api/categorys";
+    public static final String VID_JSONARRAY_URL = "http://192.168.1.2:8080/api/tutorials";
+    public static final String VID_CAT_JSONARRAY_URL = "http://192.168.1.2:8080/api/categorys";
     Bundle extras;
 
 
@@ -184,11 +167,12 @@ public class LinkVideos extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-           /* Log.i("AsyncTask", "inside doinbackgrnd");
-            vidArray = postmanCommunication.okhttpgetVideoJsonArray(VID_JSONARRAY_URL);
+            Log.i("AsyncTask", "inside doinbackgrnd");
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            vidArray = postmanCommunication.okhttpgetVideoJsonArray(VID_JSONARRAY_URL,sharedPreferences.getString("token",""));
             Log.i("videos jsonarray",vidArray.toString());
-            catArray = postmanCommunication.okhttpgetVideoJsonArray(VID_CAT_JSONARRAY_URL);
-            Log.i("categ jsonarray", catArray.toString());*/
+            catArray = postmanCommunication.okhttpgetVideoJsonArray(VID_CAT_JSONARRAY_URL,sharedPreferences.getString("token",""));
+            Log.i("categ jsonarray", catArray.toString());
 
 
             browseVideoElement tempVidObj = new browseVideoElement();
@@ -198,8 +182,8 @@ public class LinkVideos extends AppCompatActivity {
             idToName= new HashMap<String,String>();
             idToURL= new HashMap<String,String>();
             try {
-                vidArray = new JSONArray(loadJSONFromAsset("vids.json"));
-                catArray = new JSONArray(loadJSONFromAsset("cats.json"));
+              //  vidArray = new JSONArray(loadJSONFromAsset("vids.json"));
+              //  catArray = new JSONArray(loadJSONFromAsset("cats.json"));
                 for (i = 0; i < vidArray.length(); i++) {
                     tempVidObj = new browseVideoElement();
                     tempVidObj.setVideoName(vidArray.getJSONObject(i).getString("name"));
