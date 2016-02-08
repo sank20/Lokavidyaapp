@@ -20,6 +20,7 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
 
@@ -37,7 +38,7 @@ public class VideoPlayerActivity extends Activity {
 
     private static final int PREFERENCE_MODE_PRIVATE = 0;
 
-    public static final String VID_TUTORIAL = "http://192.168.1.2:8080/api/tutorials";
+    public static final String VID_TUTORIAL = "http://"+ Settings.serverURL+"/api/tutorials";
 
 
     VideoView mVideoView;

@@ -6,5 +6,5 @@ package com.iitb.mobileict.lokavidya.Communication;
 public class Settings {
 
 
-    public static String serverURL="192.168.1.2:8080";
+    public static String serverURL="ruralict.cse.iitb.ac.in/lokavidya";
 }

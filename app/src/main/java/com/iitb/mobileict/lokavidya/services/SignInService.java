@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.ui.GetJSON;
 
@@ -29,7 +30,7 @@ public class SignInService extends IntentService {
     private static final String TAG = "SignInService";
     private static final String[] TOPICS = {"global"};
     String gcmToken, placeId, args;
-    String serverURL = "http://192.168.1.2:8080";
+    String serverURL = "http://"+ Settings.serverURL;
     static String SURVEY_INTENT = "com.iitb.mobileict.lokavidya.ui.SurveyActivity";
     static String SPLASH_INTENT = "com.iitb.mobileict.lokavidya.ui.SplashScreen";
     static String ID_TOKEN_INTENT="com.iitb.mobileict.lokavidya.ui.IdTokenActivity";
