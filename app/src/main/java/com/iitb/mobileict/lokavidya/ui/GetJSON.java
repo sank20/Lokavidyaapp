@@ -79,6 +79,7 @@ public class GetJSON {
                 w.flush();
                 w.close();
             }
+            Log.d("Inside GetJSON","JSON 3");
 
 
             status=String.valueOf(linkConnection.getResponseCode());
@@ -87,7 +88,7 @@ public class GetJSON {
             if(status.equals("200"))
             {
 
-                Log.d("Inside GetJSON","JSON 3");
+                Log.d("Inside GetJSON","JSON 4");
                 is=linkConnection.getInputStream();
             }
             else

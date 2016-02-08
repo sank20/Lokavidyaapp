@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 
+import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.data.browseVideoElement;
@@ -42,8 +43,8 @@ public class LinkVideos extends AppCompatActivity {
     public static HashMap<String,String> nameToId;
     public static HashMap<String,String> idToName;
     public  static HashMap<String,String> idToURL;
-    public static final String VID_JSONARRAY_URL = "http://192.168.1.2:8080/api/tutorials";
-    public static final String VID_CAT_JSONARRAY_URL = "http://192.168.1.2:8080/api/categorys";
+    public static final String VID_JSONARRAY_URL = "http://"+ Settings.serverURL+"/api/tutorials";
+    public static final String VID_CAT_JSONARRAY_URL = "http://"+Settings.serverURL+"/api/categorys";
     Bundle extras;
 
 
