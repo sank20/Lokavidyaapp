@@ -59,13 +59,18 @@ public class VideoPlayerActivity extends Activity {
         }
     };
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
         videoId =getIntent().getStringExtra("VIDEO_ID");
         sharedpref= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+
+        Log.d(TAG,"VideoID:"+videoId);
         String playURL= sharedpref.getString("playVideoURL", "NA");
         String playName= sharedpref.getString("playVideoName","NA");
         String playDescrip= sharedpref.getString("playVideoDesc","NA");
@@ -100,6 +105,10 @@ public class VideoPlayerActivity extends Activity {
         listView = (ListView) findViewById(R.id.listView_hyperlink);
 
 
+
+
+
+
         //--------- THE LISTVIEW IS POPULATED USING THIS ASYNCTASK
         new getHyperlinkListTask(VideoPlayerActivity.this).execute(videoId);
 
@@ -117,8 +126,13 @@ public class VideoPlayerActivity extends Activity {
                     editor.putString("playVideoURL", tutorialJSON.getJSONObject("externalVideo").getString("httpurl"));
                     editor.putString("playVideoDesc", tutorialJSON.getString("description"));
                     videoId = tutorialJSON.getString("id");
+                    Log.d(TAG, videoId);
+                    editor.putString("playVideoId",videoId);
                     editor.commit();
-                    recreate();
+                    Intent intent = new Intent(getApplicationContext(),VideoPlayerActivity.class);
+                    intent.putExtra("VIDEO_ID", videoId);
+                    startActivity(intent);
+                    //finish();
                 }
                 catch (JSONException e)
                 {
@@ -184,7 +198,6 @@ public class VideoPlayerActivity extends Activity {
             editor.putString("playVideoURL", "https://www.youtube.com/watch?v=uFsV0ieoU-w");
             editor.putString("playVideoDesc", "blah blah");
             editor.commit();
-            recreate();
 
 
 
@@ -223,7 +236,7 @@ public class VideoPlayerActivity extends Activity {
                     try {
                         linktutorialJSON = postmanCommunication.okhttpgetTutorial(VideoPlayerActivity.VID_TUTORIAL, tutJsonObject.getString("videoId"), sharedPreferences.getString("token", ""));
                         Log.d(TAG,tutorialJSON.toString());
-                        if(linktutorialJSON.getJSONObject("externalVideo")!=null)
+                        if(!linktutorialJSON.isNull("externalVideo"))
                         {
                             linkedVideosArray.add(linktutorialJSON.getString("name"));
                             videoToLink.put(linktutorialJSON.getString("name"),linktutorialJSON);

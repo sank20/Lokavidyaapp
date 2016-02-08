@@ -1,4 +1,5 @@
 package com.iitb.mobileict.lokavidya.ui;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,7 +9,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
@@ -24,46 +24,44 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-
-
-import android.view.Display;
-import android.view.Gravity;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.PopupMenu;
 import android.text.InputType;
-
-
-
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
-
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.iitb.mobileict.lokavidya.Communication.Communication;
 import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
-import com.iitb.mobileict.lokavidya.Communication.Communication;
 import com.iitb.mobileict.lokavidya.util.animations;
-
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -72,12 +70,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -89,13 +85,13 @@ import java.util.regex.Pattern;
 /**
  * Implementation of the Projects / dashboard activity
  */
-public class Projects extends Activity implements View.OnClickListener {
+public class Projects extends FragmentActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
 
     private static final int PREFERENCE_MODE_PRIVATE = 0;
     private String importProjectName;
     private String seedpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
-
+    GoogleApiClient mGoogleApiClient;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -127,7 +123,17 @@ public class Projects extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
+                .requestEmail()
+                .build();
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 //----------------------------------------------------------------------------------------------------------------------------
         /*1.Copy the zipped sample project from assets to a temp folder called loktemp.
           2.Extract the zip to the lokavidya folder.
@@ -1092,6 +1098,11 @@ public class Projects extends Activity implements View.OnClickListener {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
 
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
@@ -1140,17 +1151,13 @@ public class Projects extends Activity implements View.OnClickListener {
                 break;
 
             case 3:
-
-                Intent k= new Intent(this,VideoPlayerActivity.class);
-                SharedPreferences sharepref= getPreferences(PREFERENCE_MODE_PRIVATE);
-                SharedPreferences.Editor editor= sharepref.edit();
-                editor.putString("playVideoName","blah");
-                editor.putString("playVideoURL", "https://www.youtube.com/watch?v=REhOKUs_2wM");
-                editor.putString("playVideoDesc", "blah blah");
-                editor.commit();
-
-
+                signOut();
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                sharedPreferences.edit().remove("lokavidyaToken").commit();
+                sharedPreferences.edit().remove("idToken").commit();
+                Intent k= new Intent(this,LokavidyaAuthenticationActivity.class);
                 startActivity(k);
+
 
         }
     }
@@ -1315,7 +1322,15 @@ public class Projects extends Activity implements View.OnClickListener {
 
 
 
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
 
+                    }
+                });
+    }
 
 }
 
