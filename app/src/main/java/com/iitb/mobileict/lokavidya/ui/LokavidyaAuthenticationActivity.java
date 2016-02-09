@@ -44,6 +44,9 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if(!sharedPreferences.getString("idToken","N/A").equals("N/A")&&sharedPreferences.getString("lokavidyaToken","N/A").equals("N/A"))
         {
@@ -51,6 +54,7 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
             Intent projectsIntent= new Intent(LokavidyaAuthenticationActivity.this,Projects.class);
             Log.d(TAG,"Signed In.Calling Projects Activity");
             startActivity(projectsIntent);
+            finish();
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lokavidya_authentication);
@@ -215,5 +219,11 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
     };
 
 
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        unregisterReceiver(signInBroadcastReceiver);
+    }
 
 }
