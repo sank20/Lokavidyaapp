@@ -105,19 +105,26 @@ public class SurveyActivity extends AppCompatActivity implements PlaceSelectionL
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG,"Inside Done On Click");
-                if(true) //TODO validation
+                Log.d(TAG, "Inside Done On Click");
+                if (true) //TODO validation
                 {
-                    progressDialog = new ProgressDialog(SurveyActivity.this);
-                    progressDialog.show();
-                    progressDialog.setCancelable(false);
-                    Intent intent = new Intent(SurveyActivity.this, RegistrationIntentService.class);
-                    intent.putExtra("placeId", placeId);
-                    intent.putExtra("flag", "survey");
-                    if (checkPlayServices())
-                    {
-                        Log.d(TAG,"Starting Intent to the Service.");
-                        startService(intent);
+                    String number = contactNumber.getText().toString();
+                    if (number.length() != 10) {
+                        contactNumber.setError("Please enter a valid phone number");
+                        contactNumber.setFocusable(true);
+                    } else if(number.length()==10){
+                        progressDialog = new ProgressDialog(SurveyActivity.this);
+                        progressDialog.show();
+                        progressDialog.setCancelable(false);
+                        Intent intent = new Intent(SurveyActivity.this, RegistrationIntentService.class);
+                        intent.putExtra("placeId", placeId);
+                        Log.d(TAG,contactNumber.getText().toString());
+                        intent.putExtra("contactNo",contactNumber.getText().toString());
+                        intent.putExtra("flag", "survey");
+                        if (checkPlayServices()) {
+                            Log.d(TAG, "Starting Intent to the Service.");
+                            startService(intent);
+                        }
                     }
                 }
             }

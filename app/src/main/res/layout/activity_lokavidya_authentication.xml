@@ -52,13 +52,7 @@
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="skip"
-            android:id="@+id/skipbutton"
-            android:layout_gravity="center_horizontal" />
+
 
     </LinearLayout>
 
@@ -70,7 +64,7 @@
 
 
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/sign_out_and_disconnect"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -85,20 +79,26 @@
                 android:id="@+id/sign_in_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:visibility="visible"
 
-                />
+
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/sign_up_button"
+                android:layout_toStartOf="@+id/sign_up_button" />
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_up_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:visibility="visible"
-                 />
 
-        </LinearLayout>
+                android:layout_marginRight="64dp"
+                android:layout_marginEnd="64dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

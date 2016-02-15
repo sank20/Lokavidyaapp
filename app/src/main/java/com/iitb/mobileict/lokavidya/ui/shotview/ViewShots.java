@@ -1,23 +1,17 @@
 package com.iitb.mobileict.lokavidya.ui.shotview;
 
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-//>>>>>>> 70badf7cbf99d940fd0e9dc02b0e259363158f1c
-//=======
-import android.content.SharedPreferences;
-
-
-//>>>>>>> ef2a05a3746ae3de8c8c5ab687be17fe59263157
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.LevelListDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,8 +30,14 @@ import android.widget.Toast;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
 import com.iitb.mobileict.lokavidya.Stitch;
+import com.iitb.mobileict.lokavidya.ui.Projects;
 import com.iitb.mobileict.lokavidya.ui.UploadProject;
 import com.iitb.mobileict.lokavidya.ui.ViewVideo;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 public class 																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																							ViewShots extends Activity implements   OnClickListener,
@@ -65,6 +65,7 @@ public class 																																																																			
 	final int REQUEST_CODE_1=1,REQUEST_CODE_2=2;
 
 
+	Projects p; //for using isNetworkAvailable();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,7 @@ public class 																																																																			
 		editor = sharedPref.edit();
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+		p= new Projects();
 		Intent intent = getIntent();
 		project = intent.getStringExtra("projectname");
 
@@ -496,10 +497,14 @@ public class 																																																																			
                                 if (whichShare == 2) {
                                     File sdCard = Environment.getExternalStorageDirectory();
 
-										Intent upload= new Intent(getThisActivity(), UploadProject.class);
-										upload.putExtra("PROJECT_NAME",project);
+                                    if (isNetworkAvailable(getApplicationContext())) {
+                                        Intent upload = new Intent(getThisActivity(), UploadProject.class);
+                                        upload.putExtra("PROJECT_NAME", project);
                                         startActivity(upload);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Please connect to internet", Toast.LENGTH_SHORT).show();
 
+                                    }
 
                                 } else {
                                     System.out.println(project + whichShare);
@@ -619,5 +624,13 @@ public class 																																																																			
 	public Activity getThisActivity(){
 		return this;
 	}
+
+
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 	}

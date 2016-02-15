@@ -33,6 +33,7 @@ public class RegistrationIntentService extends IntentService {
     static String ID_TOKEN_INTENT="com.iitb.mobileict.lokavidya.ui.IdTokenActivity";
 
     Context context;
+    private String contactNo;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -44,6 +45,7 @@ public class RegistrationIntentService extends IntentService {
         Log.d(TAG,"Inside Registration Service");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         placeId = intent.getStringExtra("placeId");
+        contactNo =intent.getStringExtra("contactNo");
 
         args = intent.getStringExtra("flag");
         Log.d(TAG,"Args are :"+args);
@@ -107,7 +109,7 @@ public class RegistrationIntentService extends IntentService {
             serverURL += "/api/authenticate?google=true&username=admin&password=admin&googlePlaceId="
                     + placeId + "&affiliation=IITB&idTokenString="
                     + sharedPreferences.getString("idToken", "")
-                    + "&gcmToken=" + gcmToken;
+                    + "&gcmToken=" + gcmToken+"&contactNo="+contactNo;
             Log.e("RegisterIntentServerUrl", serverURL);
             String response = getJson.getJSONFromUrl(serverURL, new JSONObject(), "POST", false, null, null);
             Log.d(TAG, response);

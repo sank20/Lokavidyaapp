@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -49,11 +51,12 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     JSONArray categoriesJSONArray;
     Map<String,Integer> name2Id= new HashMap<String,Integer>();
     static String UPLOAD_URL = "http://"+ Settings.serverURL+"/api/tutorials/upload"; //TODO add the URL here
+    Projects p; //for calling isNetworkAvailable
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        p= new Projects();// for calling isNetworkAvailable
         setContentView(R.layout.activity_upload_video);
         Intent in = getIntent();
         projectname = in.getStringExtra("PROJECT_NAME");
@@ -86,15 +89,16 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.uploadvideobutton:
-                if (description.getText().toString().equals("") || language.getText().toString().equals("") || keywords.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.cannotupload), Toast.LENGTH_SHORT).show();
-                } else {
-                    Log.i("upload video", "upload action button pressed");
-                    String desc = description.getText().toString();
-                    String lang = language.getText().toString();
-                    String tags = keywords.getText().toString();
-                    String projektname = projectname;
-                    String categoryId = String.valueOf(name2Id.get(category.getSelectedItem().toString()));
+                if(isNetworkAvailable(getApplicationContext())) {
+                    if (description.getText().toString().equals("") || language.getText().toString().equals("") || keywords.getText().toString().equals("")) {
+                        Toast.makeText(getApplicationContext(), getString(R.string.cannotupload), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.i("upload video", "upload action button pressed");
+                        String desc = description.getText().toString();
+                        String lang = language.getText().toString().replaceAll("\\s", "");
+                        String tags = keywords.getText().toString().replaceAll("\\s", "");
+                        String projektname = projectname.replaceAll("\\s", "");
+                        String categoryId = String.valueOf(name2Id.get(category.getSelectedItem().toString()));
 
                    /* category.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -103,20 +107,24 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
                         }
                     });
 */
-                    String projectZipFile = compressProject();
+                        String projectZipFile = compressProject();
 
-                    HashMap<String, String> info = new HashMap<String, String>();
-                    // info.put("name",projectname);
-                    info.put("description", desc);
-                    info.put("language", lang);
-                    info.put("keywords", tags);
-                    info.put("name", projektname);
-                    info.put("file", projectZipFile);
-                    info.put("categoryId", categoryId);
-                    //info.put("categoryId",categoryId);
-                    //info.put("file",projectZipFile);
-                    Log.d("Upload Project","Launching Async Task.");
-                    new uploadTask(UploadProject.this).execute(info);
+                        HashMap<String, String> info = new HashMap<String, String>();
+                        // info.put("name",projectname);
+                        info.put("description", desc);
+                        info.put("language", lang);
+                        info.put("keywords", tags);
+                        info.put("name", projektname);
+                        info.put("file", projectZipFile);
+                        info.put("categoryId", categoryId);
+                        //info.put("categoryId",categoryId);
+                        //info.put("file",projectZipFile);
+                        Log.d("Upload Project", "Launching Async Task.");
+                        new uploadTask(UploadProject.this).execute(info);
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(),"Please connect to internet",Toast.LENGTH_SHORT).show();
+
                 }
                 break;
 
@@ -254,6 +262,17 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
                 Toast.makeText(context, R.string.upload_fail_toast,Toast.LENGTH_SHORT).show();
                 pd.dismiss();
             }
+
+            finish();
         }
+    }
+
+
+
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

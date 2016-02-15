@@ -15,47 +15,35 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-
-import android.os.Bundle;
-
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import android.os.Handler;
 import android.widget.Toast;
-
 
 import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.R;
-import com.iitb.mobileict.lokavidya.util.Utilities;
 import com.iitb.mobileict.lokavidya.util.ScalingUtilities;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.iitb.mobileict.lokavidya.util.Utilities;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,6 +101,8 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     /** Text view for presenting decoding statistics */
     private TextView mResultView;
 
+    Projects p; // for making use of isNetworkAvailable();
+
 
 
 
@@ -139,6 +129,9 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         cropButton=(Button)findViewById(R.id.button_scaling_crop);
         linkbutton=(Button)findViewById(R.id.linkButton);
         removeLinkbutton=(Button)findViewById(R.id.removeLinkButton);
+
+        p= new Projects(); // for making use of isNetworkAvailable();
+
         mDstWidth = getResources().getDimensionPixelSize(R.dimen.destination_width);
         mDstHeight = getResources().getDimensionPixelSize(R.dimen.destination_height);
 
@@ -158,35 +151,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         tmp_file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya"+"/"+projectName+"/tmp_images", imagefileName + ".png");
 
 
-        linkbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(Recording.this,LinkVideos.class);
-                Bundle extras= new Bundle();
-                extras.putString("PROJECT_NAME",projectName);
-                extras.putString("IMAGE_FILE_NAME",image_file.getName());
-                in.putExtras(extras);
-                startActivity(in);
-            }
-        });
 
-        removeLinkbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               // if(!idToName.isEmpty()) {
-                   // System.out.println("number of videos:" + idToName.size());
-
-                Intent in = new Intent(Recording.this,RemoveLinksActivity.class);
-                Bundle extras = new Bundle();
-                extras.putString("PROJECT_NAME",projectName);
-                extras.putString("IMAGE_FILENAME",imagefileName);
-                in.putExtras(extras);
-                startActivity(in);
-
-
-                //}
-            }
-        });
 
         Bitmap myBitmap = BitmapFactory.decodeFile(image_file.getAbsolutePath());
         imageView = (ImageView) findViewById(R.id.imagePlaying);
@@ -399,6 +364,53 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         });
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        linkbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isNetworkAvailable(getApplicationContext())) {
+                    Intent in = new Intent(Recording.this, LinkVideos.class);
+                    Bundle extras = new Bundle();
+                    extras.putString("PROJECT_NAME", projectName);
+                    extras.putString("IMAGE_FILE_NAME", image_file.getName());
+                    in.putExtras(extras);
+                    startActivity(in);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Please connect to internet",Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+        removeLinkbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // if(!idToName.isEmpty()) {
+                // System.out.println("number of videos:" + idToName.size());
+                if (isNetworkAvailable(getApplicationContext())) {
+                    Intent in = new Intent(Recording.this, RemoveLinksActivity.class);
+                    Bundle extras = new Bundle();
+                    extras.putString("PROJECT_NAME", projectName);
+                    extras.putString("IMAGE_FILENAME", imagefileName);
+                    in.putExtras(extras);
+                    startActivity(in);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please connect to internet", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+                //}
+            }
+        });
+    }
+
     /**
      * Invoked when pressing button for showing result of the "Bad" decoding
      * method
@@ -889,7 +901,12 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     }
 
 
-
+    public boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 
 }

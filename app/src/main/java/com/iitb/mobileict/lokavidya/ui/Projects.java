@@ -1091,9 +1091,9 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
 
     }
 
-    private boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                = (ConnectivityManager) getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
@@ -1122,7 +1122,7 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                 System.out.println("------------------------------selectitem item click "+ position+"-------------------------------");
 
                 //showSampleProjectPopup();
-                if(isNetworkAvailable()) {
+                if(isNetworkAvailable(getApplicationContext())) {
                     openDialog();
                 }
                 else{
@@ -1146,8 +1146,13 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                 break;
 
             case 2:
-                Intent viewVid= new Intent(this,BrowseAndViewVideos.class);
-                startActivity(viewVid);
+                if(isNetworkAvailable(getApplicationContext())) {
+                    Intent viewVid = new Intent(this, BrowseAndViewVideos.class);
+                    startActivity(viewVid);
+                }
+                else{
+                    Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case 3:
