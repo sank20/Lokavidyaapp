@@ -221,7 +221,14 @@ public class VideoPlayerActivity extends Activity {
             String json="";
             //Network call to get tutorial information
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            JSONObject tutorialJSON = postmanCommunication.okhttpgetTutorial(VideoPlayerActivity.VID_TUTORIAL, videoId, sharedPreferences.getString("token", ""));
+            JSONObject tutorialJSON=null;
+            if(!sharedPreferences.getBoolean("Skip",false)) {
+                 tutorialJSON = postmanCommunication.okhttpgetTutorial(VideoPlayerActivity.VID_TUTORIAL, videoId, sharedPreferences.getString("token", ""));
+            }else{
+                Log.i(TAG,"login skipped, calling guest method");
+                tutorialJSON = postmanCommunication.okhttpgetGuestTutorial(VideoPlayerActivity.VID_TUTORIAL, videoId);
+
+            }
             Log.d(TAG,tutorialJSON.toString());
             //Network calls to get information on the links
             //
@@ -234,7 +241,14 @@ public class VideoPlayerActivity extends Activity {
                     JSONObject tutJsonObject = referenceResourceLinkJSONObject.getJSONObject(i);
                     JSONObject linktutorialJSON;
                     try {
-                        linktutorialJSON = postmanCommunication.okhttpgetTutorial(VideoPlayerActivity.VID_TUTORIAL, tutJsonObject.getString("videoId"), sharedPreferences.getString("token", ""));
+                        if(!sharedPreferences.getBoolean("Skip",false)) {
+                            linktutorialJSON = postmanCommunication.okhttpgetTutorial(VideoPlayerActivity.VID_TUTORIAL, tutJsonObject.getString("videoId"), sharedPreferences.getString("token", ""));
+                        }else{
+                            Log.i(TAG,"login skipped, calling guest method");
+
+                            linktutorialJSON = postmanCommunication.okhttpgetGuestTutorial(VideoPlayerActivity.VID_TUTORIAL, tutJsonObject.getString("videoId"));
+
+                        }
                         Log.d(TAG,tutorialJSON.toString());
                         if(!linktutorialJSON.isNull("externalVideo"))
                         {

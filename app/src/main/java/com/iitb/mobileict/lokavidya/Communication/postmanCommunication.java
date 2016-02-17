@@ -28,7 +28,7 @@ public class postmanCommunication {
 
     public static String idTokenString;
     public static final String JSON_AUTH_URL= "http://"+Settings.serverURL+"/api/authenticate?username=admin&password=admin&google=true&idTokenString=";
-    public static final String JSON_AUTH_GUEST_URL= "http://"+ Settings.serverURL + "/api/authenticate?google=false&username=user&password=user";
+    public static final String JSON_AUTH_GUEST_URL= "http://"+ Settings.serverURL + "/api/authenticate?google=false&username=user&password=user&idTokenString=werty";
 
     public static String xAUTH_TOKEN;
     private static JSONArray JsonArray;
@@ -41,12 +41,12 @@ public class postmanCommunication {
         }
 
 
-        Log.i("OKHTTP AUTH", "inside Auth" +JSON_AUTH_GUEST_URL+idTokenString);
+        Log.i("OKHTTP AUTH", "inside Auth" +JSON_AUTH_GUEST_URL);
 
         OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                    .url(JSON_AUTH_GUEST_URL + idTokenString)
+                    .url(JSON_AUTH_GUEST_URL)
                     .post(null)
                     .addHeader("cache-control", "no-cache")
                     .addHeader("postman-token", "164e22d7-22ee-68a7-8e95-0d354064a9d1")
@@ -133,6 +133,7 @@ public class postmanCommunication {
     public static JSONArray okhttpgetGuestVideoJsonArray(String URL){
 
         okhttpGuestAuth();
+        Log.i("okhttpgetGuestVideoJsonArray- xauth", xAUTH_TOKEN);
         Log.i("OKHTTP","auth done inside getjson"+URL);
 
         OkHttpClient client = new OkHttpClient();
@@ -161,6 +162,8 @@ public class postmanCommunication {
 
     public static JSONObject okhttpgetGuestTutorial(String URL,String id){
         okhttpGuestAuth();
+        Log.i("okhttpgetGuestTutorial- xauth", xAUTH_TOKEN);
+
         Log.i("OKHTTP", "auth done inside getjson" + URL);
 
         OkHttpClient client = new OkHttpClient();
