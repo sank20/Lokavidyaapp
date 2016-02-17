@@ -52,14 +52,6 @@
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="skip"
-            android:id="@+id/skipbutton"
-            android:layout_gravity="center_horizontal" />
-
     </LinearLayout>
 
 

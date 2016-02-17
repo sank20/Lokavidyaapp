@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
     enum AuthenticationState{
         LOGGED_OUT, SIGNIN,SIGNUP
     }
+    boolean fromUpload;
+    private Button skipButton;
 
     AuthenticationState state;
     private static final String TAG = "LokavidyaAuthenticationActivity";
@@ -47,7 +50,11 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
 
 
 
+
+        Intent i= getIntent();
+        fromUpload=i.getBooleanExtra("fromUpload",false);
         sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPreferences.edit().putBoolean("Skip",false).commit();
         if(!sharedPreferences.getString("idToken","N/A").equals("N/A")&&sharedPreferences.getString("lokavidyaToken","N/A").equals("N/A"))
         {
             //Calling Projects Activity if already signed in
@@ -60,6 +67,8 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
         setContentView(R.layout.activity_lokavidya_authentication);
         signInButton =(SignInButton)findViewById(R.id.sign_in_button);
         signUpButton =(SignInButton)findViewById(R.id.sign_up_button);
+        skipButton= (Button) findViewById(R.id.skipbutton);
+        skipButton.setOnClickListener(this);
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -78,6 +87,8 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
         setGooglePlusButtonText(signInButton,"Sign In");
         setGooglePlusButtonText(signUpButton,"Sign Up");
         registerReceiver(signInBroadcastReceiver, new IntentFilter(TAG));
+        skipButton= (Button) findViewById(R.id.skipbutton);
+
 
     }
 
@@ -105,6 +116,12 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
                 state=AuthenticationState.SIGNUP;
                 signUp();
                 break;
+            case R.id.skipbutton:
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
+                sharedPreferences.edit().putBoolean("Skip",true).commit();
+                Intent i= new Intent(this,Projects.class);
+                startActivity(i);
+                finish();
         }
     }
 
@@ -197,8 +214,8 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
     private final BroadcastReceiver signInBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(TAG,"Inside Broadcast Reciever IdToken");
-            Log.d(TAG,"Registered"+intent.getBooleanExtra("registered", false));
+            Log.d(TAG, "Inside Broadcast Reciever IdToken");
+            Log.d(TAG, "Registered" + intent.getBooleanExtra("registered", false));
 
             if(intent.getBooleanExtra("connectionError",false))
             {
@@ -209,11 +226,17 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
                 Toast.makeText(getApplicationContext(),"You have to Sign Up first.",Toast.LENGTH_LONG).show();
             }
             else {
-                Intent projectsIntent= new Intent(LokavidyaAuthenticationActivity.this,Projects.class);
-                startActivity(projectsIntent);
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
-                sharedPreferences.edit().putString("lokavidyaToken", intent.getStringExtra("lokavidyaToken")).commit();
-                finish();
+                if(fromUpload){
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
+                    sharedPreferences.edit().putString("lokavidyaToken", intent.getStringExtra("lokavidyaToken")).commit();
+                    finish();
+                }else {
+                    Intent projectsIntent = new Intent(LokavidyaAuthenticationActivity.this, Projects.class);
+                    startActivity(projectsIntent);
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
+                    sharedPreferences.edit().putString("lokavidyaToken", intent.getStringExtra("lokavidyaToken")).commit();
+                    finish();
+                }
             }
             }
     };

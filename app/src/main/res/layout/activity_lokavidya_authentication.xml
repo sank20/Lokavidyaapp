@@ -63,6 +63,15 @@
         android:layout_weight="1">
 
 
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="skip"
+            android:id="@+id/skipbutton"
+            android:layout_gravity="center_horizontal"
+            android:layout_above="@+id/sign_out_and_disconnect"
+            android:layout_centerHorizontal="true" />
 
         <RelativeLayout
             android:id="@+id/sign_out_and_disconnect"

@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
 import com.iitb.mobileict.lokavidya.Stitch;
+import com.iitb.mobileict.lokavidya.ui.LokavidyaAuthenticationActivity;
 import com.iitb.mobileict.lokavidya.ui.Projects;
 import com.iitb.mobileict.lokavidya.ui.UploadProject;
 import com.iitb.mobileict.lokavidya.ui.ViewVideo;
@@ -495,14 +496,25 @@ public class 																																																																			
 						.setItems(y, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogShare, int whichShare) {
                                 if (whichShare == 2) {
-                                    File sdCard = Environment.getExternalStorageDirectory();
+                                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    if (!sharedPreferences.getBoolean("Skip", false)) {
 
-                                    if (isNetworkAvailable(getApplicationContext())) {
-                                        Intent upload = new Intent(getThisActivity(), UploadProject.class);
-                                        upload.putExtra("PROJECT_NAME", project);
-                                        startActivity(upload);
+                                        File sdCard = Environment.getExternalStorageDirectory();
+
+                                        if (isNetworkAvailable(getApplicationContext())) {
+                                            Intent upload = new Intent(getThisActivity(), UploadProject.class);
+                                            upload.putExtra("PROJECT_NAME", project);
+                                            startActivity(upload);
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Please connect to internet", Toast.LENGTH_SHORT).show();
+
+                                        }
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Please connect to internet", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "Please sign-in with your Google Account first", Toast.LENGTH_LONG).show();
+                                        Intent i=new Intent(getThisActivity(),LokavidyaAuthenticationActivity.class);
+                                        i.putExtra("fromUpload",true);
+                                        startActivity(i);
+
 
                                     }
 
