@@ -5,8 +5,19 @@ package com.iitb.mobileict.lokavidya.data;
  */
 public class Video {
 
-    String videoName;
+    String path;
 
-    String videoPath;
+    public Video(String path)
+    {
+        this.path = path;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
 }

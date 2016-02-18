@@ -3,7 +3,7 @@ package com.iitb.mobileict.lokavidya.data;
 /**
  * Created by sanket on 5/2/16.
  */
-public class Link {
+public class    Link {
     public String videoId, description, url,name;
 
     public String getName() {

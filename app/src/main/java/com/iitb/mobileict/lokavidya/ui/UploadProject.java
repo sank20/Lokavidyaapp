@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
+import com.iitb.mobileict.lokavidya.Stitch;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.model.ZipParameters;
@@ -55,11 +56,22 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        ArrayList<String > audioURLs = new ArrayList<String>(),imageURLs = new ArrayList<String>();
+
         p= new Projects();// for calling isNetworkAvailable
         setContentView(R.layout.activity_upload_video);
         Intent in = getIntent();
         projectname = in.getStringExtra("PROJECT_NAME");
+
+        //To load the ordering stored in Shared Preferences
+        Stitch.getAudioImageURLs(audioURLs, imageURLs, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+
+        // To persist in order.json
+        Stitch.persist(audioURLs,imageURLs,projectname);
+
         Log.i("UPLOAD-proj name", projectname);
         description = (EditText) findViewById(R.id.videodescription);
         language = (EditText) findViewById(R.id.uploadvideolanguage);
@@ -162,8 +174,10 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
 
             File outputFileH = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya" + "/" + projectname + ".zip");
 
-            // file compressed
-            if(!outputFileH.exists()) {
+            if(outputFileH.exists()) {
+                outputFileH.delete();
+            }
+            else{
                 zipFile.addFolder(inputFileH, parameters);
             }
             long uncompressedSize = inputFileH.length();
