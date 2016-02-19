@@ -106,10 +106,19 @@ public class BrowseAndViewVideos extends AppCompatActivity {
             nameToId= new HashMap<String,String>();
             Log.i("AsyncTask", "inside doinbackgrnd");
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            vidArray = postmanCommunication.okhttpgetVideoJsonArray(VID_JSONARRAY_URL,sharedPreferences.getString("token",""));
-            Log.i("videos jsonarray",vidArray.toString());
-            catArray = postmanCommunication.okhttpgetVideoJsonArray(VID_CAT_JSONARRAY_URL,sharedPreferences.getString("token",""));
-            Log.i("categ jsonarray", catArray.toString());
+            if(!sharedPreferences.getBoolean("Skip",false)) {
+                vidArray = postmanCommunication.okhttpgetVideoJsonArray(VID_JSONARRAY_URL, sharedPreferences.getString("token", ""));
+                Log.i("videos jsonarray", vidArray.toString());
+                catArray = postmanCommunication.okhttpgetVideoJsonArray(VID_CAT_JSONARRAY_URL, sharedPreferences.getString("token", ""));
+                Log.i("categ jsonarray", catArray.toString());
+            }else{
+
+                Log.i("Browsing videos","Guest(Login has been skipped)");
+                vidArray = postmanCommunication.okhttpgetGuestVideoJsonArray(VID_JSONARRAY_URL);
+                Log.i("videos guest jsonarray", vidArray.toString());
+                catArray = postmanCommunication.okhttpgetGuestVideoJsonArray(VID_CAT_JSONARRAY_URL);
+                Log.i("categ guest jsonarray", catArray.toString());
+            }
 
             browseVideoElement tempVidObj= new browseVideoElement();
             videoObjList= new ArrayList<browseVideoElement>();

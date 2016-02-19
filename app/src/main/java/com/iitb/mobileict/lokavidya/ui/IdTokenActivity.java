@@ -37,7 +37,6 @@ public class IdTokenActivity  extends FragmentActivity implements
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     ProgressDialog progressDialog;
 
-    private Button skipButton;
 
     int signUpFlag=0;
 
@@ -82,14 +81,12 @@ public class IdTokenActivity  extends FragmentActivity implements
         progressDialog = new ProgressDialog(IdTokenActivity.this);
         progressDialog.setCancelable(false);
 
-        skipButton= (Button) findViewById(R.id.skipbutton);
 
 
         // Button click listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
         findViewById(R.id.disconnect_button).setOnClickListener(this);
-        skipButton.setOnClickListener(this);
 
         // For sample only: make sure there is a valid server client ID.
         validateServerClientID();
@@ -258,10 +255,7 @@ public class IdTokenActivity  extends FragmentActivity implements
             case R.id.disconnect_button:
                 revokeAccess();
                 break;
-            case R.id.skipbutton:
-                Intent i= new Intent(this,Projects.class);
-                startActivity(i);
-                finish();
+
         }
     }
 
