@@ -1,44 +1,13 @@
 {
   "project_info": {
-    "project_id": "lokavidya-1187",
-    "project_number": "868042865921",
+    "project_id": "onyx-gift-111413",
+    "project_number": "1019684307342",
     "name": "Lokavidya"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:868042865921:android:27d689d63f1b7a06",
-        "client_id": "android:com.google.samples.quickstart.signin",
-        "client_type": 1,
-        "android_client_info": {
-          "package_name": "com.google.samples.quickstart.signin"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "cloud_messaging_service": {
-          "status": 2,
-          "apns_config": []
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "google_signin_service": {
-          "status": 1
-        },
-        "ads_service": {
-          "status": 1
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:868042865921:android:e86c51729278c3b8",
+        "mobilesdk_app_id": "1:1019684307342:android:e86c51729278c3b8",
         "client_id": "android:com.iitb.mobileict.lokavidya",
         "client_type": 1,
         "android_client_info": {
@@ -47,12 +16,16 @@
       },
       "oauth_client": [
         {
-          "client_id": "868042865921-j02n5l1s1j4ek2us9rb9l4l7vqp4j6er.apps.googleusercontent.com",
+          "client_id": "1019684307342-qd1u1rke2074t09r49r73sk1fht9vu8h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.iitb.mobileict.lokavidya",
-            "certificate_hash": "B34664EBDB0BC74AFF9AA14BB94727CCB0AFE035"
+            "certificate_hash": "3023A39A0EDB8025A3B2121797F3F8A300A29A09"
           }
+        },
+        {
+          "client_id": "1019684307342-5of7vukc91l6qn6tsatp5bki8cmvrl3f.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [],
@@ -61,7 +34,7 @@
           "status": 1
         },
         "cloud_messaging_service": {
-          "status": 2,
+          "status": 1,
           "apns_config": []
         },
         "appinvite_service": {

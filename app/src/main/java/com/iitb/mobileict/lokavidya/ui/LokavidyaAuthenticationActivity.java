@@ -227,10 +227,12 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
             }
             else {
                 if(fromUpload){
+                    Log.i("back to signin","You have come here from the upload activity");
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
                     sharedPreferences.edit().putString("lokavidyaToken", intent.getStringExtra("lokavidyaToken")).commit();
                     finish();
                 }else {
+                    Log.i("signin","the real signin process/not guest");
                     Intent projectsIntent = new Intent(LokavidyaAuthenticationActivity.this, Projects.class);
                     startActivity(projectsIntent);
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
