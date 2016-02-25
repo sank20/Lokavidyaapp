@@ -20,19 +20,24 @@ buildscript {
 }
 
 android {
+    signingConfigs {
+        lokavidya {
+            keyAlias 'lokavidya'
+            keyPassword 'msriitb123'
+            storeFile file('/home/sanket/Downloads/lokavidya.jks')
+            storePassword 'msriitb123'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
-
     defaultConfig {
         applicationId "com.iitb.mobileict.lokavidya"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.4"
+        versionCode 9
+        versionName "1.7"
 
     }
-
-
     buildTypes {
         release {
             minifyEnabled false
@@ -48,8 +53,8 @@ android {
         applicationId "com.iitb.mobileict.lokavidya"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.4"
+        versionCode 9
+        versionName "1.7"
 
     }
 
@@ -58,18 +63,21 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:design:23.0.1'
-    compile 'com.android.support:appcompat-v7:23.0.1'
-
-    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
-    compile 'com.squareup.dagger:dagger:1.2.2'
-    compile 'com.jakewharton:butterknife:5.1.2'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
     compile project(':FFmpegAndroid')
     compile project(':MultipleImageSelection')
     compile files('libs/zip4j_1.3.2.jar')
+    // Dependency for Google Sign-In
+    // UiAutomatorTesting
+    androidTestCompile 'com.android.support.test:runner:0.2'
+    androidTestCompile 'com.android.support.test:rules:0.2'
+    androidTestCompile 'com.android.support:support-annotations:23.0.1'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    compile 'com.jakewharton:butterknife:5.1.2'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-
     compile 'com.edmodo:cropper:1.0.1'
     compile 'com.squareup.okhttp:okhttp:2.7.4'
     compile 'com.squareup.picasso:picasso:2.4.0'
@@ -78,16 +86,11 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile 'com.google.android.gms:play-services-location:8.4.0'
-    // Dependency for Google Sign-In
+    compile 'ch.acra:acra:4.8.2'
     compile 'com.google.android.gms:play-services-auth:8.4.0'
     compile 'com.android.support:cardview-v7:23.1.1'
-    // UiAutomatorTesting
-    androidTestCompile 'com.android.support.test:runner:0.2'
-    androidTestCompile 'com.android.support.test:rules:0.2'
-    androidTestCompile 'com.android.support:support-annotations:23.0.1'
-
-
     compile 'com.android.support.test:runner:0.2'
+
 }
 apply plugin: 'com.google.gms.google-services'
 

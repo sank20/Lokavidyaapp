@@ -27,6 +27,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -49,6 +50,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -94,6 +96,7 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
     GoogleApiClient mGoogleApiClient;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private TextView mdrawerprofile;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private CharSequence mDrawerTitle;
@@ -220,6 +223,11 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
         mPlanetTitles = getResources().getStringArray(R.array.drawer_list_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mdrawerprofile= (TextView) findViewById(R.id.drawer_profile_textview);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String emailid = sharedPref.getString("emailid","Guest");
+        mdrawerprofile.setText(emailid);
+
         drawerLinearLayout=(LinearLayout)findViewById(R.id.drawer_linear_layout);
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -633,7 +641,7 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
         System.out.print("Entered long press-1");
         if (v.getId()==R.id.ProjectList) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-            menu.setHeaderTitle(projectsList().get(info.position));
+            menu.setHeaderTitle(projectsList().get(((AdapterView.AdapterContextMenuInfo) menuInfo).position));
             String[] menuItems = getResources().getStringArray(R.array.menu);
             for (int i = 0; i<menuItems.length; i++) {
                 menu.add(Menu.NONE, i, i, menuItems[i]);
@@ -711,6 +719,7 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                     }
                     else {
                         copyDuplicateProject(pname,enteredProjectName);
+                        recreate();
                     }
                 }
             }
@@ -1108,7 +1117,7 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            System.out.println("------------------------------Drawer list item click "+ position+"-------------------------------");
+            System.out.println("------------------------------Drawer list item click "+ position+"-----------------------------");
             selectItem(position);
 
         }
@@ -1154,15 +1163,25 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                     Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
                 }
                 break;
-
             case 3:
+                //TODO start an activity which shows the list of videos saved in /downloads/lokavidya videos and play them on clicking
+                Intent in = new Intent(Projects.this,SavedVideosActivity.class);
+                startActivity(in);
+                break;
+
+
+            case 5:
                 signOut();
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 sharedPreferences.edit().remove("lokavidyaToken").commit();
                 sharedPreferences.edit().remove("idToken").commit();
+                sharedPreferences.edit().remove("emailid").commit();
                 Intent k= new Intent(this,LokavidyaAuthenticationActivity.class);
                 startActivity(k);
-
+                break;
+            case 4:
+                Intent savedvid = new Intent(this,FeedbackActivity.class);
+                startActivity(savedvid);
 
         }
     }

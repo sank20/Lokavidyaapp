@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.iitb.mobileict.lokavidya.Communication.Communication;
 import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
@@ -28,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +74,7 @@ public class VideoPlayerActivity extends Activity {
 
 
         Log.d(TAG,"VideoID:"+videoId);
-        String playURL= sharedpref.getString("playVideoURL", "NA");
+        final String playURL= sharedpref.getString("playVideoURL", "NA");
         String playName= sharedpref.getString("playVideoName","NA");
         String playDescrip= sharedpref.getString("playVideoDesc","NA");
         String playVideoId = sharedpref.getString("playVideoId","");
@@ -89,14 +92,14 @@ public class VideoPlayerActivity extends Activity {
         //progressDialog.setCancelable(false);
         //TODO code to download the current playing video
         downloadVideo = (ImageView) findViewById(R.id.imageView_download_video);
-        /*downloadVideo.setOnClickListener(new View.OnClickListener() {
+        downloadVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String filename= URLDecoder.decode(videoURL.substring(videoURL.lastIndexOf("/")));
-                progressDialog.show();
-                Communication.downloadBrowseVideo(getApplicationContext(), "http://" + videoURL, filename, Environment.DIRECTORY_DOWNLOADS+"/Lokavidya Videos/",TAG);
+                final String filename= URLDecoder.decode(playURL.substring(playURL.lastIndexOf("/")));
+              //  progressDialog.show();
+                Communication.downloadBrowseVideo(getApplicationContext(), "http://" + playURL, filename, Environment.DIRECTORY_DOWNLOADS + "/Lokavidya Videos/", TAG);
             }
-        });*/
+        });
 
         videoTitlePlaying = (TextView) findViewById(R.id.textView_playing_video);
         //videoTitlePlaying.setText(getIntent().getStringExtra("tutorialName"));

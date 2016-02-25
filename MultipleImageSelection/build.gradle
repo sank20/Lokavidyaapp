@@ -1,14 +1,21 @@
 apply plugin: 'com.android.library'
 
 android {
+    signingConfigs {
+        lokavidya {
+            keyAlias 'lokavidya'
+            keyPassword 'msriitb123'
+            storeFile file('/home/sanket/Downloads/lokavidya.jks')
+            storePassword 'msriitb123'
+        }
+    }
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
-
     defaultConfig {
         minSdkVersion 12
         targetSdkVersion 22
-        versionCode 5
-        versionName "1.4"
+        versionCode 9
+        versionName "1.7"
     }
     buildTypes {
         release {

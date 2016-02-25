@@ -4,6 +4,7 @@ package com.iitb.mobileict.lokavidya.Communication;
 
 import android.util.Log;
 
+import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Set;
 
 
 /**
@@ -29,6 +31,7 @@ public class postmanCommunication {
     public static String idTokenString;
     public static final String JSON_AUTH_URL= "http://"+Settings.serverURL+"/api/authenticate?username=admin&password=admin&google=true&idTokenString=";
     public static final String JSON_AUTH_GUEST_URL= "http://"+ Settings.serverURL + "/api/authenticate?google=false&username=user&password=user&idTokenString=werty";
+    public static final String FEEDBACK_URL= "http://"+ Settings.serverURL+ "/api/feedbacks";
 
     public static String xAUTH_TOKEN;
     private static JSONArray JsonArray;
@@ -47,7 +50,7 @@ public class postmanCommunication {
 
             Request request = new Request.Builder()
                     .url(JSON_AUTH_GUEST_URL)
-                    .post(null)
+                    .post(new FormEncodingBuilder().build())
                     .addHeader("cache-control", "no-cache")
                     .addHeader("postman-token", "164e22d7-22ee-68a7-8e95-0d354064a9d1")
                     .build();
@@ -97,6 +100,7 @@ public class postmanCommunication {
             e.printStackTrace();
         }catch (JSONException j){
             j.printStackTrace();
+            //dunno forr sure but here just senduser back to previous activity or throw toast
         }
         return JsonArray;
     }
@@ -252,4 +256,54 @@ public class postmanCommunication {
 
 
 
+    public static void okhttpFeedback(String json,String xtoken){
+
+        xAUTH_TOKEN=xtoken;
+        if(xAUTH_TOKEN.equals("NA")){
+            okhttpGuestAuth();
+        }
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, json);
+        Request request = new Request.Builder()
+                .url(FEEDBACK_URL)
+                .post(body)
+                .addHeader("x-auth-token", xAUTH_TOKEN)
+                .addHeader("content-type", "application/json")
+                .addHeader("cache-control", "no-cache")
+                .addHeader("postman-token", "f1fccaae-6489-749c-ad15-6b7fbfc62bdd")
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void okhttpGuestFeedback(String json){
+
+        okhttpGuestAuth();
+        OkHttpClient client = new OkHttpClient();
+
+        MediaType mediaType = MediaType.parse("application/json");
+        RequestBody body = RequestBody.create(mediaType, json);
+        Request request = new Request.Builder()
+                .url(FEEDBACK_URL)
+                .post(body)
+                .addHeader("x-auth-token", xAUTH_TOKEN)
+                .addHeader("content-type", "application/json")
+                .addHeader("cache-control", "no-cache")
+                .addHeader("postman-token", "f1fccaae-6489-749c-ad15-6b7fbfc62bdd")
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

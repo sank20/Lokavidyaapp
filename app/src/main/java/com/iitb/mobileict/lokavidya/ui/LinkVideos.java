@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
@@ -170,95 +171,98 @@ public class LinkVideos extends AppCompatActivity {
         protected String doInBackground(String... params) {
             Log.i("AsyncTask", "inside doinbackgrnd");
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            if(!sharedPreferences.getBoolean("Skip",false)) {
+            if (!sharedPreferences.getBoolean("Skip", false)) {
                 vidArray = postmanCommunication.okhttpgetVideoJsonArray(VID_JSONARRAY_URL, sharedPreferences.getString("token", ""));
                 Log.i("videos jsonarray", vidArray.toString());
                 catArray = postmanCommunication.okhttpgetVideoJsonArray(VID_CAT_JSONARRAY_URL, sharedPreferences.getString("token", ""));
                 Log.i("categ jsonarray", catArray.toString());
-            }else{
-                Log.i("Browsing videos","Guest(Login has been skipped)");
+            } else {
+                Log.i("Browsing videos", "Guest(Login has been skipped)");
                 vidArray = postmanCommunication.okhttpgetGuestVideoJsonArray(VID_JSONARRAY_URL);
                 Log.i("videos guest jsonarray", vidArray.toString());
                 catArray = postmanCommunication.okhttpgetGuestVideoJsonArray(VID_CAT_JSONARRAY_URL);
                 Log.i("categ guest jsonarray", catArray.toString());
             }
 
+            if (vidArray.toString().equals("exception") || catArray.toString().equals("exception")) {
+                return "nope";
+            } else {
+                browseVideoElement tempVidObj = new browseVideoElement();
+                videoObjList = new ArrayList<browseVideoElement>();
+                int i, catId;
+                nameToId = new HashMap<String, String>();
+                idToName = new HashMap<String, String>();
+                idToURL = new HashMap<String, String>();
+                try {
+                    //  vidArray = new JSONArray(loadJSONFromAsset("vids.json"));
+                    //  catArray = new JSONArray(loadJSONFromAsset("cats.json"));
+                    for (i = 0; i < vidArray.length(); i++) {
+                        tempVidObj = new browseVideoElement();
+                        tempVidObj.setVideoName(vidArray.getJSONObject(i).getString("name"));
+                        tempVidObj.setVideoId(vidArray.getJSONObject(i).getString("id"));
+                        Log.i("setvideo name", vidArray.getJSONObject(i).getString("name"));
+                        catId = vidArray.getJSONObject(i).getJSONObject("categoryMembership").getInt("categoryId");
+                        tempVidObj.setCategoryID(catId);
+                        tempVidObj.setCategoryName(catArray.getJSONObject(catId - 1).getString("name"));
+                        if (!vidArray.getJSONObject(i).isNull("externalVideo")) {
+                            tempVidObj.setVideoUrl(vidArray.getJSONObject(i).getJSONObject("externalVideo").getString("httpurl"));
+                            idToURL.put(tempVidObj.getVideoId(), tempVidObj.getVideoUrl());
+                        } else {
+                            tempVidObj.setVideoUrl("no URL");
+                            idToURL.put(tempVidObj.getVideoId(), null);
 
-            browseVideoElement tempVidObj = new browseVideoElement();
-            videoObjList = new ArrayList<browseVideoElement>();
-            int i, catId;
-            nameToId= new HashMap<String,String>();
-            idToName= new HashMap<String,String>();
-            idToURL= new HashMap<String,String>();
-            try {
-              //  vidArray = new JSONArray(loadJSONFromAsset("vids.json"));
-              //  catArray = new JSONArray(loadJSONFromAsset("cats.json"));
-                for (i = 0; i < vidArray.length(); i++) {
-                    tempVidObj = new browseVideoElement();
-                    tempVidObj.setVideoName(vidArray.getJSONObject(i).getString("name"));
-                    tempVidObj.setVideoId(vidArray.getJSONObject(i).getString("id"));
-                    Log.i("setvideo name", vidArray.getJSONObject(i).getString("name"));
-                    catId = vidArray.getJSONObject(i).getJSONObject("categoryMembership").getInt("categoryId");
-                    tempVidObj.setCategoryID(catId);
-                    tempVidObj.setCategoryName(catArray.getJSONObject(catId - 1).getString("name"));
-                    if (!vidArray.getJSONObject(i).isNull("externalVideo")) {
-                        tempVidObj.setVideoUrl(vidArray.getJSONObject(i).getJSONObject("externalVideo").getString("httpurl"));
-                        idToURL.put(tempVidObj.getVideoId(),tempVidObj.getVideoUrl());
-                    } else {
-                        tempVidObj.setVideoUrl("no URL");
-                        idToURL.put(tempVidObj.getVideoId(), null);
+                        }
+                        nameToId.put(tempVidObj.getVideoName(), tempVidObj.getVideoId());
+                        idToName.put(tempVidObj.getVideoId(), tempVidObj.getVideoName());
+                        videoObjList.add(tempVidObj);
 
                     }
-                    nameToId.put(tempVidObj.getVideoName(),tempVidObj.getVideoId());
-                    idToName.put(tempVidObj.getVideoId(),tempVidObj.getVideoName());
-                    videoObjList.add(tempVidObj);
-
+                    Recording.idToName = idToName;
+                    Log.i("asynctask", "data preparation successful");
+                } catch (JSONException j) {
+                    j.printStackTrace();
                 }
-                Recording.idToName=idToName;
-                Log.i("asynctask", "data preparation successful");
-            } catch (JSONException j) {
-                j.printStackTrace();
-            }
 
             /*Iterator<browseVideoElement> it= videoObjList.iterator();
             while(it.hasNext()){
                 System.out.println("-----------------videoobj list ka attribute--------:" + it.next().getVideoName());
             }*/
-            for (browseVideoElement b : videoObjList) {
-                if (listDataChild.containsKey(b.getCategoryName())) {
-                    Log.i("Asynctask", "category existing");
+                for (browseVideoElement b : videoObjList) {
+                    if (listDataChild.containsKey(b.getCategoryName())) {
+                        Log.i("Asynctask", "category existing");
 
-                    Log.i("video name", b.getVideoName());
+                        Log.i("video name", b.getVideoName());
 
-                    listDataChild.get(b.getCategoryName()).add(b.getVideoName());
-                    // if(b.getVideoUrl()!=null) {
-                    listLinkChild.get(b.getCategoryName()).add(b.getVideoUrl());
-                    //}
-                    Log.i("Asynctask", "videoname mapped");
+                        listDataChild.get(b.getCategoryName()).add(b.getVideoName());
+                        // if(b.getVideoUrl()!=null) {
+                        listLinkChild.get(b.getCategoryName()).add(b.getVideoUrl());
+                        //}
+                        Log.i("Asynctask", "videoname mapped");
 
-                } else {
-                    Log.i("Asynctask", "new category");
+                    } else {
+                        Log.i("Asynctask", "new category");
 
-                    List<String> vidtemp = new ArrayList<String>();
-                    List<String> linktemp = new ArrayList<String>();
-                    Log.i("video name", b.getVideoName());
-                    vidtemp.add(b.getVideoName());
+                        List<String> vidtemp = new ArrayList<String>();
+                        List<String> linktemp = new ArrayList<String>();
+                        Log.i("video name", b.getVideoName());
+                        vidtemp.add(b.getVideoName());
 
-                    // if(b.getVideoUrl()!=null){
-                    linktemp.add(b.getVideoUrl());//}
+                        // if(b.getVideoUrl()!=null){
+                        linktemp.add(b.getVideoUrl());//}
 
-                    listDataChild.put(b.getCategoryName(), vidtemp);
-                    listLinkChild.put(b.getCategoryName(), linktemp);
-                    listDataHeader.add(b.getCategoryName());
-                    listLinkHeader.add(b.getCategoryName());
-                    Log.i("Asynctask new catg", "new category data mapped");
+                        listDataChild.put(b.getCategoryName(), vidtemp);
+                        listLinkChild.put(b.getCategoryName(), linktemp);
+                        listDataHeader.add(b.getCategoryName());
+                        listLinkHeader.add(b.getCategoryName());
+                        Log.i("Asynctask new catg", "new category data mapped");
+                    }
                 }
+
+                Log.i("Asynctask", "Phew, over!");
+
+
+                return "YAY";
             }
-
-            Log.i("Asynctask", "Phew, over!");
-
-
-            return "YAY";
         }
 
         @Override
@@ -266,11 +270,15 @@ public class LinkVideos extends AppCompatActivity {
 
             Log.i("AsyncTask", s);
 
-            listAdapter = new ExpListViewAdapterWithCheckBox(context, listDataHeader, listDataChild);
+            if (s.equals("nope")) {
+                Toast.makeText(context, "Something went wrong, please try again later", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                listAdapter = new ExpListViewAdapterWithCheckBox(context, listDataHeader, listDataChild);
 
-            // setting list adapter
-            expListView.setAdapter(listAdapter);
-            // Listview on child click listener
+                // setting list adapter
+                expListView.setAdapter(listAdapter);
+                // Listview on child click listener
             /*expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
                 @Override
@@ -281,7 +289,8 @@ public class LinkVideos extends AppCompatActivity {
                 }
             });
 */
-            // pd.dismiss();
+                // pd.dismiss();
+            }
         }
     }
 

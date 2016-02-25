@@ -23,6 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="25dp"
         android:layout_toRightOf="@+id/imageView_video_thumbnail"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@android:color/black"/>
 
 </RelativeLayout>

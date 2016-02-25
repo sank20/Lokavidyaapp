@@ -195,44 +195,54 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
         return output;
     }
 
-    class getCategoryList extends AsyncTask<Void,Void,Void>{
+    class getCategoryList extends AsyncTask<Void, Void, String> {
         Context context;
         public getCategoryList(Context context ){
             this.context=context;
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             postmanCommunication.idTokenString= sharedPreferences.getString("idToken", "id token");
             categoriesJSONArray = postmanCommunication.okhttpgetVideoJsonArray(BrowseAndViewVideos.VID_CAT_JSONARRAY_URL,sharedPreferences.getString("token",""));
-            Log.d("UploadProject", categoriesJSONArray.toString());
-            return null;
+            if(categoriesJSONArray.toString().equals("exception")){
+                return "nope";
+            }
+            else{
+                Log.d("UploadProject", categoriesJSONArray.toString());
+            }
+            return "yes";
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            String name;
-            int id;
-            List<String> categories = new ArrayList<String>();
-            for(int i=0;i< categoriesJSONArray.length();i++){
-                try {
-                    name = categoriesJSONArray.getJSONObject(i).getString("name");
-                    id = Integer.parseInt(categoriesJSONArray.getJSONObject(i).getString("id"));
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result.equals("nope")) {
+                Toast.makeText(context, "Something went wrong, please try again later", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                String name;
+                int id;
+                List<String> categories = new ArrayList<String>();
+                for (int i = 0; i < categoriesJSONArray.length(); i++) {
+                    try {
+                        name = categoriesJSONArray.getJSONObject(i).getString("name");
+                        id = Integer.parseInt(categoriesJSONArray.getJSONObject(i).getString("id"));
 
 
-                categories.add(name);
-                name2Id.put(name, id);
-                }catch (JSONException j){
-                    j.printStackTrace();
+                        categories.add(name);
+                        name2Id.put(name, id);
+                    } catch (JSONException j) {
+                        j.printStackTrace();
+                    }
                 }
+
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, categories);
+
+                category.setAdapter(dataAdapter);
+
             }
-
-            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, categories);
-
-            category.setAdapter(dataAdapter);
-
         }
     }
 
@@ -250,6 +260,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
             super.onPreExecute();
             pd= new ProgressDialog(context);
             pd.setMessage(getString(R.string.upload_progressdialog_message));
+            pd.setCanceledOnTouchOutside(false);
             pd.show();
         }
 

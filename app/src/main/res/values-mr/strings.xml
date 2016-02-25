@@ -89,4 +89,9 @@
     <string name="link_videos">Link the selected videos</string>
     <string name="remove_link_button">Remove Link</string>
     <string-array name="nav_drawer_labels" />
+    <string name="spinner_title">Select one of the below:</string>
+    <string name="feedback_type">Feedback Type:</string>
+    <string name="button_submit">SUBMIT</string>
+    <string name="helpfeedback_activity_description">Your feedback, system information and email address will be sent to Lokavidya. See Lokavidya\'s privacy policy and terms of service.</string>
+
 </resources>

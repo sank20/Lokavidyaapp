@@ -57,34 +57,37 @@ public class RemoveLinksActivity extends Activity {
         remove=(Button) findViewById(R.id.removeButton);
         removelink= new ArrayList<Link>();
         String json = null;
-        try {
-            InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().getAbsolutePath()+"/lokavidya/"+projectName+ File.separator+"links/"+imagefileName.split("\\.")[1]+".json");
-            if(new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/lokavidya/"+projectName+ File.separator+"links/"+imagefileName.split("\\.")[1]+".json").exists()) {
-                int size= is.available();
+        if(new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/lokavidya/"+projectName+ File.separator+"links/"+imagefileName.split("\\.")[1]+".json").exists()) {
+
+            try {
+
+                InputStream is = new FileInputStream(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/" + projectName + File.separator + "links/" + imagefileName.split("\\.")[1] + ".json");
+
+                int size = is.available();
                 byte[] buffer = new byte[size];
                 is.read(buffer);
                 is.close();
                 json = new String(buffer, "UTF-8");
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        try {
-            linked_videos= new ArrayList<String>();
-            linked_video_id= new ArrayList<String>();
-            JSONArray linkedVideos= new JSONArray(json);
-            System.out.println("The json:"+ json);
-            System.out.println("checking for null jsonarray:"+String.valueOf(linkedVideos.isNull(0)));
-            for(int i=0;i< linkedVideos.length();i++) {
-                linked_videos.add(linkedVideos.getJSONObject(i).getString("name"));
-                linked_video_id.add(linkedVideos.getJSONObject(i).getString("videoId"));
+            try {
+                linked_videos = new ArrayList<String>();
+                linked_video_id = new ArrayList<String>();
+                JSONArray linkedVideos = new JSONArray(json);
+                System.out.println("The json:" + json);
+                System.out.println("checking for null jsonarray:" + String.valueOf(linkedVideos.isNull(0)));
+                for (int i = 0; i < linkedVideos.length(); i++) {
+                    linked_videos.add(linkedVideos.getJSONObject(i).getString("name"));
+                    linked_video_id.add(linkedVideos.getJSONObject(i).getString("videoId"));
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
 
         final ExtraImageHandler rem= new ExtraImageHandler(Environment.getExternalStorageDirectory().getAbsolutePath()+"/lokavidya/",projectName,imagefileName);
@@ -122,7 +125,10 @@ public class RemoveLinksActivity extends Activity {
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
 
-
+        }else{
+            //finish();
+            Toast.makeText(getApplication(),"No links found. Please create links first",Toast.LENGTH_SHORT).show(); //does not show
+        }
 
     }
 

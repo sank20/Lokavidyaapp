@@ -52,12 +52,30 @@ public class Stitch extends Activity {
         final ArrayList<String> imageUrls = new ArrayList<>();
         final ArrayList<String> audioUrls = new ArrayList<>();
 
-        getAudioImageURLs(imageUrls, audioUrls,PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+        getAudioImageURLs(imageUrls, audioUrls, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        editor = sharedPref.edit();
+        editor.putInt("savedView",1);
+        editor.commit();
+
+
+        projectName= sharedPref.getString("projectname","");
+
+        count = sharedPref.getInt(projectName, 0);
+
+        for(int i=0;i<count;i++)
+        {
+            imageUrls.add(sharedPref.getString(projectName+"image_path" + (i+1),""));
+            imageName = sharedPref.getString(projectName+"image_name"+(i+1),"");
+            imageName=imageName.replace(".png", "");
+            outputFile= Environment.getExternalStorageDirectory().getAbsolutePath()+ "/lokavidya"+"/"+projectName+"/audio/"+ imageName + ".wav";
+            audioUrls.add(outputFile);
+        }
 
 
         final ProgressDialog ringProgressDialog = ProgressDialog.show(this, getString(R.string.stitchingProcessTitle), getString(R.string.stitchingProcessMessage), true);
 
-        ringProgressDialog.setCancelable(false);
+        ringProgressDialog.setCancelable(true);
         ringProgressDialog.setCanceledOnTouchOutside(false);
 
         new Thread(new Runnable() {
