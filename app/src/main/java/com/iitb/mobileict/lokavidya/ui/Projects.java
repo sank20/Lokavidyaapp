@@ -1276,6 +1276,9 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
 
 
 
+        for(String s : lungi){
+            System.out.println(" lungi number "+ lungi.indexOf(s) +"="+s);
+        }
 
 
 
