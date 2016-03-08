@@ -25,6 +25,7 @@ import com.iitb.mobileict.lokavidya.data.browseVideoElement;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -191,7 +192,7 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                 Log.i("Asynctask", "Phew, over!");
 
 
-                return "YAY";
+                return vidArray.toString();
             }
         }
 
@@ -204,6 +205,11 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                 finish();
             } else {
 
+                try {
+                    JSONArray vidArray = new JSONArray(s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 listAdapter = new ExpandableListAdapter(context, listDataHeader, listDataChild);
 
                 // setting list adapter
@@ -232,16 +238,33 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                         final String url = listLinkChild.get(
                                 listLinkHeader.get(groupPosition)).get(
                                 childPosition);
+                        String videoid= nameToId.get(listDataChild.get(
+                                listDataHeader.get(groupPosition)).get(
+                                childPosition));
+
+                        String zipurl="";
+                        try {
+                            for (int i = 0; i < vidArray.length(); i++) {
+                                if (vidArray.getJSONObject(i).getString("id").equals(videoid)) {
+                                    zipurl = vidArray.getJSONObject(i).getJSONObject("segmentVideo").getString("zipurl");
+                                    Log.i("selected video zip",zipurl);
+                                    break;
+                                }
+
+                            }
+                        }catch (JSONException j){
+                            j.printStackTrace();
+                        }
 
 
                         final String filename = URLDecoder.decode(url.substring(url.lastIndexOf("/")));
                         // Communication.downloadBrowseVideo(context, "http://" + url, filename);
 
                         Intent playVideo = new Intent(context, VideoPlayerActivity.class);
-
-                        playVideo.putExtra("VIDEO_ID", nameToId.get(listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
-                                childPosition)));
+                        Bundle bundle = new Bundle();
+                        bundle.putString("VIDEO_ID", videoid);
+                        bundle.putString("ZIP_URL",zipurl);
+                        playVideo.putExtras(bundle);
                         Log.d("BrowseAndViewVideos", "Calling Video Player");
                         SharedPreferences sharepref = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor editor = sharepref.edit();

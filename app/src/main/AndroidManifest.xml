@@ -147,9 +147,11 @@
 
         <activity
             android:name=".ui.FeedbackActivity"
-            android:theme="@style/Feedback"/>
-        <activity android:name=".ui.SavedVideosActivity"
-            android:theme="@style/Base.Theme.AppCompat.Light"/>
+            android:theme="@style/Feedback" />
+        <activity
+            android:name=".ui.SavedVideosActivity"
+            android:theme="@style/Base.Theme.AppCompat.Light" />
+        <activity android:name=".QRCode.QRScanner"></activity>
     </application>
 
 </manifest>

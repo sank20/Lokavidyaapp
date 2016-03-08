@@ -80,6 +80,7 @@
         <item>My Projects</item>
         <item>Download Sample Projects</item>
         <item>View Videos</item>
+        <item>View by QR Code</item>
         <item>Saved Videos</item>
         <item>Feedback</item>
         <item>SignOut</item>
@@ -148,5 +149,11 @@
     <string name="button_submit">SUBMIT</string>
     <string name="helpfeedback_activity_description">Your feedback, system information and email address will be sent to Lokavidya. See Lokavidya\'s privacy policy and terms of service.</string>
     <string name="menu_delete">Delete Selected Videos</string>
+    <string name="download_from_videoplayeractivity">Choose your download</string>
+    <string name="progressdialog_download_project_from_videoplayeractivity">Downloading as project</string>
 
+    <string-array name="download_video_or_project">
+        <item> Download Video</item>
+        <item>Download Project</item>
+    </string-array>
 </resources>

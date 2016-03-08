@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -11,14 +12,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.iitb.mobileict.lokavidya.Communication.Communication;
@@ -26,10 +31,14 @@ import com.iitb.mobileict.lokavidya.Communication.Settings;
 import com.iitb.mobileict.lokavidya.Communication.postmanCommunication;
 import com.iitb.mobileict.lokavidya.R;
 
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +53,7 @@ public class VideoPlayerActivity extends Activity {
     public static final String VID_TUTORIAL = "http://"+ Settings.serverURL+"/api/tutorials";
 
 
+
     VideoView mVideoView;
     ListView listView;
     ArrayAdapter<String> arrayAdapter;
@@ -53,7 +63,11 @@ public class VideoPlayerActivity extends Activity {
     ImageView downloadVideo;
     ProgressDialog progressDialog;
     String videoId;
+    String zipurl;
     SharedPreferences sharedpref;
+    Button generateQRButton;
+    private String seedpath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/";
+
 
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -69,13 +83,33 @@ public class VideoPlayerActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_player);
-        videoId =getIntent().getStringExtra("VIDEO_ID");
+        videoId =getIntent().getExtras().getString("VIDEO_ID");
+        zipurl=getIntent().getExtras().getString("ZIP_URL");
         sharedpref= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+        generateQRButton = (Button) findViewById(R.id.button_generate_qr);
+        generateQRButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayerActivity.this);
+                LayoutInflater inflater = VideoPlayerActivity.this.getLayoutInflater();
+                View dialogView= inflater.inflate(R.layout.dialog_generatedqr_code, null);
+                ImageView qrImage = (ImageView) dialogView.findViewById(R.id.QRCodeimageView);
+                qrImage.setImageResource(R.drawable.ic_launcher_big);
+                builder.setView(dialogView)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
+                            }
+                        });
+                builder.create().show();
+            }
+        });
+        System.out.println(System.getProperty("java.io.tmpdir"));
         Log.d(TAG,"VideoID:"+videoId);
         final String playURL= sharedpref.getString("playVideoURL", "NA");
-        String playName= sharedpref.getString("playVideoName","NA");
+        final String playName= sharedpref.getString("playVideoName","NA");
         String playDescrip= sharedpref.getString("playVideoDesc","NA");
         String playVideoId = sharedpref.getString("playVideoId","");
 
@@ -95,9 +129,32 @@ public class VideoPlayerActivity extends Activity {
         downloadVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String filename= URLDecoder.decode(playURL.substring(playURL.lastIndexOf("/")));
-              //  progressDialog.show();
-                Communication.downloadBrowseVideo(getApplicationContext(), "http://" + playURL, filename, Environment.DIRECTORY_DOWNLOADS + "/Lokavidya Videos/", TAG);
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(VideoPlayerActivity.this);
+                builder.setTitle(getString(R.string.download_from_videoplayeractivity))
+                        .setItems(getResources().getStringArray(R.array.download_video_or_project), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        final String filename = URLDecoder.decode(playURL.substring(playURL.lastIndexOf("/")));
+                                        //  progressDialog.show();
+                                        Communication.downloadBrowseVideo(getApplicationContext(), "http://" + playURL, filename, Environment.DIRECTORY_DOWNLOADS + "/Lokavidya Videos/", TAG);
+
+                                        break;
+                                    case 1:
+                                        String zipname = zipurl.split("/")[zipurl.split("/").length-1];
+                                        downloadProj(VideoPlayerActivity.this,playName.substring(0,playName.lastIndexOf("-")-1),zipname,"http://"+ zipurl);
+                                        break;
+                                }
+
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                //builder.show();
+
             }
         });
 
@@ -148,6 +205,7 @@ public class VideoPlayerActivity extends Activity {
 
     }
 
+
    /* public List<String> linkedVideos() { -------------------------------taken care of in the get hyperlinklistTask asynctask
         Context context = getApplicationContext();
         linkedVideosArray= new ArrayList<String>();
@@ -164,6 +222,62 @@ public class VideoPlayerActivity extends Activity {
         return linkedVideosArray;
         //TODO also might need to find a way to parse the thumbnail placeholder as ArrayList.- ---(NOT NOW)
     }*/
+
+
+
+    /**
+     * method which calls the communication method for the given project zip and performs other checks
+     * @param Projectname name of the project
+     * @param zipname name of the project zip file
+     * @param link link to the server
+     */
+    public void downloadProj(final Context context,String Projectname, final String zipname, String link) {
+
+        if (!new File(seedpath + Projectname+"/").exists()) {
+            Communication.isDownloadComplete = false;
+            Communication.downloadSampleProjects(context,link,zipname);
+            Log.i("Downloaded?", String.valueOf(Communication.isDownloadComplete));
+            final ProgressDialog downloadSeed = ProgressDialog.show(context, getString(R.string.stitchingProcessTitle), getString(R.string.progressdialog_download_project_from_videoplayeractivity));
+            downloadSeed.setCancelable(false);
+            downloadSeed.setCanceledOnTouchOutside(false);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    while (!Communication.isDownloadComplete) {/*wait till download hasn't completed */}
+
+
+                    String serverseed = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + "/"+ zipname).toString();
+                    try {
+                        ZipFile seedzip = new ZipFile(serverseed);
+                        seedzip.extractAll(seedpath);
+                    } catch (ZipException e) {
+                        e.printStackTrace();
+                    }
+
+                    File delTemp = new File(serverseed);
+                    delTemp.delete();
+                    //delTemp.getParentFile().delete();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Toast.makeText(context, "The project has been downloaded, please check your project list.", Toast.LENGTH_SHORT).show();;
+                            downloadSeed.dismiss();
+
+
+                        }
+                    });
+
+
+                }
+            }).start();
+
+        }
+
+
+    }
+
 
 
     //TODO-------------------------------------------------------CHECK THE ASYNCTASKS AND YOU HAVE TO DO ALMOST SAME THING TWICE IN BOTH----------------------------------------------------
@@ -256,6 +370,7 @@ public class VideoPlayerActivity extends Activity {
                         if(!linktutorialJSON.isNull("externalVideo"))
                         {
                             linkedVideosArray.add(linktutorialJSON.getString("name"));
+                            Log.i("Videoplayeractivity","linked video:"+linktutorialJSON.getString("name"));
                             videoToLink.put(linktutorialJSON.getString("name"),linktutorialJSON);
                         }
                     }

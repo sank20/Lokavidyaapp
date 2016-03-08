@@ -65,6 +65,18 @@
                             android:layout_alignParentEnd="true"
                             android:id="@+id/imageView_download_video"
                             android:clickable="true" />
+
+                        <Button
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:text="QR Code"
+                            android:textSize="10sp"
+                            android:id="@+id/button_generate_qr"
+                            android:layout_alignParentTop="true"
+                            android:layout_alignRight="@+id/textView_playing_video"
+                            android:layout_alignEnd="@+id/textView_playing_video"
+                            android:layout_alignBottom="@+id/imageView_download_video" />
                     </RelativeLayout>
 
                 </LinearLayout>

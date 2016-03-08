@@ -251,12 +251,15 @@
 
             <TextView
                 android:id="@+id/drawer_profile_textview"
-                android:layout_width="90dp"
+                android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:drawableBottom="@drawable/ic_account_box_white_48dp"
                 android:scaleType="fitCenter"
                 android:layout_centerInParent="true"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"/>
 
         </RelativeLayout>
 

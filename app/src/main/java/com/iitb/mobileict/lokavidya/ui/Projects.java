@@ -61,6 +61,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.iitb.mobileict.lokavidya.Communication.Communication;
 import com.iitb.mobileict.lokavidya.Projectfile;
+import com.iitb.mobileict.lokavidya.QRCode.QRScanner;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
 import com.iitb.mobileict.lokavidya.util.animations;
@@ -1053,13 +1054,13 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
      * @param zipname name of the project zip file
      * @param link link to the server
      */
-    public void downloadSeed(String Projectname, final String zipname, String link) {
+    public void downloadSeed(Context context,String Projectname, final String zipname, String link) {
 
         if (!new File(seedpath + Projectname+"/").exists()) {
             Communication.isDownloadComplete = false;
-            Communication.downloadSampleProjects(getThisActivity(),link,zipname);
+            Communication.downloadSampleProjects(context,link,zipname);
             Log.i("Downloaded?", String.valueOf(Communication.isDownloadComplete));
-            final ProgressDialog downloadSeed = ProgressDialog.show(this, getString(R.string.stitchingProcessTitle), getString(R.string.seedDownloadProgress));
+            final ProgressDialog downloadSeed = ProgressDialog.show(context, getString(R.string.stitchingProcessTitle), getString(R.string.seedDownloadProgress));
             downloadSeed.setCancelable(false);
             downloadSeed.setCanceledOnTouchOutside(false);
             new Thread(new Runnable() {
@@ -1163,14 +1164,21 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                     Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
                 }
                 break;
+
             case 3:
+                //TODO call the activity for QR code scanning
+                Intent scan = new Intent(Projects.this, QRScanner.class);
+                startActivity(scan);
+                break;
+
+            case 4:
                 //TODO start an activity which shows the list of videos saved in /downloads/lokavidya videos and play them on clicking
                 Intent in = new Intent(Projects.this,SavedVideosActivity.class);
                 startActivity(in);
                 break;
 
 
-            case 5:
+            case 6:
                 signOut();
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 sharedPreferences.edit().remove("lokavidyaToken").commit();
@@ -1179,7 +1187,7 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                 Intent k= new Intent(this,LokavidyaAuthenticationActivity.class);
                 startActivity(k);
                 break;
-            case 4:
+            case 5:
                 Intent savedvid = new Intent(this,FeedbackActivity.class);
                 startActivity(savedvid);
 
@@ -1226,11 +1234,11 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                 switch (item.getItemId()) {
                     case R.id.TreadlePump:
 
-                        downloadSeed("Pump-Odiya", "odiyapump.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/odiyapump.zip");
+                        downloadSeed(getApplicationContext(),"Pump-Odiya", "odiyapump.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/odiyapump.zip");
                         Log.i("seed", "pump");
                         return true;
                     case R.id.biogas:
-                        downloadSeed("biogas-st-hindi", "biogasSThi.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/biogasSThi.zip");
+                        downloadSeed(getApplicationContext(),"biogas-st-hindi", "biogasSThi.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/biogasSThi.zip");
                         Log.i("seed", "biogas");
 
                         return true;
@@ -1298,7 +1306,7 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                 String item = (String) adapter.getItemAtPosition(position);
                 System.out.println("sample projects item-----------------------------------:" + item);
                 int pos= lungi.indexOf(item);
-                downloadSeed(item,zipNameArrayList.get(pos),"http://"+sampleprojectsHashmap.get(item));
+                downloadSeed(getApplicationContext(),item,zipNameArrayList.get(pos),"http://"+sampleprojectsHashmap.get(item));
 
             }
         });
