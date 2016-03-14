@@ -2,91 +2,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F44336"
+    android:background="#464646"
     android:orientation="vertical"
     android:scrollbarAlwaysDrawVerticalTrack="true">
 
-    <TextView
-        android:id="@+id/login_title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="22dp"
-        android:gravity="center_horizontal"
-        android:text="Launcher Screen"
-        android:textColor="#fff"
-        android:textSize="26sp"
-        android:textStyle="bold" />
+
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_title"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="70dp"
-        android:background="#fff"
-        android:elevation="4dp"
+        android:background="#f3f3f3"
+        android:elevation="8dp"
         android:orientation="vertical"
         android:padding="20dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="30dp"
-            android:id="@+id/linearLayout">
+            android:layout_height="match_parent"
+            android:id="@+id/linearLayout"
+            android:layout_above="@+id/skipbutton">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-
-
-                    android:ellipsize="none"
                     android:scrollHorizontally="false"
-
                     android:drawableTint="#FF4081"
                     android:singleLine="true"
-                    android:hint="User Name"
-                    android:inputType="textEmailAddress"
-                    android:text="Lokavidya"
-                    android:id="@+id/title"
+                    android:text="@string/app_name"
+                    android:id="@+id/textView_app_name"
                     android:gravity="center"
-                    android:textSize="30dp"
-                    android:textColor="#000000" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="39dp"
-                android:layout_marginTop="16dp"
-                android:singleLine="true"
-
-                android:drawableTint="#FF4081"
-
-                android:gravity="center"
-                android:text="Empowerment through Knowledge-Sharing"
-                android:textSize="13dp"
-                android:password="false"
-                android:textColor="#504848" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="1dp"
-                android:text="@string/existingmember" />
+                    android:textSize="30sp"
+                    android:textColor="#000000"
+                    android:layout_marginTop="20dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:id="@+id/textView_app_slogan"
+                    android:layout_below="@+id/textView_app_name"
+                    android:gravity="center"
+                    android:text="Empowerment through Knowledge-Sharing"
+                    android:textSize="20sp"
+                    android:textColor="#504848" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/activity_vertical_margin"
+                    android:gravity="center"
+                    android:text="@string/existingmember"
+                    android:id="@+id/textView_existing_member"
+                    android:layout_below="@+id/textView_app_slogan"
+                    android:layout_marginTop="16dp"/>
 
 
             <com.google.android.gms.common.SignInButton
@@ -94,52 +66,64 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
+                android:foregroundGravity="center"
+                android:layout_centerHorizontal="true"
+                android:text= "Sign In with Google"
+                android:layout_below="@+id/textView_existing_member"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
-
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/sign_up_button"
-                android:layout_toStartOf="@+id/sign_up_button"
-                android:layout_gravity="center" />
+            <View
+                android:id="@+id/horizontal_rule_login"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:background="@android:color/darker_gray"
+                android:layout_below="@+id/sign_in_button"
+                android:layout_marginTop="0dp"/>
 
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/textview_new_member"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingTop="1dp"
-                android:text="@string/newmember" />
+                android:text="@string/newmember"
+                android:layout_below="@+id/sign_in_button"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textSize="@dimen/activity_vertical_margin"/>
+
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_up_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Sign Up with Google"
                 android:visibility="visible"
-                android:layout_gravity="center"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true" />
-        </LinearLayout>
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/textview_new_member"               />
+        </RelativeLayout>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Skip"
+            android:textColor="#ffffff"
+            android:background="#464646"
             android:id="@+id/skipbutton"
-            android:layout_gravity="right"
-            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="@dimen/activity_vertical_margin"/>
     </RelativeLayout>
-
-
-
 
     <ImageButton
         android:id="@+id/user_profile_photo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_below="@+id/login_title"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:background="@drawable/design"
-        android:elevation="4dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/login_logo_background"
+        android:elevation="8dp"
         android:src="@drawable/app_logo" />
 </RelativeLayout>

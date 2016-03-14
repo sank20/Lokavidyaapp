@@ -105,6 +105,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
                     if (description.getText().toString().equals("") || language.getText().toString().equals("") || keywords.getText().toString().equals("")) {
                         Toast.makeText(getApplicationContext(), getString(R.string.cannotupload), Toast.LENGTH_SHORT).show();
                     } else {
+                        Toast.makeText(UploadProject.this, "Please wait", Toast.LENGTH_LONG).show();
                         Log.i("upload video", "upload action button pressed");
                         String desc = description.getText().toString();
                         String lang = language.getText().toString().replaceAll("\\s", "");
