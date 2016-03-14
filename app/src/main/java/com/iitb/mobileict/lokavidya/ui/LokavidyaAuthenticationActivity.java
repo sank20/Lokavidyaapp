@@ -181,9 +181,9 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
             sharedPreferences.edit().putString("idToken", idToken).commit();
             Intent projectsIntent= new Intent(LokavidyaAuthenticationActivity.this,SurveyActivity.class);
-            projectsIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            //projectsIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);  -----> Never do this. This will force-close SurveyActivity after adding locaiton
             startActivity(projectsIntent);
-            finish();
+           // finish();
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
