@@ -166,6 +166,12 @@ public class Stitch extends Activity {
         File orderFile =  new File(sdCard.getAbsolutePath() + "/lokavidya/"+projectName+"/order.json");
         for(int i=0;i<imageUrls.size();i++)
         {
+            Log.d("Check////////////////",imageUrls.get(i).toString());
+
+        }
+        for(int i=0;i<imageUrls.size();i++)
+        {
+
             MElement slideElement= new MElement();
             slideElement.setElementType(MElementType.SLIDE);
             slideElement.setAudio(new Audio(audioUrls.get(i)));

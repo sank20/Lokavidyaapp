@@ -94,7 +94,7 @@ public class FfmpegWrapper{
         /// Command Generation
         if(imageUrls.size()==audioUrls.size())
         {
-            for(int i=0;i<imageUrls.size();i++)
+            for(int i=0;i<imageUrls.size()/2;i++)
             {
                 File imageFile = new File(imageUrls.get(i));
 //                String cmd= "-loop 1 -i "+imageUrls.get(i)+" -c:v libx264 -t 2 -pix_fmt yuv420p -vf scale=320:240 /storage/emulated/0/DstApp/tmp/out-"+i+".mp4";
@@ -106,7 +106,7 @@ public class FfmpegWrapper{
 
                 cmdArrayList.add(cmd);
             }
-            for(int i=0;i<audioUrls.size();i++)
+            for(int i=0;i<audioUrls.size()/2;i++)
             {
                 String cmd="-i '"+audioUrls.get(i)+"' -i '"+imgOut+i+".mp4' -c:a copy -vcodec copy -strict -2 '"+videoOut+i+".mp4'";
 
