@@ -46,7 +46,7 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
     EditText description;
     EditText language;
     EditText keywords;
-    String projectname;
+    String projectname, upload_file_name;
     TextView projnamelabel;
     Spinner category;
     JSONArray categoriesJSONArray;
@@ -64,8 +64,8 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
         p= new Projects();// for calling isNetworkAvailable
         setContentView(R.layout.activity_upload_video);
         Intent in = getIntent();
-        projectname = in.getStringExtra("PROJECT_NAME");
-
+        upload_file_name = in.getStringExtra("PROJECT_NAME");
+        projectname = upload_file_name.replaceAll(" ", "_");
         //To load the ordering stored in Shared Preferences
         Stitch.getAudioImageURLs(audioURLs, imageURLs, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
 
