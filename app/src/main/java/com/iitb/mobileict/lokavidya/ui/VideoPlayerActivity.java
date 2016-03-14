@@ -87,7 +87,7 @@ public class VideoPlayerActivity extends Activity {
         zipurl=getIntent().getExtras().getString("ZIP_URL");
         sharedpref= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        generateQRButton = (Button) findViewById(R.id.button_generate_qr);
+      /*  generateQRButton = (Button) findViewById(R.id.button_generate_qr);
         generateQRButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +106,7 @@ public class VideoPlayerActivity extends Activity {
                 builder.create().show();
             }
         });
-        System.out.println(System.getProperty("java.io.tmpdir"));
+      */  System.out.println(System.getProperty("java.io.tmpdir"));
         Log.d(TAG,"VideoID:"+videoId);
         final String playURL= sharedpref.getString("playVideoURL", "NA");
         final String playName= sharedpref.getString("playVideoName","NA");

@@ -536,20 +536,25 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
         return paths;
     }
 
-    public Bitmap rotateImage(Bitmap bm){
-        Matrix matrix = new Matrix();
-        matrix.reset();
-        int rotation = 90;
+    public Bitmap rotateImage(Bitmap bm) {
+        Bitmap rot_image = null;
+        try {
+            Matrix matrix = new Matrix();
+            matrix.reset();
+            int rotation = 90;
 
-        int bw = bm.getWidth();
-        int bh = bm.getHeight();
+            int bw = bm.getWidth();
+            int bh = bm.getHeight();
 
-        Bitmap rot_image = Bitmap.createBitmap(bh, bw, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(rot_image);
-        matrix.postTranslate(-bw / 2, -bh / 2);
-        matrix.postRotate(rotation);
-        matrix.postTranslate(bh / 2, bw / 2);
-        canvas.drawBitmap(bm, matrix, null);
+            rot_image = Bitmap.createBitmap(bh, bw, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(rot_image);
+            matrix.postTranslate(-bw / 2, -bh / 2);
+            matrix.postRotate(rotation);
+            matrix.postTranslate(bh / 2, bw / 2);
+            canvas.drawBitmap(bm, matrix, null);
+        } catch (Exception e) {
+            Toast.makeText(Recording.this, "Something went wrong, try cropping the image first", Toast.LENGTH_SHORT).show();
+        }
 
         return rot_image;
     }

@@ -496,10 +496,12 @@ public class Projectfile {
             //Log.i("yay","found the files!");
             for (i = 0; i < list.length; i++) {
                 String name = list[i].getName();
-              //  Log.i("name", list[i].getName());
+               //Log.i("delete-name", list[i].getName());
                 String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
                 if (!name.equals("final.mp4") && extension.equals("mp4"))
                     list[i].delete();
+                Log.i("delete-name", list[i].getName());
+
             }
         }
     }

@@ -32,10 +32,10 @@ android {
     buildToolsVersion "23.0.0"
     defaultConfig {
         applicationId "com.iitb.mobileict.lokavidya"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 23
-        versionCode 11
-        versionName "1.7.2"
+        versionCode 12
+        versionName "1.7.3"
 
     }
     buildTypes {
@@ -51,10 +51,10 @@ android {
 
     defaultConfig {
         applicationId "com.iitb.mobileict.lokavidya"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 23
-        versionCode 11
-        versionName "1.7.2"
+        versionCode 12
+        versionName "1.7.3"
 
     }
 

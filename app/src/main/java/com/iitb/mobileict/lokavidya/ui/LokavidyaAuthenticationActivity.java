@@ -84,8 +84,8 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        setGooglePlusButtonText(signInButton,"Sign In");
-        setGooglePlusButtonText(signUpButton,"Sign Up");
+        setGooglePlusButtonText(signInButton,"Sign In with Google");
+        setGooglePlusButtonText(signUpButton,"Sign Up with Google");
         registerReceiver(signInBroadcastReceiver, new IntentFilter(TAG));
         skipButton= (Button) findViewById(R.id.skipbutton);
 
@@ -162,6 +162,7 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
             sharedPreferences.edit().putString("idToken", idToken).commit();
             Intent signInServiceIntent= new Intent(LokavidyaAuthenticationActivity.this,SignInService.class);
+            signInServiceIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startService(signInServiceIntent);
             updateUI(true);
         } else {
@@ -180,6 +181,7 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
             sharedPreferences.edit().putString("idToken", idToken).commit();
             Intent projectsIntent= new Intent(LokavidyaAuthenticationActivity.this,SurveyActivity.class);
+            projectsIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(projectsIntent);
             finish();
         } else {
@@ -234,6 +236,7 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
                 }else {
                     Log.i("signin","the real signin process/not guest");
                     Intent projectsIntent = new Intent(LokavidyaAuthenticationActivity.this, Projects.class);
+                    projectsIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     startActivity(projectsIntent);
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
                     sharedPreferences.edit().putString("lokavidyaToken", intent.getStringExtra("lokavidyaToken")).commit();

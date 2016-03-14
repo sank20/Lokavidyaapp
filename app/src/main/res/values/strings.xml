@@ -88,7 +88,7 @@
         <item>My Projects</item>
         <item>Download Sample Projects</item>
         <item>View Videos</item>
-        <item>View by QR Code</item>
+       <!-- <item>View by QR Code</item>-->
         <item>Saved Videos</item>
         <item>Feedback</item>
         <item>SignOut</item>

@@ -172,12 +172,15 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
         for (int i = 0; i < projectsList.size(); i++) {
             System.out.println("--------------projects : " + projectsList.get(i));
 
-            if(new File(seedpath+projectsList.get(i)).isDirectory()) {
+            if(new File(seedpath+projectsList.get(i)+File.separator).isDirectory()) {
                 File tmp_images = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/lokavidya/" + projectsList.get(i) + "/tmp_images");
                 if (!tmp_images.exists()) {
                     Log.i("projectlist", "tmp_images not found, making dir");
                     tmp_images.mkdir();
                     Log.i("tmp_images", "tmp_images folder created");
+                    Share.tmp_images_make(projectsList.get(i));
+                }else if(tmp_images.list().length == 0){
+                    Log.i("tmp_images","tmp_images is empty");
                     Share.tmp_images_make(projectsList.get(i));
                 }
             }
@@ -1164,21 +1167,21 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                     Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
                 }
                 break;
-
+/*
             case 3:
                 //TODO call the activity for QR code scanning
                 Intent scan = new Intent(Projects.this, QRScanner.class);
                 startActivity(scan);
-                break;
+                break;*/
 
-            case 4:
+            case 3:
                 //TODO start an activity which shows the list of videos saved in /downloads/lokavidya videos and play them on clicking
                 Intent in = new Intent(Projects.this,SavedVideosActivity.class);
                 startActivity(in);
                 break;
 
 
-            case 6:
+            case 5:
                 signOut();
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 sharedPreferences.edit().remove("lokavidyaToken").commit();
@@ -1186,8 +1189,9 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                 sharedPreferences.edit().remove("emailid").commit();
                 Intent k= new Intent(this,LokavidyaAuthenticationActivity.class);
                 startActivity(k);
+                finish();
                 break;
-            case 5:
+            case 4:
                 Intent savedvid = new Intent(this,FeedbackActivity.class);
                 startActivity(savedvid);
 
@@ -1234,11 +1238,11 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                 switch (item.getItemId()) {
                     case R.id.TreadlePump:
 
-                        downloadSeed(getApplicationContext(),"Pump-Odiya", "odiyapump.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/odiyapump.zip");
+                        downloadSeed(Projects.this,"Pump-Odiya", "odiyapump.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/odiyapump.zip");
                         Log.i("seed", "pump");
                         return true;
                     case R.id.biogas:
-                        downloadSeed(getApplicationContext(),"biogas-st-hindi", "biogasSThi.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/biogasSThi.zip");
+                        downloadSeed(Projects.this,"biogas-st-hindi", "biogasSThi.zip", "http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/biogasSThi.zip");
                         Log.i("seed", "biogas");
 
                         return true;
@@ -1306,7 +1310,7 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                 String item = (String) adapter.getItemAtPosition(position);
                 System.out.println("sample projects item-----------------------------------:" + item);
                 int pos= lungi.indexOf(item);
-                downloadSeed(getApplicationContext(),item,zipNameArrayList.get(pos),"http://"+sampleprojectsHashmap.get(item));
+                downloadSeed(Projects.this,item,zipNameArrayList.get(pos),"http://"+sampleprojectsHashmap.get(item));
 
             }
         });

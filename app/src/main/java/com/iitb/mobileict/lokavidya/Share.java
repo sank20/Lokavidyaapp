@@ -377,41 +377,48 @@ public class Share {
 //        return true;
 //    }
 
-    public static void tmp_images_make(String Name){
+    public static boolean tmp_images_make(String Name){
         String mainFolder = "lokavidya";
         File sdCard = Environment.getExternalStorageDirectory();
 
         File fromImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + Name + "/images");
         File toImagesdir = new File (sdCard.getAbsolutePath() + "/"+mainFolder + "/" + Name + "/tmp_images");
 
+        if(fromImagesdir.list()!= null) {
         String[] fromImages = fromImagesdir.list();
         List<String> toImagesList = new ArrayList<String>();
-        for(int i=0;i<fromImages.length;i++){
-            String image = fromImages[i];
-            Log.i("tmp_images_make","image:"+image);
-            toImagesList.add(Name+image.substring(image.length()-6));
-        }
-        String[] toImages = new String[toImagesList.size()];
-        toImagesList.toArray(toImages);
 
-        try {
-            for (int i = 0; i < fromImagesdir.listFiles().length; i++) {
+            for (int i = 0; i < fromImages.length; i++) {
+                String image = fromImages[i];
+                Log.i("tmp_images_make", "image:" + image);
+                toImagesList.add(Name + image.substring(image.length() - 6));
+            }
+            String[] toImages = new String[toImagesList.size()];
+            toImagesList.toArray(toImages);
 
-                InputStream in = new FileInputStream(new File(fromImagesdir, fromImages[i]));
-                OutputStream out = new FileOutputStream(new File(toImagesdir, toImages[i]));
+            try {
+                for (int i = 0; i < fromImagesdir.listFiles().length; i++) {
 
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
+                    InputStream in = new FileInputStream(new File(fromImagesdir, fromImages[i]));
+                    OutputStream out = new FileOutputStream(new File(toImagesdir, toImages[i]));
+
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ((len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                    }
+
+                    out.close();
+                    in.close();
                 }
 
-                out.close();
-                in.close();
+            } catch (Exception exp) {
+                System.out.print(exp);
+            }finally {
+                return true;
             }
-        }
-        catch (Exception exp){
-            System.out.print(exp);
+        }else{
+            return false;
         }
     }
 

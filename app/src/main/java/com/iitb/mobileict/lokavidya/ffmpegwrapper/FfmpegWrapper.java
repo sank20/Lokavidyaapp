@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.data.Video;
 import com.iitb.mobileict.lokavidya.ui.EditProject;
 import com.iitb.mobileict.lokavidya.util.DaggerDependencyModule;
@@ -42,7 +43,7 @@ import dagger.ObjectGraph;
 
 public class FfmpegWrapper{
     private static final String TAG = FfmpegWrapper.class.getSimpleName();
-
+    String projName;
     @Inject
     FFmpeg ffmpeg;
     String imgOut,videoOut,finalVideoOut;
@@ -61,7 +62,7 @@ public class FfmpegWrapper{
         Log.v("imageURLS", imageUrls.toString());
         Log.v("audioURLS",audioUrls.toString());
         ArrayList<String> lastStitchCommand = new ArrayList<String>();
-
+        projName=projectName;
 
         ArrayList<String> cmdArrayList= new ArrayList<String>();
 
@@ -325,6 +326,7 @@ public class FfmpegWrapper{
                 public void onFinish() {
                     Log.d(TAG, "Finished command : ffmpeg " + command);
                     //progressDialog.dismiss();
+                   // Projectfile.deleteTempFiles(projName);
                 }
             });
         } catch (FFmpegCommandAlreadyRunningException e) {
