@@ -62,7 +62,7 @@ public class Stitch extends Activity {
         projectName= sharedPref.getString("projectname","");
 
         count = sharedPref.getInt(projectName, 0);
-
+        Log.i("Stitch","count:"+count);
         for(int i=0;i<count;i++)
         {
             imageUrls.add(sharedPref.getString(projectName+"image_path" + (i+1),""));
@@ -164,6 +164,9 @@ public class Stitch extends Activity {
         ArrayList<MElement> slideElements= new ArrayList<MElement>();
         File sdCard = Environment.getExternalStorageDirectory();
         File orderFile =  new File(sdCard.getAbsolutePath() + "/lokavidya/"+projectName+"/order.json");
+        for(String s : imageUrls){
+            Log.i("Stitch json persist",s);
+        }
         for(int i=0;i<imageUrls.size();i++)
         {
             MElement slideElement= new MElement();

@@ -1,4 +1,12 @@
 <resources>
+
+    <string name="lok_desc">Empowerment through Knowledge-Sharing</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="existingmember">Existing member?</string>
+    <string name="newmember">New member?</string>
+    <string name="signin">Google Sign In</string>
+    <string name="signup">Google Sign Up</string>
     <string name="app_name">Lokavidya</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_edit_project">Edit Project</string>
@@ -80,7 +88,7 @@
         <item>My Projects</item>
         <item>Download Sample Projects</item>
         <item>View Videos</item>
-        <item>View by QR Code</item>
+       <!-- <item>View by QR Code</item>-->
         <item>Saved Videos</item>
         <item>Feedback</item>
         <item>SignOut</item>

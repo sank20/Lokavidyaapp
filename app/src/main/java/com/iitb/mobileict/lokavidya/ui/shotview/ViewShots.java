@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iitb.mobileict.lokavidya.Projectfile;
 import com.iitb.mobileict.lokavidya.R;
 import com.iitb.mobileict.lokavidya.Share;
 import com.iitb.mobileict.lokavidya.Stitch;
@@ -453,6 +454,7 @@ public class 																																																																			
 				String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
 				String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
 				myIntent.setDataAndType(Uri.fromFile(file), mimetype);
+				//Projectfile.deleteTempFiles(project);
 				startActivity(myIntent);
 
 			}
