@@ -66,6 +66,8 @@ public class UploadProject extends AppCompatActivity implements AdapterView.OnIt
         Intent in = getIntent();
         upload_file_name = in.getStringExtra("PROJECT_NAME");
         projectname = upload_file_name.replaceAll(" ", "_");
+        Log.i("with spaces////////",upload_file_name);
+        Log.i("without spaces///////",projectname);
         //To load the ordering stored in Shared Preferences
         Stitch.getAudioImageURLs(audioURLs, imageURLs, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
 
