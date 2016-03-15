@@ -76,8 +76,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -475,17 +477,17 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
 
         zipNameArrayList = new ArrayList<String>();
 
-        if(!(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"projects.txt").exists())) {
+       /* if(!(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"projects.txt").exists())) {
             Communication.downloadseedList(getApplication());
         }
         final ProgressDialog downloadSeed = ProgressDialog.show(this, getString(R.string.stitchingProcessTitle),"");
         downloadSeed.setCancelable(false);
-        downloadSeed.setCanceledOnTouchOutside(false);
+        downloadSeed.setCanceledOnTouchOutside(false);*/
 
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
-                while (!(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"projects.txt").exists())) {/*wait till download hasn't completed */
+        */      /*  while (!(new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"projects.txt").exists())) {*//*wait till download hasn't completed *//*
                     try{
                         Thread.sleep(1000);
                     }catch (Exception e){
@@ -493,10 +495,13 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                     }
                     Log.i("downloading txt","waiting");
                 }
+*/
 
+        //TODO create an asynctask which does the below stuff and put the code in openDialog() in onPostExecute()
                 try {
-                    BufferedReader br = new BufferedReader(new FileReader(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"projects.txt"));
-
+                    //BufferedReader br = new BufferedReader(new FileReader(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"projects.txt"));
+                    URL url = new URL("http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/project.txt");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
                     StringBuilder sb = new StringBuilder();
                     String line = br.readLine();
 
@@ -530,26 +535,26 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
                 }
 
                 File suicidebomber= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"projects.txt");
-                suicidebomber.delete();
+               // suicidebomber.delete();
 
 
-                runOnUiThread(new Runnable() {
+                /*runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
 
                         // recreate();
-                        downloadSeed.dismiss();
+                       // downloadSeed.dismiss();
 
                     }
                 });
             }
-        }).start();
+        }).start();*/
 
-        try{
+        /*try{
             Thread.sleep(2000);
         }catch (Exception e){
             e.printStackTrace();
-        }
+        }*/
 
         //return sampleprojectsHashmap;
 
