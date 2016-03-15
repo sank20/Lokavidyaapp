@@ -1,13 +1,19 @@
 package com.iitb.mobileict.lokavidya.ui;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -35,8 +41,9 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
         LOGGED_OUT, SIGNIN,SIGNUP
     }
     boolean fromUpload;
+    public static int MY_REQUEST_CODE1,MY_REQUEST_CODE2,MY_REQUEST_CODE3;
     private Button skipButton;
-
+    public int check=0;
     AuthenticationState state;
     private static final String TAG = "LokavidyaAuthenticationActivity";
     /* Request code used to invoke sign in user interactions. */
@@ -105,26 +112,102 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_in_button:
+                check=1;
                 state=AuthenticationState.SIGNIN;
-                signIn();
+                if (weHavePermissionToReadContacts()) {
+                    signIn();
+
+                }
+                else
+                {
+
+
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            MY_REQUEST_CODE3);
+                    //startActivityForResult(intent, 2);
+                }
+
                 break;
             case R.id.sign_up_button:
+                check=2;
                 state=AuthenticationState.SIGNUP;
-                signUp();
+                if (weHavePermissionToReadContacts()) {
+                    signUp();
+
+                }
+                else
+                {
+
+
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            MY_REQUEST_CODE3);
+                    //startActivityForResult(intent, 2);
+                }
+
                 break;
             case R.id.skipbutton:
+                check=3;
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(LokavidyaAuthenticationActivity.this);
                 sharedPreferences.edit().putBoolean("Skip",true).commit();
                 Intent i= new Intent(this,Projects.class);
+
+                if (weHavePermissionToReadContacts()) {
                 startActivity(i);
                 finish();
+
+                }
+                else
+                {
+
+
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                MY_REQUEST_CODE3);
+                        //startActivityForResult(intent, 2);
+                    }
+
+
+
+
+                }
+        }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == MY_REQUEST_CODE3) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                switch(check) {
+                    case 1:
+                        signIn();
+                    case 2:
+                        signUp();
+                    case 3:
+                    Intent i = new Intent(this, Projects.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+            else {
+                Toast.makeText(getBaseContext(),"Cannot Open.",Toast.LENGTH_LONG).show();
+            }
         }
     }
 
+
+
+    private boolean weHavePermissionToReadContacts() {
+        if(( ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED))
+        {
+            return true;
+        }
+        else return false;
+    }
     private void signUp() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);

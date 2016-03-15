@@ -1,5 +1,6 @@
 package com.iitb.mobileict.lokavidya.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -18,12 +20,14 @@ import android.media.MediaRecorder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -76,6 +80,7 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
     File image_file;
     File tmp_file;
     Bitmap scaledBitmap;
+    public static int MY_REQUEST_CODE;
 
     public static final int REQUEST_CROP=2;
 
@@ -176,6 +181,9 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             retry.setEnabled(true);
             record.setEnabled(false);
         }
+
+
+
 
         m = new MediaPlayer();
         myAudioRecorder = new MediaRecorder();
@@ -363,6 +371,21 @@ public class Recording extends Activity implements SeekBar.OnSeekBarChangeListen
             }
         });
 
+    }
+
+
+    private boolean weHavePermissionToReadContacts() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == MY_REQUEST_CODE) {
+            Toast.makeText(getBaseContext(),"Access enabled",Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(getBaseContext(),"Please enable the access",Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

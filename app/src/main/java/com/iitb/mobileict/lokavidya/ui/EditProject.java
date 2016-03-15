@@ -1,5 +1,6 @@
 package com.iitb.mobileict.lokavidya.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -8,15 +9,20 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -53,14 +59,14 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
  *
  */
 public class EditProject extends Activity {
-
+    public int flag=0;
     String projectName;
     ImageAdapter1 imageadapter;
     Button btnDelete;
     public static int RESIZE_FACTOR; // resize factor used for compression
     public static final int REQUEST_IMAGE = 1; //just a constant
     int count=0;
-
+    static int MY_REQUEST_CODE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +74,20 @@ public class EditProject extends Activity {
         projectName = intent.getStringExtra("projectname");
         setContentView(R.layout.activity_edit_project);
         btnDelete = (Button) findViewById(R.id.btnDeleteImg);
+        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+
+        }
+        else
+        {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
+                        MY_REQUEST_CODE);
+                //startActivityForResult(intent, 2);
+            }
+
+
+        }
     }
 
     @Override
@@ -234,7 +254,7 @@ public class EditProject extends Activity {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        Log.i("getresizedbitmapInitial","width: "+Integer.toString(width) + " height: "+Integer.toString(height));
+        Log.i("getresizedbitmapInitial", "width: " + Integer.toString(width) + " height: " + Integer.toString(height));
         float bitmapRatio = (float) width / (float) height;
 
         if (bitmapRatio >= 1) {
@@ -244,7 +264,7 @@ public class EditProject extends Activity {
             height = maxSize;
             width = (int) (height * bitmapRatio);
         }
-        Log.i("getresizedbitmapChanged","width: "+Integer.toString(width) + " height: "+Integer.toString(height));
+        Log.i("getresizedbitmapChanged", "width: " + Integer.toString(width) + " height: " + Integer.toString(height));
 
 
         //return Bitmap.createScaledBitmap(image, width, height, true);
@@ -278,13 +298,51 @@ public class EditProject extends Activity {
      * @param v the View
      */
     public void takePic(View v) {
-
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri("temp.png"));
+        if (weHavePermissionToReadContacts()) {
 
-        startActivityForResult(intent, 2);
+
+            startActivityForResult(intent, 2);
+        }
+        else
+        {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                flag=1;
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        MY_REQUEST_CODE);
+                //startActivityForResult(intent, 2);
+            }
+
+
+        }
 
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == MY_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if(flag==1) {
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, getPhotoFileUri("temp.png"));
+                    startActivityForResult(intent, 2);
+                }
+            }
+            else {
+                Toast.makeText(getBaseContext(),"Cannot open Camera",Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private boolean weHavePermissionToReadContacts() {
+
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+
+    }
+
 
     /**
      * returns the uri of the given file path
