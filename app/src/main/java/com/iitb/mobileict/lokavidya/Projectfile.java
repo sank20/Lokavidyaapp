@@ -1,11 +1,14 @@
 package com.iitb.mobileict.lokavidya;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -237,6 +240,7 @@ public class Projectfile {
 
         public List<String> getImageNames(String projectname){
             List<String> ImageNames = new ArrayList<String>();
+
             File sdCard = Environment.getExternalStorageDirectory();
             File imgDir = new File (sdCard.getAbsolutePath() + "/"+mainFolder+"/"+projectname+"/images");
 
@@ -258,6 +262,7 @@ public class Projectfile {
 
         return ImageNames;
     }
+
 
 
 

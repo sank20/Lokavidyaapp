@@ -126,7 +126,7 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
                 else
                 {
 
-
+                    Log.i("signin","no permissions");
                     requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             MY_REQUEST_CODE3);
                     //startActivityForResult(intent, 2);
@@ -135,6 +135,7 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
                 break;
             case R.id.sign_up_button:
                 check=2;
+
                 state=AuthenticationState.SIGNUP;
                 if (weHavePermissionToReadContacts()) {
                     signUp();
@@ -144,6 +145,7 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
                 {
 
 
+                    Log.i("signup","no permissions");
                     requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             MY_REQUEST_CODE3);
                     //startActivityForResult(intent, 2);
@@ -185,12 +187,17 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
                 switch(check) {
                     case 1:
                         signIn();
+                        Log.i("signin", "permission granted, check:"+check);
+                        break;
                     case 2:
                         signUp();
+                        Log.i("signup", "permission granted, check:" + check);
+                        break;
                     case 3:
                     Intent i = new Intent(this, Projects.class);
                     startActivity(i);
                     finish();
+                        break;
                 }
             }
             else {
@@ -266,7 +273,7 @@ public class LokavidyaAuthenticationActivity extends FragmentActivity implements
             Intent projectsIntent= new Intent(LokavidyaAuthenticationActivity.this,SurveyActivity.class);
             //projectsIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);  -----> Never do this. This will force-close SurveyActivity after adding locaiton
             startActivity(projectsIntent);
-           // finish();
+            finish();
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);

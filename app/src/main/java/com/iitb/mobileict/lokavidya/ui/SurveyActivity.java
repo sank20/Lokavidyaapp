@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.ConnectionResult;
@@ -60,7 +61,7 @@ public class SurveyActivity extends AppCompatActivity implements PlaceSelectionL
                     startActivity(new Intent(SurveyActivity.this, IdTokenActivity.class));
                     finish();
                 }
-                finish();
+               // finish();
             }
         }
     };
@@ -106,26 +107,31 @@ public class SurveyActivity extends AppCompatActivity implements PlaceSelectionL
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "Inside Done On Click");
-                if (true) //TODO validation
-                {
-                    String number = contactNumber.getText().toString();
-                    if (number.length() != 10) {
-                        contactNumber.setError("Please enter a valid phone number");
-                        contactNumber.setFocusable(true);
-                    } else if(number.length()==10){
-                        progressDialog = new ProgressDialog(SurveyActivity.this);
-                        progressDialog.show();
-                        progressDialog.setCancelable(false);
-                        Intent intent = new Intent(SurveyActivity.this, RegistrationIntentService.class);
-                        intent.putExtra("placeId", placeId);
-                        Log.d(TAG,contactNumber.getText().toString());
-                        intent.putExtra("contactNo",contactNumber.getText().toString());
-                        intent.putExtra("flag", "survey");
-                        if (checkPlayServices()) {
-                            Log.d(TAG, "Starting Intent to the Service.");
-                            startService(intent);
+                try {
+                    if (true) //TODO validation
+                    {
+                        String number = contactNumber.getText().toString();
+                        if (number.length() != 10) {
+                            contactNumber.setError("Please enter a valid phone number");
+                            contactNumber.setFocusable(true);
+                        } else if(number.length()==10){
+                            progressDialog = new ProgressDialog(SurveyActivity.this);
+                            progressDialog.show();
+                            progressDialog.setCancelable(true);
+                            Intent intent = new Intent(SurveyActivity.this, RegistrationIntentService.class);
+                            intent.putExtra("placeId", placeId);
+                            Log.d(TAG,contactNumber.getText().toString());
+                            intent.putExtra("contactNo",contactNumber.getText().toString());
+                            intent.putExtra("flag", "survey");
+                            if (checkPlayServices()) {
+                                Log.d(TAG, "Starting Intent to the Service.");
+                                startService(intent);
+                            }
                         }
                     }
+                } catch (Exception e) {
+                    progressDialog.dismiss();
+                    Toast.makeText(SurveyActivity.this, "something went wrong. Please check your internet connectivity and try again", Toast.LENGTH_SHORT).show();
                 }
             }
         });

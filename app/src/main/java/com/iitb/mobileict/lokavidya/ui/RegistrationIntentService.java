@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -62,7 +63,10 @@ public class RegistrationIntentService extends IntentService {
             sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
         } catch (Exception e) {
             Log.d(TAG, "Failed to complete token refresh", e);
+
+            Toast.makeText(getApplicationContext(), "Unable to connect to the internet", Toast.LENGTH_SHORT).show();
             sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false).apply();
+            this.stopSelf();
         }
         //  Intent registrationComplete = new Intent(QuickstartPreferences.REGISTRATION_COMPLETE);
         //  LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
@@ -168,6 +172,7 @@ public class RegistrationIntentService extends IntentService {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+
             }
         }
     }

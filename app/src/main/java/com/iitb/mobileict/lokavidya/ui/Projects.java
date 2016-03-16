@@ -17,6 +17,7 @@ import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -167,6 +168,7 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
         /*the following code loads all the folders inside the lokavidya folder and removes zips */
         importProjectName = "";
         Context context = getApplicationContext();
+        //TODO check for permissions here
         Projectfile f = new Projectfile(context);
         List<String> projectsList = f.DisplayProject_with_zips();
 
@@ -498,42 +500,8 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
 */
 
         //TODO create an asynctask which does the below stuff and put the code in openDialog() in onPostExecute()
-                try {
-                    //BufferedReader br = new BufferedReader(new FileReader(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"projects.txt"));
-                    URL url = new URL("http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/project.txt");
-                    BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line = br.readLine();
 
-                    while (line != null) {
-                        Log.i("Sample proj txt: ",line);
-                        String name=line.split(":")[0];
-                        Log.i("Sample proj txt name",name);
-                        String link=line.split(":")[1];
-                        Log.i("Samplr proj txt link:",link);
-                        sampleprojectsHashmap.put(name, link);
-                        Log.i("hashmap split 0 and 1", line.split(":")[0] + "," + line.split(":")[1]);
-
-                        int pos = link.lastIndexOf("/");
-
-                        String zipname =link.substring(pos + 1, link.length() );
-                        zipname= URLDecoder.decode(zipname, "UTF-8");
-                        Log.i("txt parse zipname",zipname);
-
-                        zipNameArrayList.add(zipname);
-                        sb.append(line);
-                        // sb.append(System.lineSeparator());
-                        line = br.readLine();
-                    }
-                    //String projitem= sampleprojectsHashmap.get(0);
-
-                    String everything = sb.toString();
-                    System.out.println("------------------------------seed text file contents:\n " + everything + "\n" + "arraylist 0:" + sampleprojectsHashmap.get(0));
-                }
-                catch (IOException e){
-                    e.printStackTrace();
-                }
-
+               // new DownloadSampleProjectTask().execute();
                 File suicidebomber= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"projects.txt");
                // suicidebomber.delete();
 
@@ -1141,7 +1109,8 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
 
                 //showSampleProjectPopup();
                 if(isNetworkAvailable(getApplicationContext())) {
-                    openDialog();
+                    //openDialog();
+                    new DownloadSampleProjectTask().execute();
                 }
                 else{
                     Toast.makeText(this,"Please connect to internet",Toast.LENGTH_SHORT).show();
@@ -1283,12 +1252,65 @@ public class Projects extends FragmentActivity implements View.OnClickListener, 
         }
     }
 
+    class DownloadSampleProjectTask extends AsyncTask<Void,Void,Void>{
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                zipNameArrayList = new ArrayList<String>();
+
+                //BufferedReader br = new BufferedReader(new FileReader(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+File.separator+"projects.txt"));
+                URL url = new URL("http://ruralict.cse.iitb.ac.in/Downloads/lokavidyaProjects/project.txt");
+                BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = br.readLine();
+
+                while (line != null) {
+                    Log.i("Sample proj txt: ",line);
+                    String name=line.split(":")[0];
+                    Log.i("Sample proj txt name",name);
+                    String link=line.split(":")[1];
+                    Log.i("Samplr proj txt link:",link);
+                    sampleprojectsHashmap.put(name, link);
+                    Log.i("hashmap split 0 and 1", line.split(":")[0] + "," + line.split(":")[1]);
+
+                    int pos = link.lastIndexOf("/");
+
+                    String zipname =link.substring(pos + 1, link.length() );
+                    zipname= URLDecoder.decode(zipname, "UTF-8");
+                    Log.i("txt parse zipname",zipname);
+
+                    zipNameArrayList.add(zipname);
+                    sb.append(line);
+                    // sb.append(System.lineSeparator());
+                    line = br.readLine();
+                }
+                //String projitem= sampleprojectsHashmap.get(0);
+
+                String everything = sb.toString();
+                System.out.println("------------------------------seed text file contents:\n " + everything + "\n" + "arraylist 0:" + sampleprojectsHashmap.get(0));
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            openDialog();
+        }
+    }
 
     public void openDialog()
     {
 
         //HashMap<String,String> chaddi= getSeedProjectList();
-        getSeedProjectList();
+        //getSeedProjectList();
         final List<String> lungi= new ArrayList<>(sampleprojectsHashmap.keySet());
 
 

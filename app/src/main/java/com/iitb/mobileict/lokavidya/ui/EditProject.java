@@ -15,14 +15,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -66,7 +64,9 @@ public class EditProject extends Activity {
     public static int RESIZE_FACTOR; // resize factor used for compression
     public static final int REQUEST_IMAGE = 1; //just a constant
     int count=0;
-    static int MY_REQUEST_CODE;
+    static int CAM_PERMISSONS_REQUEST_CODE;
+    static int RECORDING_PERMISSIONS_REQUEST_CODE = 1;
+    private int gridPosition;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,20 +74,7 @@ public class EditProject extends Activity {
         projectName = intent.getStringExtra("projectname");
         setContentView(R.layout.activity_edit_project);
         btnDelete = (Button) findViewById(R.id.btnDeleteImg);
-        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
 
-        }
-        else
-        {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
-                        MY_REQUEST_CODE);
-                //startActivityForResult(intent, 2);
-            }
-
-
-        }
     }
 
     @Override
@@ -286,10 +273,27 @@ public class EditProject extends Activity {
         List<String> ImageNames = f.getImageNames(projectName);
         String imagefilename = ImageNames.get(position);
 
+        gridPosition = position;
         imagefilename = imagefilename.substring(0, imagefilename.length() - 4);
 
         intent.putExtra("filename", imagefilename);
-        startActivity(intent);
+        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+
+            startActivity(intent);
+        }
+        else
+        {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                flag=1;
+                requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO},
+                        RECORDING_PERMISSIONS_REQUEST_CODE);
+                //startActivityForResult(intent, 2);
+            }
+
+
+        }
+
     }
 
 
@@ -311,7 +315,7 @@ public class EditProject extends Activity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 flag=1;
                 requestPermissions(new String[]{Manifest.permission.CAMERA},
-                        MY_REQUEST_CODE);
+                        CAM_PERMISSONS_REQUEST_CODE);
                 //startActivityForResult(intent, 2);
             }
 
@@ -323,7 +327,14 @@ public class EditProject extends Activity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == MY_REQUEST_CODE) {
+        for(int i:grantResults){
+            Log.i("onrequestpermissionsresult","array:"+i);
+        }
+        for(String s: permissions){
+            Log.i("onrequestpermissionsresult","String:"+s);
+
+        }
+        if (requestCode == CAM_PERMISSONS_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if(flag==1) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -334,7 +345,31 @@ public class EditProject extends Activity {
             else {
                 Toast.makeText(getBaseContext(),"Cannot open Camera",Toast.LENGTH_LONG).show();
             }
-        }
+        }else if (requestCode == RECORDING_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if(flag==1) {
+                    Intent intent = new Intent(getApplicationContext(), Recording.class);
+                    intent.putExtra("projectname", projectName);
+                    Projectfile f = new Projectfile(getApplicationContext());
+                    List<String> ImageNames = f.getImageNames(projectName);
+                    String imagefilename = ImageNames.get(gridPosition);
+
+
+                    imagefilename = imagefilename.substring(0, imagefilename.length() - 4);
+
+                    intent.putExtra("filename", imagefilename);
+                    startActivity(intent);
+
+                }else {
+                    Toast.makeText(getBaseContext(),"Cannot perform this activity",Toast.LENGTH_LONG).show();
+                }
+
+                }else {
+                Toast.makeText(getBaseContext(),"Cannot perform this activity",Toast.LENGTH_LONG).show();
+            }
+            }else {
+                Toast.makeText(getBaseContext(),"Cannot perform this activity",Toast.LENGTH_LONG).show();
+            }
     }
 
     private boolean weHavePermissionToReadContacts() {
@@ -401,6 +436,7 @@ public class EditProject extends Activity {
     /**
      * Loads the images and displays them into the  gridview
      */
+    //TODO check for storage permissions here
     public void loadImages(boolean isNew) {
         Projectfile f = new Projectfile(this);
         List<String> ImageNames = f.getImageNames(projectName);
