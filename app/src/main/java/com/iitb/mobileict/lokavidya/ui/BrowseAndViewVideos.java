@@ -257,7 +257,7 @@ public class BrowseAndViewVideos extends AppCompatActivity {
                         }
 
 
-                        final String filename = URLDecoder.decode(url.substring(url.lastIndexOf("/")));
+                       // final String filename = URLDecoder.decode(url.substring(url.lastIndexOf("/")));
                         // Communication.downloadBrowseVideo(context, "http://" + url, filename);
 
                         Intent playVideo = new Intent(context, VideoPlayerActivity.class);

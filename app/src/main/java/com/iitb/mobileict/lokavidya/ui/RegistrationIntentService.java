@@ -133,9 +133,12 @@ public class RegistrationIntentService extends IntentService {
                     Intent i = new Intent();
                     if (jsonObject.has("token"))
                     {
-                        Log.d(TAG,jsonObject.getString("token"));
-                        Log.d(TAG,"Storing token in shared Preferences : "+jsonObject.getString("token"));
-                        sharedPref.edit().putString("token",jsonObject.getString("token")).commit();
+                        Log.d(TAG, jsonObject.getString("token"));
+                        Log.d(TAG, "Storing token in shared Preferences : " + jsonObject.getString("token"));
+                        sharedPref.edit().putString("token", jsonObject.getString("token"));
+                        String email = jsonObject.getString("token").split(":")[0];
+                        Log.d(TAG, "Storing emailid in shared Preferences : " + email);
+                        sharedPref.edit().putString("emailid", email).commit();
                         Log.d(TAG,sharedPref.getString("idToken", ""));
                         i.putExtra("arg", "success");
                     }
